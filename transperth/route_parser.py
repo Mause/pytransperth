@@ -13,11 +13,17 @@ TIME_RE = re.compile(r'(\d+:\d+ (?:AM|PM))')
 
 def parse_routes(text):
     """
-    Top level of this
+    Top level function of this parsing module.
+
+    Because we are parsing complex html intended to be rendered in
+    a browser for a user, the parsing code is itself quite complex.
+
+    An attempt at modularisation has been made.
     """
 
     root = etree.HTML(text)
 
+    # grab the journey planner results table
     tables = root.xpath("//div[@class='ModJourneyPlannerResultsC']/table")
 
     # rid ourselves of the query and error tables
@@ -127,6 +133,8 @@ def _parse_step(step):
     texts = map(str.strip, texts)
     texts = filter(bool, texts)
 
+    # islice wont work here because it doesn't know
+    # how long the iterator it is consuming is
     texts = list(texts)[:-1]
 
     if step_type == 'bus':
