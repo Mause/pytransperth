@@ -4,7 +4,7 @@ import requests
 
 from . import BASE
 from .utils import clean
-from .journey_planner import determine_routes
+from .routes import determine_routes
 
 FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx?'
 
