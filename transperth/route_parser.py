@@ -58,17 +58,11 @@ def _parse_header(header):
 
 def _parse_links(links):
     links = links.find('div')
+    links = links.xpath('.//img')
 
-    img_onclicks = {}
-
-    for img in links.xpath('span/img'):
-        name, args = _parse_img(img)
-        img_onclicks[name] = args
-
-    name, args = _parse_img(links.find('img'))
-    img_onclicks[name] = args
-
-    return img_onclicks
+    return dict(
+        map(_parse_img, links)
+    )
 
 
 def _parse_img(img):
