@@ -1,16 +1,13 @@
 import requests
 
 from . import BASE
-from .location import Location, determine_location
+from .location import determine_location
 from .route_parser import parse_routes
 from .utils import format_date
 
 
 def determine_routes(from_loco, to_loco):
-    locations = determine_location(
-        Location.from_location('Esplanade'),
-        Location.from_location('Curtin University, Perth')
-    )
+    locations = determine_location(from_loco, to_loco)
 
     assert locations['to'], 'No corresponding to locations found'
     assert locations['from'], 'No corresponding from locations found'
