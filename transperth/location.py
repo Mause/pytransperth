@@ -1,7 +1,55 @@
 import re
+from lxml import etree
+from collections import namedtuple
+
+import requests
+
+from . import BASE
 from .utils import format_date, clean
 
 STOPNUM_RE = re.compile(r'\d{5}')
+LocationT = namedtuple('LocationT', 'name,code')
+
+
+def determine_location(from_d, to_d):
+    URL = BASE + 'DesktopModules/JourneyPlanner/JP.aspx'
+
+    params = {
+        'jpDate': format_date(),
+        'jpDirection': 'B',
+        # 'jpAMPM': 'AM',
+        # 'jpHour': '11',
+        # 'jpMinute': '00',
+        'fSet': 'False',
+        'fGadget': 'False',
+        'mode': 't1,b1,f1,s1',
+        'jpnMaxJourneys': '5',
+        'jpMaxChanges': '-1',
+        'jpWalkChange': 'NORMAL',
+        'jpWheelchairOnly': '0'
+    }
+
+    params.update(from_d.as_('from') or {})
+    params.update(to_d.as_('to') or {})
+
+    return parse_locations(
+        requests.get(URL, params=params).text
+    )
+
+
+def parse_locations(locations):
+    root = etree.XML(locations)
+
+    return {
+        element.tag.lower(): [
+            LocationT(
+                *clean(se.itertext())
+            )
+            for se in element
+
+        ]
+        for element in root
+    }
 
 
 class Location(object):

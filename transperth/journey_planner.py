@@ -1,13 +1,8 @@
-from collections import namedtuple
-from lxml import etree
-import datetime
-
 import requests
 
-from .route_parser import parse_routes
-from .location import Location
 from . import BASE
-LocationT = namedtuple('LocationT', 'name,code')
+from .location import Location, determine_location
+from .route_parser import parse_routes
 from .utils import format_date
 
 
@@ -23,58 +18,10 @@ def determine_routes(from_loco, to_loco):
     from_string = locations['from'][0]
     to_string = locations['to'][0]
 
-    return routes(from_string.code, to_string.code)
+    return _routes(from_string.code, to_string.code)
 
 
-def format_data(date=None):
-    """
-    Takes a datetime.date object (or defaults to today)
-    """
-    date = date or datetime.date.today()
-
-    return date.strftime('%A, %d %B %Y')
-
-
-def determine_location(from_d, to_d):
-    URL = BASE + 'DesktopModules/JourneyPlanner/JP.aspx'
-
-    params = {
-        'jpDate': format_data(),
-        'jpDirection': 'B',
-        # 'jpAMPM': 'AM',
-        # 'jpHour': '11',
-        # 'jpMinute': '00',
-        'fSet': 'False',
-        'fGadget': 'False',
-        'mode': 't1,b1,f1,s1',
-        'jpnMaxJourneys': '5',
-        'jpMaxChanges': '-1',
-        'jpWalkChange': 'NORMAL',
-        'jpWheelchairOnly': '0'
-    }
-
-    params.update(from_d.as_('from') or {})
-    params.update(to_d.as_('to') or {})
-
-    return parse_locations(
-        requests.get(URL, params=params)
-    )
-
-
-def parse_locations(locations):
-    assert locations.text, locations.url
-    root = etree.XML(locations.text)
-
-    return {
-        element.tag.lower(): [
-            LocationT(se[0].text, se[1].text)
-            for se in element
-        ]
-        for element in root
-    }
-
-
-def routes(from_code, to_code):
+def _routes(from_code, to_code):
     params = {
         'LinkMode': 'Walk',
         'StartMode': 'Walk',
