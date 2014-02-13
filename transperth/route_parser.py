@@ -89,28 +89,33 @@ def _parse_duration(duration):
     return datetime.timedelta(hours=hours, minutes=minutes)
 
 
+_normalise_key = lambda key: key.replace(' ', '_').lower()
+
+
 def _parse_misc(misc):
-    miscs = misc.findall('td')
+    miscs = misc.findall('td')[1:-1]
+
+    miscs = map(etree._Element.itertext, miscs)
 
     misc_data = {}
+    for misc in miscs:
+        misc = [part.strip() for part in misc]
 
-    for misc in miscs[1:-1]:
-        texts = misc.itertext()
-        texts = list(map(str.strip, texts))
+        misc = zip(misc[::2], misc[1::2])
 
-        texts = zip(texts[::2], texts[1::2])
-
-        for k, v in texts:
-            k = k[:-1].replace(' ', '_').lower()
+        for k, v in misc:
+            k = _normalise_key(k[:-1])
 
             misc_data[k] = v
 
-    misc_data['arrival_time'] = date_parse(misc_data['arrival_time'])
-    misc_data['depart_time'] = date_parse(misc_data['depart_time'])
-    misc_data['number_of_legs'] = int(misc_data['number_of_legs'])
-    misc_data['total_walking_distance'] = int(
-        misc_data['total_walking_distance'][:2]
-    )
+    misc_data.update({
+        'arrival_time': date_parse(misc_data['arrival_time']),
+        'depart_time': date_parse(misc_data['depart_time']),
+        'number_of_legs': int(misc_data['number_of_legs']),
+        'total_walking_distance': int(
+            misc_data['total_walking_distance'][:2]
+        )
+    })
 
     return misc_data
 
