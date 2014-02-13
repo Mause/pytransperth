@@ -10,6 +10,13 @@ FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx?'
 
 
 def get_fare(from_loco, to_loco):
+    """
+    Returns the fare for the recommended route from `from_loco` to
+    `to_loco` in the format;
+
+    {'<TICKET-CLASS>': {'<TICKET-TYPE>': <COST>}}
+    """
+
     routes = determine_routes(from_loco, to_loco)
 
     route = routes[0]
@@ -49,6 +56,7 @@ def parse_fares(fares):
     root = etree.HTML(fares)
     root = root.xpath('//html/body/table/tr')[1:]  # the first is empty
 
+    # determine ticket class'
     keys = root.pop(0).itertext()
     keys = clean(keys)
     keys = [key.lower() for key in keys]
@@ -62,10 +70,13 @@ def parse_fares(fares):
     root = map(clean, root)
 
     for fare_type in root:
-        for idx, ticket_type in enumerate(keys):
-            fare = fare_type[1 + idx]
+        fare_name, *fare_values = fare_type
 
-            fares[ticket_type][fare_type[0]] = parse_money(fare)
+        for ticket_type, fare in zip(keys, fare_values):
+
+            fares[ticket_type][fare_name] = parse_money(
+                fare
+            )
 
     return fares
 
