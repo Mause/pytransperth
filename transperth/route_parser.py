@@ -7,7 +7,7 @@ import time
 
 DURATION_RE = re.compile(r'(\d+):(\d+) hrs')
 FUNCTIONCALL_RE = re.compile(r'(\w+)\(([^\)]*)\)')
-ARGUMENT_RE = re.compile(r'''(['"][^'"]*['"]|[-\d]+)''')
+ARGUMENT_RE = re.compile(r'''['"]([^"']*)['"]|[-\d]+''')
 TIME_RE = re.compile(r'(\d+:\d+ (?:AM|PM))')
 
 
@@ -70,9 +70,14 @@ def _parse_img(img):
 
     name, args = FUNCTIONCALL_RE.match(onclick).groups()
 
-    args = ARGUMENT_RE.findall(args)
+    clean_args = []
+    for arg in map(str.strip, args.split(',')):
+        if arg[0] == arg[-1] and arg[0] in {'"', "'"}:
+            clean_args.append(arg[1:-1])
+        else:
+            clean_args.append(int(arg))
 
-    return name, args
+    return name, clean_args
 
 
 def _parse_duration(duration):
