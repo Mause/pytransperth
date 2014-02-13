@@ -44,16 +44,17 @@ def _get_fare(journeyCount, journeyDate, *values):
     )
 
 
+
 def parse_fares(fares):
     root = etree.HTML(fares)
-
     root = root.xpath('//html/body/table/tr')[1:]  # the first is empty
 
     keys = root.pop(0).itertext()
     keys = clean(keys)
     keys = [key.lower() for key in keys]
-    keys.remove('comments')
-    keys.remove('fare type')
+
+    # remove the comments are fare type column labels
+    keys = keys[1:-1]
 
     fares = dict.fromkeys(keys, {})
 

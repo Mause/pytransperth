@@ -1,9 +1,9 @@
-import time
 from dateutil.parser import parse as date_parse
 from itertools import chain
 from lxml import etree
 import datetime
 import re
+import time
 
 DURATION_RE = re.compile(r'(\d+):(\d+) hrs')
 FUNCTIONCALL_RE = re.compile(r'(\w+)\(([^\)]*)\)')
@@ -123,8 +123,7 @@ def _parse_steps(steps):
 
 
 def _parse_step(step):
-    step = step.find('tr')
-    parts = step.findall('td')
+    parts = step.find('tr').findall('td')
 
     step_type = parts.pop(0).xpath('img/@alt')[0].lower()
 
