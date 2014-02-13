@@ -1,6 +1,6 @@
 from dateutil.parser import parse as date_parse
 from itertools import chain
-from lxml import etree
+from lxml import html, etree
 import datetime
 import re
 import time
@@ -21,7 +21,7 @@ def parse_routes(text):
     An attempt at modularisation has been made.
     """
 
-    root = etree.HTML(text)
+    root = html.document_fromstring(text)
 
     # grab the journey planner results table
     tables = root.xpath("//div[@class='ModJourneyPlannerResultsC']/table")
