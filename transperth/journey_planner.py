@@ -7,8 +7,8 @@ import requests
 from .route_parser import parse_routes
 from .location import Location
 from . import BASE
-
 LocationT = namedtuple('LocationT', 'name,code')
+from .utils import format_date
 
 
 def determine_routes(from_loco, to_loco):
@@ -81,7 +81,7 @@ def routes(from_code, to_code):
         'IsAfter': 'B',
         'Priority': '504',
         'WheelchairOnly': '0',
-        'Date': format_data(),
+        'Date': format_date(),
         'SchoolBusVehicleType': 'true',
         'BusVehicleType': 'true',
         'Time': '11%3a00AM',

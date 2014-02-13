@@ -3,6 +3,7 @@ from lxml import etree
 import requests
 
 from . import BASE
+from .utils import clean
 from .journey_planner import determine_routes
 
 FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx?'
@@ -49,6 +50,7 @@ def parse_fares(fares):
     root = root.xpath('//html/body/table/tr')[1:]  # the first is empty
 
     keys = root.pop(0).itertext()
+    keys = clean(keys)
     keys = [key.lower() for key in keys]
     keys.remove('comments')
     keys.remove('fare type')
@@ -56,7 +58,8 @@ def parse_fares(fares):
     fares = dict.fromkeys(keys, {})
 
     root = map(etree._Element.itertext, root)
-    root = map(list, root)
+    root = map(clean, root)
+
     for fare_type in root:
         for idx, ticket_type in enumerate(keys):
             fare = fare_type[1 + idx]
