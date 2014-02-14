@@ -1,0 +1,10 @@
+import unittest
+import lxml.html
+
+
+class XMLTestCase(unittest.TestCase):
+    def assertEqualXml(self, first, second):
+        self.assertEqual(
+            lxml.html.tostring(first),
+            lxml.html.tostring(second)
+        )
