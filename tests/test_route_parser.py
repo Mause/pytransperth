@@ -81,7 +81,12 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         )
 
     def test_parse_duration(self):
-        pass
+        from transperth.route_parser import _parse_duration
+
+        self.assertEqual(
+            _parse_duration(DURATION),
+            datetime.timedelta(hours=11, minutes=11)
+        )
 
     def test_parse_misc(self):
         from transperth.route_parser import _parse_misc

@@ -75,3 +75,10 @@ LINKS = E.HTML(
     )
 )
 
+DURATION = E.HTML(
+    E.SPAN(
+        E.SPAN('IGNORED'),
+        E.SPAN('11:11 hrs')
+    )
+)
+
