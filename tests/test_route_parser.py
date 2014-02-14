@@ -27,17 +27,17 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         _parse_header(HEADER)
 
-        self.assertEqualXml(
+        self.assertEqualXML(
             _parse_misc.call_args[0][0],
             E.TABLE('MISC')
         )
 
-        self.assertEqualXml(
+        self.assertEqualXML(
             _parse_links.call_args[0][0],
             E.TD(E.SPAN('LINKS'))
         )
 
-        self.assertEqualXml(
+        self.assertEqualXML(
             _parse_duration.call_args[0][0],
             E.TD(E.SPAN('DURATION'))
         )

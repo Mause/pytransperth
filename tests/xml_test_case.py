@@ -3,7 +3,7 @@ import lxml.html
 
 
 class XMLTestCase(unittest.TestCase):
-    def assertEqualXml(self, first, second):
+    def assertEqualXML(self, first, second):
         self.assertEqual(
             lxml.html.tostring(first),
             lxml.html.tostring(second)
