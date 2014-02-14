@@ -155,7 +155,6 @@ def _parse_bus_step(texts):
     texts = list(zip(texts[::2], texts[1::2]))
 
     dep, arr = {}, {}
-
     dep['time'], arr['time'] = map(_parse_time, texts.pop(0))
 
     dep['stop_name'], dep['stop_num'] = texts.pop(0)

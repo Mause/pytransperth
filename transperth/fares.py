@@ -51,7 +51,6 @@ def _get_fare(journeyCount, journeyDate, *values):
     )
 
 
-
 def parse_fares(fares):
     root = etree.HTML(fares)
     root = root.xpath('//html/body/table/tr')[1:]  # the first is empty
