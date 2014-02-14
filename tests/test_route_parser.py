@@ -158,7 +158,6 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         self.assertFalse(_parse_bus_step.called)
 
-
     @patch('transperth.route_parser._parse_time')
     @patch('transperth.route_parser._parse_stop')
     def test_parse_bus_step(self, _parse_stop, _parse_time):
