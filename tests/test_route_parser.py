@@ -76,8 +76,21 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             }
         )
 
-    def test_parse_steps(self):
-        pass
+    @patch('transperth.route_parser._parse_step')
+    def test_parse_steps(self, _parse_step):
+        from transperth.route_parser import _parse_steps
+
+        _parse_steps([None, STEPS])
+
+        self.assertEqualXML(
+            _parse_step.call_args_list[0][0][0],
+            E.TABLE('STEP1')
+        )
+
+        self.assertEqualXML(
+            _parse_step.call_args_list[1][0][0],
+            E.TABLE('STEP2')
+        )
 
     @patch('transperth.route_parser._parse_bus_step')
     @patch('transperth.route_parser._parse_walk_step')

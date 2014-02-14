@@ -8,6 +8,16 @@ HEADER = E.HTML(E.TD(
     E.TABLE('MISC')
 ))
 
+STEPS = E.HTML(
+    E.TD(
+        E.DIV(
+            E.TABLE('STEP1'),
+            E.TABLE('STEP2'),
+            E.TABLE('EXCLUDED')
+        )
+    )
+)
+
 STEP_BUS = E.HTML(
     E.TR(
         E.TD(
