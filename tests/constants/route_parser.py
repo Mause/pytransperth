@@ -68,3 +68,10 @@ IMG = E.IMG(
     onclick="getFares('11/11/1111', 1111)"
 )
 
+LINKS = E.HTML(
+    E.DIV(
+        E.IMG('ONE'),
+        E.IMG('TWO')
+    )
+)
+

@@ -42,8 +42,30 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             E.TD(E.SPAN('DURATION'))
         )
 
-    def test_parse_links(self):
-        pass
+    @patch('transperth.route_parser._parse_img')
+    def test_parse_links(self, _parse_img):
+        _parse_img.return_value = ('key', 'value')
+
+        from transperth.route_parser import _parse_links
+
+        ret = _parse_links(LINKS)
+
+        self.assertEqualMock(
+            ret,
+            {
+                'key': 'value'
+            }
+        )
+
+        self.assertEqualXML(
+            _parse_img.call_args_list[0][0][0],
+            E.IMG('ONE')
+        )
+
+        self.assertEqualXML(
+            _parse_img.call_args_list[1][0][0],
+            E.IMG('TWO')
+        )
 
     def test_parse_img(self):
         from transperth.route_parser import _parse_img
