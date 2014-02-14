@@ -105,8 +105,8 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         self.assertEqual(
             ret,
             {
-                'arrival_time': datetime.datetime(2014, 2, 14, 11, 0),
-                'depart_time': datetime.datetime(2014, 2, 14, 10, 30),
+                'arrival_time': datetime.time(11, 0),
+                'depart_time': datetime.time(10, 30),
                 'number_of_legs': 1,
                 'total_walking_distance': 0
             }

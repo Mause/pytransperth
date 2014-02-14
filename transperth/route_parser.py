@@ -1,4 +1,3 @@
-from dateutil.parser import parse as date_parse
 from itertools import chain
 from lxml import html, etree
 import datetime
@@ -109,8 +108,8 @@ def _parse_misc(misc):
             misc_data[k] = v
 
     misc_data.update({
-        'arrival_time': date_parse(misc_data['arrival_time']),
-        'depart_time': date_parse(misc_data['depart_time']),
+        'arrival_time': _parse_time(misc_data['arrival_time']),
+        'depart_time': _parse_time(misc_data['depart_time']),
         'number_of_legs': int(misc_data['number_of_legs']),
         'total_walking_distance': int(
             misc_data['total_walking_distance'][:2]
