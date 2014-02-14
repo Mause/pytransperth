@@ -62,7 +62,19 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         pass
 
     def test_parse_misc(self):
-        pass
+        from transperth.route_parser import _parse_misc
+
+        ret = _parse_misc(MISC)
+
+        self.assertEqual(
+            ret,
+            {
+                'arrival_time': datetime.datetime(2014, 2, 14, 11, 0),
+                'depart_time': datetime.datetime(2014, 2, 14, 10, 30),
+                'number_of_legs': 1,
+                'total_walking_distance': 0
+            }
+        )
 
     def test_parse_steps(self):
         pass
