@@ -1,7 +1,6 @@
 import os
 import sys
 import unittest
-import datetime
 
 from constants.location import LOCATION_XML
 
@@ -11,16 +10,6 @@ sys.path.insert(0, MODULE_DIR)
 
 
 class TestLocationUtils(unittest.TestCase):
-    def test_format_date(self):
-        from transperth.location import format_date
-
-        d = datetime.datetime(2014, 2, 13)
-
-        self.assertEqual(
-            format_date(d),
-            'Thursday, 13 February 2014'
-        )
-
     def test_determine_location(self):
         pass
 
