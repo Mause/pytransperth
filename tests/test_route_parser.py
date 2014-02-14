@@ -4,8 +4,8 @@ from unittest.mock import patch, ANY, call
 
 from lxml.html import builder as E
 
-from xml_test_case import XMLTestCase
-from mock_utils_test_case import MockUtilsTestCase
+from helpers.xml_test_case import XMLTestCase
+from helpers.mock_utils_test_case import MockUtilsTestCase
 from constants.route_parser import HEADER, STEP_BUS, STEP_WALK
 
 
