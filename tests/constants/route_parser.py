@@ -1,4 +1,6 @@
 from lxml.html import builder as E
+from lxml.etree import HTML, tounicode
+
 
 HEADER = E.HTML(E.TD(
     E.TABLE(

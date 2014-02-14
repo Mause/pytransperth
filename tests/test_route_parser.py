@@ -6,7 +6,16 @@ from lxml.html import builder as E
 
 from helpers.xml_test_case import XMLTestCase
 from helpers.mock_utils_test_case import MockUtilsTestCase
-from constants.route_parser import HEADER, STEP_BUS, STEP_WALK
+from constants.route_parser import (
+    HEADER,
+    STEP_BUS,
+    STEP_WALK,
+    STEPS,
+    MISC,
+    IMG,
+    LINKS,
+    DURATION
+)
 
 
 class TestRouteParserInterface(unittest.TestCase):
