@@ -6,7 +6,7 @@ from lxml.html import builder as E
 
 from xml_test_case import XMLTestCase
 from mock_utils_test_case import MockUtilsTestCase
-from constants.route_parser import HEADER
+from constants.route_parser import HEADER, STEP_BUS, STEP_WALK
 
 
 class TestRouteParserInterface(unittest.TestCase):
@@ -57,8 +57,36 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
     def test_parse_steps(self):
         pass
 
-    def test_parse_step(self):
-        pass
+    @patch('transperth.route_parser._parse_bus_step')
+    @patch('transperth.route_parser._parse_walk_step')
+    def test_parse_step_bus(self, _parse_walk_step, _parse_bus_step):
+        from transperth.route_parser import _parse_step
+
+        _parse_step(STEP_BUS)
+
+        self.assertFalse(_parse_walk_step.called)
+
+        _parse_bus_step.assert_called_with([
+            'ONE',
+            'TWO',
+            'THREE'
+        ])
+
+    @patch('transperth.route_parser._parse_bus_step')
+    @patch('transperth.route_parser._parse_walk_step')
+    def test_parse_step_walk(self, _parse_walk_step, _parse_bus_step):
+        from transperth.route_parser import _parse_step
+
+        _parse_step(STEP_WALK)
+
+        _parse_walk_step.assert_called_with([
+            'ONE',
+            'TWO',
+            'THREE'
+        ])
+
+        self.assertFalse(_parse_bus_step.called)
+
 
     @patch('transperth.route_parser._parse_time')
     @patch('transperth.route_parser._parse_stop')
