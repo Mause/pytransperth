@@ -56,6 +56,7 @@ def _parse_header(header):
 
 
 def _parse_links(links):
+    # TODO: check if these can be melded
     links = links.find('div')
     links = links.xpath('.//img')
 
@@ -190,4 +191,6 @@ def _parse_time(string):
 
 
 def _parse_stop(string):
+    # Presuming a stop is represented like this;
+    # (Stop number: 26679)
     return int(string.split(' ')[2][:-1])
