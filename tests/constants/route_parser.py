@@ -39,3 +39,8 @@ STEP_WALK = E.HTML(
         )
     )
 )
+
+IMG = E.IMG(
+    onclick="getFares('11/11/1111', 1111)"
+)
+

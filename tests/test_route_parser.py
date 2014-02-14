@@ -46,7 +46,17 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         pass
 
     def test_parse_img(self):
-        pass
+        from transperth.route_parser import _parse_img
+
+        ret = _parse_img(IMG)
+
+        self.assertEqual(
+            ret,
+            (
+                'getFares',
+                ['11/11/1111', 1111]
+            )
+        )
 
     def test_parse_duration(self):
         pass
