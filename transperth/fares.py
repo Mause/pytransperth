@@ -6,7 +6,7 @@ from . import BASE
 from .utils import clean
 from .routes import determine_routes
 
-FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx?'
+FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx'
 
 
 def determine_fare(from_loco, to_loco):
