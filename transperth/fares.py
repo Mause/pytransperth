@@ -9,7 +9,7 @@ from .routes import determine_routes
 FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx?'
 
 
-def get_fare(from_loco, to_loco):
+def determine_fare(from_loco, to_loco):
     """
     Returns the fare for the recommended route from `from_loco` to
     `to_loco` in the format;

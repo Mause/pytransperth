@@ -15,7 +15,7 @@ class TestFares(unittest.TestCase):
     @patch('transperth.fares._get_fare')
     def test_get_fare(self, _get_fare, determine_routes):
         from transperth.location import Location
-        from transperth.fares import get_fare
+        from transperth.fares import determine_fare
 
         locos = [
             Location.from_location('Esplanade'),
@@ -23,7 +23,7 @@ class TestFares(unittest.TestCase):
         ]
 
         # test the function
-        get_fare(*locos)
+        determine_fare(*locos)
 
         determine_routes.assert_called_with(*locos)
         _get_fare.assert_called_with('fare', 'request', 'args')
