@@ -39,22 +39,90 @@ class TestLocationUtils(unittest.TestCase):
 
         self.assertEqual(
             ret,
-            {
-                'from': [
-                    LocationT('Name', 'Code')
-                ]
-            }
+            {'from': [LocationT('Name', 'Code')]}
         )
 
 
-# class TestLocationClass(unittest.TestCase):
-#     pass
-
+class TestLocationClass(unittest.TestCase):
 #     __init__
-#     from_address
-#     from_stop
-#     from_location
-#     as_
+
+    def test_from_address(self):
+        from transperth.location import Location
+
+        self.assertEqual(
+            Location.from_address('STREET', 'SUBURB')._data,
+            {
+                'street': 'STREET',
+                'suburb': 'SUBURB',
+                '': 'POINT',
+
+                'location': '',
+                'stop': '',
+            }
+        )
+
+    def test_from_stop(self):
+        from transperth.location import Location
+
+        self.assertEqual(
+            Location.from_stop('11111')._data,
+            {
+                'stop': '11111',
+                '': 'NODE',
+
+                'location': '',
+                'street': '',
+                'suburb': ''
+            }
+        )
+
+    def test_from_stop_invalid_exception(self):
+        from transperth.location import Location
+
+        self.assertRaises(
+            Exception,
+            Location.from_stop,
+            ('1111',)
+        )
+
+    def test_from_stop_none_exception(self):
+        from transperth.location import Location
+
+        self.assertRaises(
+            Exception,
+            Location.from_stop,
+            (None,)
+        )
+
+    def test_from_location(self):
+        from transperth.location import Location
+
+        self.assertEqual(
+            Location.from_location('LOCATION')._data,
+            {
+                '': 'LOCATION',
+                'location': 'LOCATION',
+
+                'stop': '',
+                'street': '',
+                'suburb': ''
+            }
+        )
+
+    def test_as_(self):
+        from transperth.location import Location
+
+        self.assertEqual(
+            Location.from_location('LOCATION').as_('to'),
+            {
+                'to': 'Location',
+                'toLocation': 'LOCATION',
+                'toStop': '',
+                'toStreet': '',
+                'toSuburb': ''
+            }
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
