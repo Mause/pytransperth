@@ -1,7 +1,7 @@
 import requests
 
 from . import BASE
-from .location import determine_location
+from .location import determine_location, are_locations
 from .route_parser import parse_routes
 from .utils import format_date
 
@@ -10,6 +10,8 @@ __all__ = ['determine_routes']
 
 
 def determine_routes(from_loco, to_loco):
+    assert are_locations(from_loco, to_loco)
+
     locations = determine_location(from_loco, to_loco)
 
     assert locations['to'], 'No corresponding to locations found'

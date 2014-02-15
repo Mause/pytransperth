@@ -10,11 +10,15 @@ from .utils import format_date, clean
 STOPNUM_RE = re.compile(r'\d{5}')
 LocationT = namedtuple('LocationT', 'name,code')
 
+is_location = lambda arg: isinstance(arg, Location)
+are_locations = lambda *args: all(map(is_location, args))
 
 __all__ = ['determine_location', 'Location', 'parse_locations']
 
 
 def determine_location(from_d, to_d):
+    assert are_locations(from_d, to_d)
+
     URL = BASE + 'DesktopModules/JourneyPlanner/JP.aspx'
 
     params = {

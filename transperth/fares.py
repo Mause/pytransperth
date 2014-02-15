@@ -4,6 +4,7 @@ import requests
 
 from . import BASE
 from .utils import clean
+from .location import are_locations
 from .routes import determine_routes
 
 FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx'
@@ -19,6 +20,7 @@ def determine_fare(from_loco, to_loco):
 
     {'<TICKET-CLASS>': {'<TICKET-TYPE>': <COST>}}
     """
+    assert are_locations(from_loco, to_loco)
 
     routes = determine_routes(from_loco, to_loco)
 
