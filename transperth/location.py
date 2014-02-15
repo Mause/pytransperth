@@ -11,6 +11,9 @@ STOPNUM_RE = re.compile(r'\d{5}')
 LocationT = namedtuple('LocationT', 'name,code')
 
 
+__all__ = ['determine_location', 'Location', 'parse_locations']
+
+
 def determine_location(from_d, to_d):
     URL = BASE + 'DesktopModules/JourneyPlanner/JP.aspx'
 

@@ -9,6 +9,9 @@ from .routes import determine_routes
 FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx'
 
 
+__all__ = ['determine_fare']
+
+
 def determine_fare(from_loco, to_loco):
     """
     Returns the fare for the recommended route from `from_loco` to

@@ -9,6 +9,8 @@ FUNCTIONCALL_RE = re.compile(r'(\w+)\(([^\)]*)\)')
 ARGUMENT_RE = re.compile(r'''['"]([^"']*)['"]|[-\d]+''')
 TIME_RE = re.compile(r'(\d+:\d+ (?:AM|PM))')
 
+__all__ = ['parse_routes']
+
 
 def parse_routes(text):
     """

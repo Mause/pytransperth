@@ -6,6 +6,9 @@ from .route_parser import parse_routes
 from .utils import format_date
 
 
+__all__ = ['determine_routes']
+
+
 def determine_routes(from_loco, to_loco):
     locations = determine_location(from_loco, to_loco)
 
