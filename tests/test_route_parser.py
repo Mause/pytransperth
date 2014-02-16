@@ -116,7 +116,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
     def test_parse_steps(self, _parse_step):
         from transperth.route_parser import _parse_steps
 
-        _parse_steps([None, STEPS])
+        _parse_steps(['IGNORED', STEPS])
 
         self.assertEqualXML(
             _parse_step.call_args_list[0][0][0],
@@ -170,12 +170,12 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             'DEP_STOP_NUM',
             'ARR_STOP_NAME',
             'ARR_STOP_NUM',
-            '12345678REMAINING'
+            '12345678ROUTE'
         ])
 
         assertion = {
             'step_type': 'bus',
-            'route': 'REMAINING',
+            'route': 'ROUTE',
             'departure': {
                 'stop_name': 'DEP_STOP_NAME',
                 'time': ANY,
