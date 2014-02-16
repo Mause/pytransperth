@@ -153,11 +153,7 @@ def _parse_step(step):
 
 
 def _parse_bus_step(texts):
-    step = {
-        'step_type': 'bus',
-        'route': texts.pop(-1)[8:]
-    }
-
+    route = texts.pop(-1)[8:]
     texts = list(zip(texts[::2], texts[1::2]))
 
     dep, arr = {}, {}
@@ -169,12 +165,12 @@ def _parse_bus_step(texts):
     dep['stop_num'] = _parse_stop(dep['stop_num'])
     arr['stop_num'] = _parse_stop(arr['stop_num'])
 
-    step.update({
+    return {
+        'step_type': 'bus',
+        'route': route,
         'departure': dep,
         'arrival': arr
-    })
-
-    return step
+    }
 
 
 def _parse_train_step(texts):
