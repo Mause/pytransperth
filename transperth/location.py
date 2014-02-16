@@ -43,8 +43,8 @@ def determine_location(from_d, to_d):
         'jpWheelchairOnly': '0'
     }
 
-    params.update(from_d.as_('from') or {})
-    params.update(to_d.as_('to') or {})
+    params.update(from_d.as_('from'))
+    params.update(to_d.as_('to'))
 
     return parse_locations(
         requests.get(URL, params=params).text

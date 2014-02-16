@@ -60,7 +60,3 @@ class TestFares(unittest.TestCase):
         ret = parse_money('$111.111')
 
         self.assertEqual(ret, 111.111)
-
-
-if __name__ == '__main__':
-    unittest.main()
