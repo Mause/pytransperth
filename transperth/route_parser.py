@@ -146,6 +146,10 @@ def _parse_step(step):
         return _parse_bus_step(texts)
     elif step_type == 'walk':
         return _parse_walk_step(texts)
+    elif step_type == 'train':
+        return _parse_train_step(texts)
+    else:
+        raise Exception(step_type)
 
 
 def _parse_bus_step(texts):
@@ -171,6 +175,25 @@ def _parse_bus_step(texts):
     })
 
     return step
+
+
+def _parse_train_step(texts):
+    route = texts.pop(-1)[8:]
+    texts = list(zip(texts[::2], texts[1::2]))
+
+    # train steps are different from bus steps in that they don't have stop
+    # numbers, only stop names
+
+    dep, arr = {}, {}
+    dep['time'], arr['time'] = map(_parse_time, texts.pop(0))
+    dep['stop_name'], arr['stop_name'] = texts.pop(0)
+
+    return {
+        'step_type': 'train',
+        'route': route,
+        'departure': dep,
+        'arrival': arr
+    }
 
 
 def _parse_walk_step(texts):
