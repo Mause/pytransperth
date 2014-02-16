@@ -202,6 +202,40 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         )
 
     @patch('transperth.route_parser._parse_time')
+    @patch('transperth.route_parser._parse_stop')
+    def test_parse_train_step(self, _parse_stop, _parse_time):
+        from transperth.route_parser import _parse_train_step
+
+        ret = _parse_train_step([
+            'TIME1',
+            'TIME2',
+            'DEP_STOP_NAME',
+            'ARR_STOP_NAME',
+            '12345678ROUTE'
+        ])
+
+        assertion = {
+            'step_type': 'train',
+            'route': 'ROUTE',
+            'departure': {
+                'stop_name': 'DEP_STOP_NAME',
+                'time': ANY
+
+            },
+            'arrival': {
+                'stop_name': 'ARR_STOP_NAME',
+                'time': ANY
+            }
+        }
+
+        self.assertEqualMock(ret, assertion)
+
+        self.assertEqual(
+            _parse_time.call_args_list,
+            [call('TIME1'), call('TIME2')]
+        )
+
+    @patch('transperth.route_parser._parse_time')
     def test_parse_walk_step(self, _parse_time):
         from transperth.route_parser import _parse_walk_step
 
