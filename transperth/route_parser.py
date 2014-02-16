@@ -193,9 +193,14 @@ def _parse_train_step(texts):
 
 
 def _parse_walk_step(texts):
+    departure = (
+        _parse_time(texts[1]) if len(texts) > 1
+        else None
+    )
+
     return {
         'step_type': 'walk',
-        'departure': _parse_time(texts[1]),
+        'departure': departure,
         'walking_distance': int(texts[0].split(' ')[0])
     }
 
