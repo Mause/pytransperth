@@ -8,12 +8,19 @@ from . import BASE
 from .utils import format_date, clean
 
 STOPNUM_RE = re.compile(r'\d{5}')
+
+
+__all__ = [
+    'determine_location',
+    'Location',
+    'parse_locations',
+    'LocationT'
+]
+
 LocationT = namedtuple('LocationT', 'name,code')
 
 is_location = lambda arg: isinstance(arg, Location)
 are_locations = lambda *args: all(map(is_location, args))
-
-__all__ = ['determine_location', 'Location', 'parse_locations']
 
 
 def determine_location(from_d, to_d):
