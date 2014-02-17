@@ -9,6 +9,7 @@ from helpers.mock_utils_test_case import MockUtilsTestCase
 from constants.route_parser import (
     HEADER,
     STEP_BUS,
+    STEP_TRAIN,
     STEP_WALK,
     STEPS,
     MISC,
@@ -143,7 +144,18 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             'THREE'
         ])
 
-    @patch('transperth.route_parser._parse_bus_step')
+    @patch('transperth.route_parser._parse_train_step')
+    def test_parse_step_train(self, _parse_train_step):
+        from transperth.route_parser import _parse_step
+
+        _parse_step(STEP_TRAIN)
+
+        _parse_train_step.assert_called_with([
+            'ONE',
+            'TWO',
+            'THREE'
+        ])
+
     @patch('transperth.route_parser._parse_walk_step')
     def test_parse_step_walk(self, _parse_walk_step, _parse_bus_step):
         from transperth.route_parser import _parse_step

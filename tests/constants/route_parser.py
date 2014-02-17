@@ -36,6 +36,22 @@ STEP_BUS = E.HTML(
     )
 )
 
+STEP_TRAIN = E.HTML(
+    E.TR(
+        E.TD(
+            E.IMG(alt="train")
+        ),
+        E.TD(
+            E.SPAN('ONE'),
+            E.SPAN('TWO')
+        ),
+        E.TD(
+            E.SPAN('THREE'),
+            E.SPAN('FOUR')
+        )
+    )
+)
+
 STEP_WALK = E.HTML(
     E.TR(
         E.TD(
