@@ -24,6 +24,10 @@ are_locations = lambda *args: all(map(is_location, args))
 
 
 def determine_location(from_d, to_d):
+    """
+    Takes two location objects, and returns a dict of lists of LocationTs
+    mapping possible corresponding locations and their codes
+    """
     assert are_locations(from_d, to_d)
 
     URL = BASE + 'DesktopModules/JourneyPlanner/JP.aspx'
@@ -52,6 +56,15 @@ def determine_location(from_d, to_d):
 
 
 def parse_locations(locations):
+    """
+    Takes the (pure) XML from the locations request and returns in the format;
+
+    {
+        "from": [
+            LocationT('<NAME>', '<CODE>')
+        ]
+    }
+    """
     root = etree.XML(locations)
 
     return {
@@ -60,13 +73,17 @@ def parse_locations(locations):
                 *clean(se.itertext())
             )
             for se in element
-
         ]
         for element in root
     }
 
 
 class Location(object):
+    """
+    Represents a location that has not been resolved into a (LocationT)
+    location code
+    """
+
     def __init__(self, data):
         """
         It is recommend you use one of the specialised methods;

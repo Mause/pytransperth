@@ -45,7 +45,11 @@ def parse_routes(text):
     return routes
 
 
-def _parse_header(header):
+def _parse_header(header) -> dict:
+    """
+    Parses the route duration, links (fare and map data), and misc. data
+    """
+
     header, misc = header.find('td/table')
 
     duration, links = header.findall('td')
@@ -57,7 +61,12 @@ def _parse_header(header):
     }
 
 
-def _parse_links(links):
+def _parse_links(links) -> dict:
+    """
+    Grabs all img takes within the `links` element tree, and
+    passes them through to _parse_img for parsing
+    """
+
     # TODO: check if these can be melded
     links = links.find('div')
     links = links.xpath('.//img')
@@ -67,7 +76,10 @@ def _parse_links(links):
     )
 
 
-def _parse_img(img):
+def _parse_img(img) -> tuple:
+    """
+    Grabs the onclick attribute of the given `<img/>`
+    """
     onclick = img.get('onclick')
 
     name, args = FUNCTIONCALL_RE.match(onclick).groups()
@@ -82,7 +94,7 @@ def _parse_img(img):
     return name, clean_args
 
 
-def _parse_duration(duration):
+def _parse_duration(duration) -> datetime.timedelta:
     duration = duration.find('span')
     duration = list(duration.itertext())[1]
 
@@ -94,7 +106,7 @@ def _parse_duration(duration):
 _normalise_key = lambda key: key.replace(' ', '_').lower()
 
 
-def _parse_misc(misc):
+def _parse_misc(misc) -> dict:
     miscs = misc.findall('td')[1:-1]
 
     miscs = map(etree._Element.itertext, miscs)
@@ -122,7 +134,7 @@ def _parse_misc(misc):
     return misc_data
 
 
-def _parse_steps(steps):
+def _parse_steps(steps) -> list:
     steps = steps[1].xpath('td/div/table')
 
     return list(map(_parse_step, steps[:1]))

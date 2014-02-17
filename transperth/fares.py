@@ -1,3 +1,8 @@
+"""
+Provides faculties for determining the price of a route under different
+circumstances
+"""
+
 from lxml import etree
 
 import requests
@@ -35,6 +40,9 @@ def determine_fare(from_loco, to_loco):
 
 
 def _get_fare(journeyCount, journeyDate, *values):
+    """
+    Used internally to format the request for a fare for a route
+    """
 
     keys = [
         'TripKey0', 'TripStart0', 'TripEnd0', 'TripKey1', 'TripStart1',
@@ -57,6 +65,10 @@ def _get_fare(journeyCount, journeyDate, *values):
 
 
 def parse_fares(fares):
+    """
+    Parses the XML representing the fares
+    """
+
     root = etree.HTML(fares)
     root = root.xpath('//html/body/table/tr')[1:]  # the first is empty
 
@@ -65,7 +77,7 @@ def parse_fares(fares):
     keys = clean(keys)
     keys = [key.lower() for key in keys]
 
-    # remove the comments are fare type column labels
+    # remove the 'comments' and 'fare type' column labels
     keys = keys[1:-1]
 
     fares = dict.fromkeys(keys, {})
@@ -86,4 +98,9 @@ def parse_fares(fares):
 
 
 def parse_money(string):
+    """
+    Parses a string with a character denoting currency into a float
+
+    Until I can get pymoneyed to play ball, ignored the currency
+    """
     return float(string[1:])
