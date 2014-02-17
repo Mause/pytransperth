@@ -44,7 +44,20 @@ class TestLocationUtils(unittest.TestCase):
 
 
 class TestLocationClass(unittest.TestCase):
-#     __init__
+    def test_initialization(self):
+        from transperth.location import Location
+
+        self.assertEqual(
+            Location({'hello': 'world'})._data,
+            {
+                'hello': 'world',
+                '': 'LOCATION',
+                'street': '',
+                'suburb': '',
+                'location': '',
+                'stop': ''
+            }
+        )
 
     def test_from_address(self):
         from transperth.location import Location
