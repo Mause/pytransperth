@@ -15,7 +15,8 @@ from constants.route_parser import (
     MISC,
     IMG,
     LINKS,
-    DURATION
+    DURATION,
+    ROUTES
 )
 
 
@@ -25,7 +26,9 @@ class TestRouteParserInterface(unittest.TestCase):
     """
 
     def test_parse_routes(self):
-        NotImplemented
+        from transperth.route_parser import parse_routes
+
+        parse_routes(ROUTES)
 
 
 class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
