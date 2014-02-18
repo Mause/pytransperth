@@ -78,6 +78,14 @@ MISC = HTML(
     '''
 ).xpath('//html/body/tr')[0]
 
+STEP_INVALID = E.HTML(
+    E.TR(
+        E.TD(
+            E.IMG(alt="invalid")
+        )
+    )
+)
+
 
 IMG = E.IMG(
     onclick="getFares('11/11/1111', 1111)"
