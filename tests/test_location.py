@@ -145,6 +145,23 @@ class TestLocationClass(unittest.TestCase):
             ('INVALID',)
         )
 
+    def test__hash__(self):
+        from transperth.location import Location
+
+        Location({}).__hash__()
+
+    def test__eq__(self):
+        from transperth.location import Location
+
+        data = {
+            'hello': 'world'
+        }
+
+        self.assertEqual(
+            Location(data),
+            Location(data)
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
