@@ -140,6 +140,10 @@ class TestLocationClass(unittest.TestCase):
     def test__hash__(self):
         from transperth.location import Location
 
+        # really we are just ensuring that no exceptions are thrown
+        # whether or not it actually operates correctly is ensured in the
+        # test for __eq__
+
         Location({}).__hash__()
 
     def test__eq__(self):
