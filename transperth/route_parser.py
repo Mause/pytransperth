@@ -27,6 +27,8 @@ def parse_routes(text):
     # grab the journey planner results table
     tables = root.xpath("//div[@class='ModJourneyPlannerResultsC']/table")
 
+    assert len(tables) > 0
+
     # rid ourselves of the query and error tables
     tables = tables[2:]
 
@@ -41,6 +43,11 @@ def parse_routes(text):
             'meta': header,
             'steps': steps
         })
+
+        assert (
+            header['misc']['number_of_legs'] ==
+            len(steps)
+        ), 'Steps parsed incorrectly'
 
     return routes
 
