@@ -147,8 +147,8 @@ def _parse_steps(steps) -> list:
     return list(map(_parse_step, steps[:1]))
 
 
-def _parse_step(step):
-    parts = step.find('tr').findall('td')
+def _parse_step(step) -> dict:
+    parts = step.xpath('tr/td')
 
     step_type = parts.pop(0).xpath('img/@alt')[0].lower()
 
