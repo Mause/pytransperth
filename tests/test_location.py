@@ -51,7 +51,7 @@ class TestLocationClass(unittest.TestCase):
             Location({'hello': 'world'})._data,
             {
                 'hello': 'world',
-                '': 'LOCATION',
+                '': 'Location',
                 'street': '',
                 'suburb': '',
                 'location': '',
@@ -67,7 +67,7 @@ class TestLocationClass(unittest.TestCase):
             {
                 'street': 'STREET',
                 'suburb': 'SUBURB',
-                '': 'POINT',
+                '': 'Point',
 
                 'location': '',
                 'stop': '',
@@ -81,7 +81,7 @@ class TestLocationClass(unittest.TestCase):
             Location.from_stop('11111')._data,
             {
                 'stop': '11111',
-                '': 'NODE',
+                '': 'Node',
 
                 'location': '',
                 'street': '',
@@ -113,7 +113,7 @@ class TestLocationClass(unittest.TestCase):
         self.assertEqual(
             Location.from_location('LOCATION')._data,
             {
-                '': 'LOCATION',
+                '': 'Location',
                 'location': 'LOCATION',
 
                 'stop': '',
