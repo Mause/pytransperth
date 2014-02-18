@@ -39,7 +39,8 @@ class FaresRequestHandler(BaseRequestHandler):
         )
 
         table = fares_to_table(fares)
-        self.write(table._repr_html_())
+
+        self.render('fares_display.html', fares_table=table._repr_html_())
 
 
 settings = {
