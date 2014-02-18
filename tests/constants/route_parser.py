@@ -1,14 +1,11 @@
+import os
+
 from lxml.html import builder as E
-from lxml.etree import HTML, tounicode
+from lxml.etree import HTML
 
-
-HEADER = E.HTML(E.TD(
-    E.TABLE(
-        E.TD(E.SPAN('DURATION')),
-        E.TD(E.SPAN('LINKS'))
-    ),
-    E.TABLE('MISC')
-))
+PATH = os.path.dirname(__file__)
+with open(os.path.join(PATH, 'header.html')) as fh:
+    HEADER = HTML(fh.read()).find('body/tr')
 
 STEPS = E.HTML(
     E.TD(

@@ -40,19 +40,19 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         _parse_header(HEADER)
 
-        self.assertEqualXML(
-            _parse_misc.call_args[0][0],
-            E.TABLE('MISC')
+        self.assertEqual(
+            _parse_misc.call_args[0][0].text,
+            'MISC'
         )
 
-        self.assertEqualXML(
-            _parse_links.call_args[0][0][0],
-            E.SPAN('LINKS')
+        self.assertEqual(
+            _parse_links.call_args[0][0].text,
+            'LINKS'
         )
 
-        self.assertEqualXML(
-            _parse_duration.call_args[0][0][0],
-            E.SPAN('DURATION')
+        self.assertEqual(
+            _parse_duration.call_args[0][0].text,
+            'DURATION'
         )
 
     @patch('transperth.route_parser._parse_img')
