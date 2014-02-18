@@ -44,7 +44,7 @@ class TestLocationUtils(unittest.TestCase):
 
 
 class TestLocationClass(unittest.TestCase):
-    def test_initialization(self):
+    def test_initialisation(self):
         from transperth.location import Location
 
         self.assertEqual(

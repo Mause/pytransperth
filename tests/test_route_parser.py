@@ -133,13 +133,10 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         )
 
     @patch('transperth.route_parser._parse_bus_step')
-    @patch('transperth.route_parser._parse_walk_step')
-    def test_parse_step_bus(self, _parse_walk_step, _parse_bus_step):
+    def test_parse_step_bus(self, _parse_bus_step):
         from transperth.route_parser import _parse_step
 
         _parse_step(STEP_BUS)
-
-        self.assertFalse(_parse_walk_step.called)
 
         _parse_bus_step.assert_called_with([
             'ONE',
@@ -160,7 +157,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         ])
 
     @patch('transperth.route_parser._parse_walk_step')
-    def test_parse_step_walk(self, _parse_walk_step, _parse_bus_step):
+    def test_parse_step_walk(self, _parse_walk_step):
         from transperth.route_parser import _parse_step
 
         _parse_step(STEP_WALK)
@@ -171,7 +168,6 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             'THREE'
         ])
 
-        self.assertFalse(_parse_bus_step.called)
 
     @patch('transperth.route_parser._parse_time')
     @patch('transperth.route_parser._parse_stop')
