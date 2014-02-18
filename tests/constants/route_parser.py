@@ -94,3 +94,6 @@ DURATION = E.HTML(
         E.SPAN('11:11 hrs')
     )
 )
+
+with open(os.path.join(PATH, 'routes.html')) as fh:
+    ROUTES = fh.read()
