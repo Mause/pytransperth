@@ -10,17 +10,18 @@ __all__ = ['determine_routes']
 
 
 def determine_routes(from_loco, to_loco):
-    assert are_locations(from_loco, to_loco)
 
-    locations = determine_location(from_loco, to_loco)
 
-    assert locations['to'], 'No corresponding to locations found'
-    assert locations['from'], 'No corresponding from locations found'
+    if are_locations(from_loco, to_loco):
+        locations = determine_location(from_loco, to_loco)
 
-    from_string = locations['from'][0]
-    to_string = locations['to'][0]
+        assert locations['to'], 'No corresponding to locations found'
+        assert locations['from'], 'No corresponding from locations found'
 
-    return _routes(from_string.code, to_string.code)
+        from_loco = locations['from'][0]
+        to_loco = locations['to'][0]
+
+    return _routes(from_loco.code, to_loco.code)
 
 
 def _routes(from_code, to_code):

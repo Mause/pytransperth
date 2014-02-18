@@ -90,7 +90,7 @@ class Location(object):
         from_address, from_stop, or from_location
         """
         self._data = {
-            '': 'LOCATION',  # this is required
+            '': 'Location',  # this is required
             'street': '',
             'suburb': '',
             'location': '',
@@ -104,7 +104,7 @@ class Location(object):
         return Location({
             'street': street,
             'suburb': suburb,
-            '': 'POINT'
+            '': 'Point'
         })
 
     @classmethod
@@ -114,14 +114,14 @@ class Location(object):
 
         return Location({
             'stop': stop_number,
-            '': 'NODE'
+            '': 'Node'
         })
 
     @classmethod
     def from_location(self, location_string):
         return Location({
             'location': location_string,
-            '': 'LOCATION'
+            '': 'Location'
         })
 
     def as_(self, direction):
@@ -146,3 +146,16 @@ class Location(object):
             direction + k.title(): v
             for k, v in self._data.items()
         }
+
+    def __hash__(self):
+        items = sorted(
+            self._data.items(),
+            key=lambda i: i[0]
+        )
+
+        return hash(','.join(map(':'.join, items)))
+
+    def __eq__(self, other):
+        assert isinstance(other, Location)
+
+        return self.__hash__() == other.__hash__()
