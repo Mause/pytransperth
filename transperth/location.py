@@ -109,7 +109,7 @@ class Location(object):
 
     @classmethod
     def from_stop(self, stop_number):
-        if stop_number and not STOPNUM_RE.match(stop_number):
+        if not STOPNUM_RE.match(stop_number):
             raise Exception('Invalid stop number')
 
         return Location({
