@@ -136,6 +136,15 @@ class TestLocationClass(unittest.TestCase):
             }
         )
 
+    def test_as_exception(self):
+        from transperth.location import Location
+
+        self.assertRaises(
+            Exception,
+            Location.from_location('LOCATION').as_,
+            ('INVALID',)
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
