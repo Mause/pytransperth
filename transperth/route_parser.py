@@ -12,7 +12,7 @@ TIME_RE = re.compile(r'(\d+:\d+ (?:AM|PM))')
 __all__ = ['parse_routes']
 
 
-def parse_routes(text):
+def parse_routes(text: str) -> list:
     """
     Top level function of this parsing module.
 
@@ -173,7 +173,7 @@ def _parse_step(step) -> dict:
         raise Exception(step_type)
 
 
-def _parse_bus_step(texts):
+def _parse_bus_step(texts: str) -> dict:
     route = texts.pop(-1)[8:]
     texts = list(zip(texts[::2], texts[1::2]))
 
@@ -194,7 +194,7 @@ def _parse_bus_step(texts):
     }
 
 
-def _parse_train_step(texts):
+def _parse_train_step(texts: str) -> dict:
     route = texts.pop(-1)[8:]
     texts = list(zip(texts[::2], texts[1::2]))
 
@@ -213,7 +213,7 @@ def _parse_train_step(texts):
     }
 
 
-def _parse_walk_step(texts):
+def _parse_walk_step(texts: str) -> dict:
     departure = (
         _parse_time(texts[1]) if len(texts) > 1
         else None
@@ -226,7 +226,7 @@ def _parse_walk_step(texts):
     }
 
 
-def _parse_time(string):
+def _parse_time(string: str) -> datetime.time:
     string = TIME_RE.search(string).groups()[0]
 
     t = time.strptime(string, '%I:%M %p')
@@ -237,7 +237,7 @@ def _parse_time(string):
     )
 
 
-def _parse_stop(string):
+def _parse_stop(string: str) -> int:
     # Presuming a stop is represented like this;
     # (Stop number: 26679)
     return int(string.split(' ')[2][:-1])
