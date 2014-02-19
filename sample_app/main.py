@@ -50,7 +50,7 @@ settings = {
 
 
 application = tornado.web.Application([
-    (r"/", FaresRequestHandler),
+    (r"/fares", FaresRequestHandler)
 ], **settings)
 
 if __name__ == "__main__":
