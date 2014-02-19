@@ -38,14 +38,14 @@ setup(
     test_suite='tests.suite',
     classifiers=[
         'Programming Language :: Python',
-        'Development Status :: 1 - Beta',
+        'Development Status :: 2 - Pre-Alpha',
         'Natural Language :: English',
         # 'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        # 'License :: OSI Approved :: Apache Software License',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        # 'Topic :: Software Development :: Libraries :: Application Frameworks',
+        'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
 )
