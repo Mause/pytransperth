@@ -119,28 +119,24 @@ def _parse_misc(misc) -> dict:
     miscs = misc.findall('td')[1:-1]
 
     miscs = map(etree._Element.itertext, miscs)
+    miscs = chain.from_iterable(miscs)
+    miscs = [part.strip() for part in miscs]
+    miscs = zip(miscs[::2], miscs[1::2])
 
     misc_data = {}
-    for misc in miscs:
-        misc = [part.strip() for part in misc]
+    for k, v in miscs:
+        k = _normalise_key(k[:-1])
 
-        misc = zip(misc[::2], misc[1::2])
+        misc_data[k] = v
 
-        for k, v in misc:
-            k = _normalise_key(k[:-1])
-
-            misc_data[k] = v
-
-    misc_data.update({
+    return {
         'arrival_time': _parse_time(misc_data['arrival_time']),
         'depart_time': _parse_time(misc_data['depart_time']),
         'number_of_legs': int(misc_data['number_of_legs']),
         'total_walking_distance': int(
             misc_data['total_walking_distance'][:2]
         )
-    })
-
-    return misc_data
+    }
 
 
 def _parse_steps(steps) -> list:
