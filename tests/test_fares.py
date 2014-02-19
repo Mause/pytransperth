@@ -35,6 +35,23 @@ class TestFares(unittest.TestCase):
         determine_routes.assert_called_with(*locos)
         _get_fare.assert_called_with('fare', 'request', 'args')
 
+    @patch('transperth.fares.determine_routes', return_value={})
+    def test_get_fare_no_data(self, determine_routes):
+        from transperth.location import Location
+        from transperth.fares import determine_fare
+
+        locos = [
+            Location.from_location('Esplanade'),
+            Location.from_location('Curtin University, Perth')
+        ]
+
+        # test the function
+        self.assertRaises(
+            Exception,
+            determine_fare,
+            locos
+        )
+
     @patch('transperth.fares.parse_fares')
     @responses.activate
     def test__get_fare(self, parse_fares):
