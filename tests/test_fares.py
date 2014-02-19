@@ -20,7 +20,7 @@ sys.path.insert(0, MODULE_DIR)
 class TestFares(unittest.TestCase):
     @patch('transperth.fares.determine_routes', return_value=FARE_BASIC_ROUTES)
     @patch('transperth.fares._get_fare')
-    def test_get_fare(self, _get_fare, determine_routes):
+    def test_determine_fare(self, _get_fare, determine_routes):
         from transperth.location import Location
         from transperth.fares import determine_fare
 
@@ -36,7 +36,7 @@ class TestFares(unittest.TestCase):
         _get_fare.assert_called_with('fare', 'request', 'args')
 
     @patch('transperth.fares.determine_routes', return_value={})
-    def test_get_fare_no_data(self, determine_routes):
+    def test_determine_fare_no_data(self, determine_routes):
         from transperth.location import Location
         from transperth.fares import determine_fare
 
