@@ -146,7 +146,7 @@ def _parse_misc(misc) -> dict:
 def _parse_steps(steps) -> list:
     steps = steps[1].xpath('td/div/table')
 
-    return list(map(_parse_step, steps[:1]))
+    return list(map(_parse_step, steps))
 
 
 def _parse_step(step) -> dict:
