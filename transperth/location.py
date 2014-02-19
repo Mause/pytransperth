@@ -59,11 +59,13 @@ def parse_locations(locations):
     """
     Takes the (pure) XML from the locations request and returns in the format;
 
-    {
-        "from": [
-            LocationT('<NAME>', '<CODE>')
-        ]
-    }
+    .. code-block:: python
+
+        {
+            "from": [
+                LocationT('<NAME>', '<CODE>')
+            ]
+        }
     """
     root = etree.XML(locations)
 
@@ -127,14 +129,15 @@ class Location(object):
     def as_(self, direction):
         """
         Returns the input data as a something like the following;
+        .. code-block:: python
 
-        {
-            'to': str,
-            'toStreet': str,
-            'toSuburb': str,
-            'toLocation': str,
-            'toStop': str,
-        }
+            {
+                'to': str,
+                'toStreet': str,
+                'toSuburb': str,
+                'toLocation': str,
+                'toStop': str,
+            }
         """
 
         if direction not in {'to', 'from'}:
