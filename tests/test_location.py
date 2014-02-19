@@ -92,7 +92,6 @@ class TestLocationClass(unittest.TestCase):
     def test_from_stop_invalid_exception(self):
         from transperth.location import Location
 
-
         self.assertRaises(
             Exception,
             Location.from_stop,

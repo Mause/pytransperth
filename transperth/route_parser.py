@@ -120,6 +120,7 @@ def _parse_misc(misc) -> dict:
 
     miscs = map(etree._Element.itertext, miscs)
     miscs = chain.from_iterable(miscs)
+
     miscs = [part.strip() for part in miscs]
     miscs = zip(miscs[::2], miscs[1::2])
 
