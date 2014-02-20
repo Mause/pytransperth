@@ -23,13 +23,17 @@ is_location = lambda arg: isinstance(arg, Location)
 are_locations = lambda *args: all(map(is_location, args))
 
 
-def determine_location(from_loco, to_loco):
+# Allows the use of Location in function signatures
+class Location():
+    pass
+
+
+def determine_location(from_loco: Location, to_loco: Location) -> dict:
     """
     Takes two location objects, and returns a dict of lists of LocationTs
     mapping possible corresponding locations and their codes.
 
     See :func:`parse_locations` for precise output format.
-
     """
     assert are_locations(from_loco, to_loco)
 
@@ -82,15 +86,11 @@ def parse_locations(locations: str) -> dict:
         for element in root
     }
 
+
 class LocationT(namedtuple('LocationT', 'name,code')):
     """
     Represents a location as considered by the transperth api
     """
-
-
-# Allows the use of Location in its own function signatures
-class Location():
-    pass
 
 
 class Location(object):
