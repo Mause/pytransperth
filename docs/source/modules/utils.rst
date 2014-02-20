@@ -2,7 +2,7 @@
 -------------------
 
 .. automodule:: transperth.utils
-    :members: __version__, BASE
+    :members:
     :undoc-members:
     :show-inheritance:
 
