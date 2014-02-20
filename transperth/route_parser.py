@@ -95,7 +95,7 @@ def _parse_links(links) -> dict:
 
 def _parse_img(img) -> tuple:
     """
-    Grabs the onclick attribute of the given `<img/>`
+    Grabs the onclick attribute of the given ``<img/>``
 
     :param img: An image tag with an onclick handler containing a function call
     :returns: a tuple of the function name and function arguments
