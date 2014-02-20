@@ -88,6 +88,10 @@ class LocationT(namedtuple('LocationT', 'name,code')):
     """
 
 
+# Allows the use of Location in its own function signatures
+class Location():
+    pass
+
 
 class Location(object):
     """
