@@ -26,7 +26,7 @@ def determine_fare(
     Returns the fare for the recommended route from `from_loco` to
     `to_loco` in the format;
 
-    .. code-block:: json
+    .. code-block:: python
 
         {
             '<TICKET-CLASS>': {
