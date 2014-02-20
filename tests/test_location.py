@@ -96,7 +96,7 @@ class TestLocationClass(unittest.TestCase):
         self.assertRaises(
             InvalidStopNumber,
             Location.from_stop,
-            ('1111',)
+            ('1111')
         )
 
     def test_from_location(self):

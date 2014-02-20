@@ -8,7 +8,8 @@ import responses
 from constants.fares import (
     FARE_BASIC_XML,
     FARE_OUTPUT,
-    FARE_BASIC_ROUTES
+    FARE_BASIC_ROUTES,
+    NO_FARE_DATA
 )
 
 
@@ -35,7 +36,7 @@ class TestFares(unittest.TestCase):
         determine_routes.assert_called_with(*locos)
         _get_fare.assert_called_with('fare', 'request', 'args')
 
-    @patch('transperth.fares.determine_routes', return_value={})
+    @patch('transperth.fares.determine_routes', return_value=NO_FARE_DATA)
     def test_determine_fare_no_data(self, determine_routes):
         from transperth.location import Location
         from transperth.fares import determine_fare
@@ -47,11 +48,8 @@ class TestFares(unittest.TestCase):
         ]
 
         # test the function
-        self.assertRaises(
-            Exception,
-            determine_fare,
-            locos
-        )
+        with self.assertRaises(NoFareData):
+            determine_fare(*locos)
 
     @patch('transperth.fares.parse_fares')
     @responses.activate
