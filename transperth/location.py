@@ -102,7 +102,7 @@ class Location(object):
         self._data.update(data)
 
     @classmethod
-    def from_address(self, street, suburb):
+    def from_address(self, street: str, suburb: str) -> Location:
         return Location({
             'street': street,
             'suburb': suburb,
@@ -110,7 +110,7 @@ class Location(object):
         })
 
     @classmethod
-    def from_stop(self, stop_number):
+    def from_stop(self, stop_number: str or int) -> Location:
         if not STOPNUM_RE.match(stop_number):
             raise Exception('Invalid stop number')
 
@@ -120,13 +120,13 @@ class Location(object):
         })
 
     @classmethod
-    def from_location(self, location_string):
+    def from_location(self, location: str) -> Location:
         return Location({
-            'location': location_string,
+            'location': location,
             '': 'Location'
         })
 
-    def as_(self, direction):
+    def as_(self, direction: str) -> dict:
         """
         Returns the input data as a something like the following;
         .. code-block:: python

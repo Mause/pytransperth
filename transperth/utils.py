@@ -3,7 +3,7 @@ import datetime
 __all__ = ['format_date', 'clean']
 
 
-def format_date(date=None):
+def format_date(date=None) -> str:
     """
     Takes a datetime.date object (or defaults to today)
     and returns it formatted just the way the transperth
