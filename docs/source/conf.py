@@ -285,44 +285,24 @@ PATH = os.path.abspath(PATH)
 
 sys.path.insert(0, PATH)
 
+import re
 import inspect
 from sphinx.ext import autodoc
 from sphinx.ext.autodoc import Documenter
 
+FUNC_CALL_RE = re.compile(r'\((.*)\)(?: -> (.*))?')
 
-def build_signature(func):
-    signature = inspect.signature(func)
 
-    if hasattr(func, '__qualname__'):
-        name = func.__qualname__
-    elif hasattr(func, '__name__'):
-        name = func.__name__
-
-    return '{}{}'.format(
-        name,
-        signature
-    )
+def _format_signature(obj):
+    sig = str(inspect.signature(obj))
+    return FUNC_CALL_RE.match(sig).groups()
 
 
 class BetterSigMixin():
     def format_signature(self):
         if self.args is None and self.env.config.autodoc_docstring_signature:
+            self.args, self.retann = _format_signature(self.object)
 
-            sig = build_signature(self.object)
-            sig = sig + (self.object.__doc__ or '')
-
-            try:
-                self.object.__doc__ = sig
-            except AttributeError:
-                # we can't write directly to the __doc__ attribute of methods,
-                # so we write to the corresponding function
-                self.object.__func__.__doc__ = sig
-
-            # only act if a signature is not explicitly given already, and if
-            # the feature is enabled
-            result = self._find_signature()
-            if result is not None:
-                self.args, self.retann = result
         return Documenter.format_signature(self)
 
 
