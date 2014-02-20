@@ -27,7 +27,10 @@ are_locations = lambda *args: all(map(is_location, args))
 def determine_location(from_d, to_d):
     """
     Takes two location objects, and returns a dict of lists of LocationTs
-    mapping possible corresponding locations and their codes
+    mapping possible corresponding locations and their codes.
+
+    See :func:`parse_locations` for precise output format.
+
     """
     assert are_locations(from_d, to_d)
 
@@ -111,7 +114,13 @@ class Location(object):
         })
 
     @classmethod
-    def from_stop(self, stop_number: str or int) -> Location:
+    def from_stop(self, stop_number: 'str or int') -> Location:
+        """
+        Creates a Location from a transperth stop number.
+
+        Applies only to bus stops
+        """
+
         stop_number = str(stop_number)
 
         if not STOPNUM_RE.match(stop_number):
@@ -124,6 +133,13 @@ class Location(object):
 
     @classmethod
     def from_location(self, location: str) -> Location:
+        """
+        Creates a Location from an arbibrary location, such as;
+         * Curtin University, Perth
+         * Arena Joondalup
+
+        :param location: arbibrary location
+        """
         return Location({
             'location': location,
             '': 'Location'
@@ -131,7 +147,9 @@ class Location(object):
 
     def as_(self, direction: str) -> dict:
         """
-        Returns the input data as a something like the following;
+        Formats the _data attribute so that it can be incorporated into
+        a request to transperth's api
+
         .. code-block:: python
 
             {

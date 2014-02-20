@@ -17,7 +17,7 @@ def format_date(date=None) -> str:
 def clean(iterator):
     """
     Takes an iterator of strings and removes those that consist
-    that str.strip considers to consist entirely of whitespace
+    that str.strip considers to consist entirely of whitespace.
     """
     iterator = map(str.strip, iterator)
     return list(filter(bool, iterator))

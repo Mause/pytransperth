@@ -22,6 +22,8 @@ def parse_routes(text: str) -> list:
     a browser for a user, the parsing code is itself quite complex.
 
     An attempt at modularisation has been made.
+
+    :param text: Text of XML tree containing routes
     """
 
     root = html.document_fromstring(text)
@@ -59,6 +61,8 @@ def parse_routes(text: str) -> list:
 def _parse_header(header) -> dict:
     """
     Parses the route duration, links (fare and map data), and misc. data
+
+    :param header: Element tree containing the header
     """
 
     header, misc = header.find('td/table')
@@ -76,6 +80,8 @@ def _parse_links(links) -> dict:
     """
     Grabs all img takes within the `links` element tree, and
     passes them through to _parse_img for parsing
+
+    :param links: Element tree containing links
     """
 
     # TODO: check if these can be melded
@@ -90,6 +96,9 @@ def _parse_links(links) -> dict:
 def _parse_img(img) -> tuple:
     """
     Grabs the onclick attribute of the given `<img/>`
+
+    :param img: An image tag with an onclick handler containing a function call
+    :returns: a tuple of the function name and function arguments
     """
     onclick = img.get('onclick')
 

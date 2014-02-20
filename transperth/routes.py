@@ -10,7 +10,9 @@ __all__ = ['determine_routes']
 
 
 def determine_routes(from_loco, to_loco):
-
+    """
+    Determine possible routes between the two provided locations
+    """
 
     if are_locations(from_loco, to_loco):
         locations = determine_location(from_loco, to_loco)
