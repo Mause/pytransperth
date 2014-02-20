@@ -112,10 +112,9 @@ class Location(object):
 
     @classmethod
     def from_stop(self, stop_number: str or int) -> Location:
-        if isinstance(stop_number, str) and not STOPNUM_RE.match(stop_number):
-            raise InvalidStopNumber('Invalid stop number')
+        stop_number = str(stop_number)
 
-        elif isinstance(stop_number, int) and len(str(stop_number)) != 5:
+        if not STOPNUM_RE.match(stop_number):
             raise InvalidStopNumber('Invalid stop number')
 
         return Location({
