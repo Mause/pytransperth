@@ -1,18 +1,29 @@
 class TransperthException(Exception):
-    pass
+    """
+    Base exception for all exceptions thrown by this library
+    """
 
 
 class InvalidStopNumber(TransperthException):
-    pass
+    """
+    Thrown when the provided stop number is not a five digit number
+    """
 
 
 class InvalidDirection(TransperthException):
-    pass
+    """
+    Thrown when the provided direction is neither to nor from
+    """
 
 
 class InvalidStep(TransperthException):
-    pass
+    """
+    Thrown when a step is not one of 'bus', 'walk', 'train'
+    """
 
 
 class NoFareData(TransperthException):
-    pass
+    """
+    Thrown when transperth does not provide data from which we
+    can assertain the fare for a route
+    """
