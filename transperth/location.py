@@ -18,7 +18,6 @@ __all__ = [
     'LocationT'
 ]
 
-LocationT = namedtuple('LocationT', 'name,code')
 
 is_location = lambda arg: isinstance(arg, Location)
 are_locations = lambda *args: all(map(is_location, args))
@@ -82,6 +81,12 @@ def parse_locations(locations):
         ]
         for element in root
     }
+
+class LocationT(namedtuple('LocationT', 'name,code')):
+    """
+    Represents a location as considered by the transperth api
+    """
+
 
 
 class Location(object):
