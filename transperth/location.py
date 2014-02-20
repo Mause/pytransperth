@@ -58,7 +58,7 @@ def determine_location(from_loco, to_loco):
     )
 
 
-def parse_locations(locations):
+def parse_locations(locations: str) -> dict:
     """
     Takes the (pure) XML from the locations request and returns in the format;
 
@@ -99,7 +99,7 @@ class Location(object):
     location code
     """
 
-    def __init__(self, data):
+    def __init__(self, data: dict):
         """
         It is recommend you use one of the specialised methods;
         from_address, from_stop, or from_location
