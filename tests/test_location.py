@@ -89,12 +89,19 @@ class TestLocationClass(unittest.TestCase):
             }
         )
 
-    def test_from_stop_invalid_exception(self):
+    def test_from_stop_invalid_exception_string(self):
         from transperth.location import Location
         from transperth.exceptions import InvalidStopNumber
 
         with self.assertRaises(InvalidStopNumber):
             Location.from_stop('1111')
+
+    def test_from_stop_invalid_exception_integer(self):
+        from transperth.location import Location
+        from transperth.exceptions import InvalidStopNumber
+
+        with self.assertRaises(InvalidStopNumber):
+            Location.from_stop(1111)
 
     def test_from_location(self):
         from transperth.location import Location
