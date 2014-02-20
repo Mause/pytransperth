@@ -93,11 +93,8 @@ class TestLocationClass(unittest.TestCase):
         from transperth.location import Location
         from transperth.exceptions import InvalidStopNumber
 
-        self.assertRaises(
-            InvalidStopNumber,
-            Location.from_stop,
-            ('1111')
-        )
+        with self.assertRaises(InvalidStopNumber):
+            Location.from_stop('1111')
 
     def test_from_location(self):
         from transperth.location import Location
@@ -132,11 +129,8 @@ class TestLocationClass(unittest.TestCase):
         from transperth.location import Location
         from transperth.exceptions import InvalidDirection
 
-        self.assertRaises(
-            InvalidDirection,
-            Location.from_location('LOCATION').as_,
-            ('INVALID',)
-        )
+        with self.assertRaises(InvalidDirection):
+            Location.from_location('LOCATION').as_('INVALID')
 
     def test__hash__(self):
         from transperth.location import Location

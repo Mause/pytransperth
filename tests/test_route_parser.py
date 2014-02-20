@@ -173,11 +173,8 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         from transperth.route_parser import _parse_step
         from transperth.exceptions import InvalidStep
 
-        self.assertRaises(
-            InvalidStep,
-            _parse_step,
-            (STEP_INVALID)
-        )
+        with self.assertRaises(InvalidStep):
+            _parse_step(STEP_INVALID)
 
     @patch('transperth.route_parser._parse_time')
     @patch('transperth.route_parser._parse_stop')
