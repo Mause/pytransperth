@@ -284,3 +284,47 @@ PATH = os.path.join(PATH, '..', '..')
 PATH = os.path.abspath(PATH)
 
 sys.path.insert(0, PATH)
+
+import inspect
+from sphinx.ext import autodoc
+from sphinx.ext.autodoc import Documenter
+
+
+def build_signature(func):
+    signature = inspect.signature(func)
+
+    if hasattr(func, '__qualname__'):
+        name = func.__qualname__
+    elif hasattr(func, '__name__'):
+        name = func.__name__
+
+    return '{}{}'.format(
+        name,
+        signature
+    )
+
+
+class FunctionDocumenter(autodoc.FunctionDocumenter):
+    """
+    Specialized Documenter subclass for functions.
+    """
+    objtype = 'function'
+    priority = 10
+
+    def format_signature(self):
+        if self.args is None and self.env.config.autodoc_docstring_signature:
+
+            sig = build_signature(self.object)
+
+            self.object.__doc__ = sig + (self.object.__doc__ or '')
+
+            # only act if a signature is not explicitly given already, and if
+            # the feature is enabled
+            result = self._find_signature()
+            if result is not None:
+                self.args, self.retann = result
+        return Documenter.format_signature(self)
+
+
+def setup(app):
+    autodoc.add_documenter(FunctionDocumenter)
