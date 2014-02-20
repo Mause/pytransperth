@@ -31,7 +31,7 @@ class Location():
 def determine_location(from_loco: Location, to_loco: Location) -> dict:
     """
     Takes two location objects, and returns a dict of lists of LocationTs
-    mapping possible corresponding locations and their codes.
+    mapping possible corresponding real world locations and their codes.
 
     See :func:`parse_locations` for precise output format.
     """
@@ -127,7 +127,9 @@ class Location(object):
         """
         Creates a Location from a transperth stop number.
 
-        Applies only to bus stops
+        Applies only to bus stops.
+
+        :param stop_number:
         """
 
         stop_number = str(stop_number)
@@ -144,6 +146,7 @@ class Location(object):
     def from_location(self, location: str) -> Location:
         """
         Creates a Location from an arbibrary location, such as;
+
          * Curtin University, Perth
          * Arena Joondalup
 
