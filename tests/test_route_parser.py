@@ -171,9 +171,10 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
     def test_parse_step_invalid(self):
         from transperth.route_parser import _parse_step
+        from transperth.exceptions import InvalidStep
 
         self.assertRaises(
-            Exception,
+            InvalidStep,
             _parse_step,
             (STEP_INVALID,)
         )

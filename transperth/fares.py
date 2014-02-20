@@ -11,6 +11,7 @@ from . import BASE
 from .utils import clean
 from .routes import determine_routes
 from .location import Location, LocationT
+from .exceptions import NoFareData
 
 FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx'
 
@@ -40,7 +41,7 @@ def determine_fare(
     arguments = route['meta']['links'].get('getFares', None)
 
     if arguments is None:
-        raise Exception('No fares data seem to have been provided')
+        raise NoFareData('No fares data seem to have been provided')
 
     return _get_fare(*arguments)
 

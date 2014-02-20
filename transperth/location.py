@@ -6,6 +6,7 @@ import requests
 
 from . import BASE
 from .utils import format_date, clean
+from .exceptions import InvalidStopNumber, InvalidDirection
 
 STOPNUM_RE = re.compile(r'\d{5}')
 
@@ -112,7 +113,7 @@ class Location(object):
     @classmethod
     def from_stop(self, stop_number: str or int) -> Location:
         if not STOPNUM_RE.match(stop_number):
-            raise Exception('Invalid stop number')
+            raise InvalidStopNumber('Invalid stop number')
 
         return Location({
             'stop': stop_number,
@@ -141,7 +142,7 @@ class Location(object):
         """
 
         if direction not in {'to', 'from'}:
-            raise Exception('tf casn')
+            raise InvalidDirection('tf casn')
 
         self._data[''] = self._data[''].title()
 

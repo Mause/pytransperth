@@ -4,6 +4,8 @@ import datetime
 import re
 import time
 
+from .exceptions import InvalidStep
+
 DURATION_RE = re.compile(r'(\d+):(\d+) hrs')
 FUNCTIONCALL_RE = re.compile(r'(\w+)\(([^\)]*)\)')
 ARGUMENT_RE = re.compile(r'''['"]([^"']*)['"]|[-\d]+''')
@@ -167,7 +169,7 @@ def _parse_step(step) -> dict:
     elif step_type == 'train':
         return _parse_train_step(texts)
     else:
-        raise Exception(step_type)
+        raise InvalidStep(step_type)
 
 
 def _parse_bus_step(texts: str) -> dict:
