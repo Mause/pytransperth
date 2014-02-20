@@ -24,7 +24,7 @@ is_location = lambda arg: isinstance(arg, Location)
 are_locations = lambda *args: all(map(is_location, args))
 
 
-def determine_location(from_d, to_d):
+def determine_location(from_loco, to_loco):
     """
     Takes two location objects, and returns a dict of lists of LocationTs
     mapping possible corresponding locations and their codes.
@@ -32,7 +32,7 @@ def determine_location(from_d, to_d):
     See :func:`parse_locations` for precise output format.
 
     """
-    assert are_locations(from_d, to_d)
+    assert are_locations(from_loco, to_loco)
 
     URL = BASE + 'DesktopModules/JourneyPlanner/JP.aspx'
 
@@ -51,8 +51,8 @@ def determine_location(from_d, to_d):
         'jpWheelchairOnly': '0'
     }
 
-    params.update(from_d.as_('from'))
-    params.update(to_d.as_('to'))
+    params.update(from_loco.as_('from'))
+    params.update(to_loco.as_('to'))
 
     return parse_locations(
         requests.get(URL, params=params).text
