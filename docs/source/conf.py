@@ -304,13 +304,7 @@ def build_signature(func):
     )
 
 
-class FunctionDocumenter(autodoc.FunctionDocumenter):
-    """
-    Specialized Documenter subclass for functions.
-    """
-    objtype = 'function'
-    priority = 10
-
+class BetterSigMixin():
     def format_signature(self):
         if self.args is None and self.env.config.autodoc_docstring_signature:
 
@@ -326,5 +320,15 @@ class FunctionDocumenter(autodoc.FunctionDocumenter):
         return Documenter.format_signature(self)
 
 
+class FunctionDocumenter(BetterSigMixin, autodoc.FunctionDocumenter):
+    objtype = 'function'
+    priority = 10
+
+
+class MethodDocumenter(BetterSigMixin, autodoc.MethodDocumenter):
+    priority = 15
+
+
 def setup(app):
     autodoc.add_documenter(FunctionDocumenter)
+    autodoc.add_documenter(MethodDocumenter)
