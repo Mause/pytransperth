@@ -309,8 +309,14 @@ class BetterSigMixin():
         if self.args is None and self.env.config.autodoc_docstring_signature:
 
             sig = build_signature(self.object)
+            sig = sig + (self.object.__doc__ or '')
 
-            self.object.__doc__ = sig + (self.object.__doc__ or '')
+            try:
+                self.object.__doc__ = sig
+            except AttributeError:
+                # we can't write directly to the __doc__ attribute of methods,
+                # so we write to the corresponding function
+                self.object.__func__.__doc__ = sig
 
             # only act if a signature is not explicitly given already, and if
             # the feature is enabled
