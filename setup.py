@@ -23,20 +23,21 @@ long_description = read(
 )
 
 
-setup(
-    name='transperth',
-    version=transperth.__version__,
-    url='http://github.com/Mause/transperth/',
-    license='MIT',
-    author='Dominic May',
-    author_email='me@mause.me',
+config = {
+    'name': 'transperth',
+    'version': transperth.__version__,
+    'url': 'http://github.com/Mause/transperth/',
+    'license': 'MIT',
+    'author': 'Dominic May',
+    'author_email': 'me@mause.me',
     # description='Automated REST APIs for existing database-driven systems',
     # long_description=long_description,
-    packages=['transperth'],
+    'packages': ['transperth'],
+    'install_requires': ['lxml'],  # no idea why
     # include_package_data=True,
-    platforms='any',
-    test_suite='tests.suite',
-    classifiers=[
+    'platforms': 'any',
+    'test_suite': 'tests.suite',
+    'classifiers': [
         'Programming Language :: Python',
         'Development Status :: 2 - Pre-Alpha',
         'Natural Language :: English',
@@ -47,5 +48,8 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-    ],
-)
+    ]
+}
+
+
+setup(**config)
