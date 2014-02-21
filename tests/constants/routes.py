@@ -1,10 +1,10 @@
-from transperth.location import LocationT
+from transperth.location import ResolvedLocation
 
 ROUTES = {
     'to': [
-        LocationT('LOCATION1', 'LOCATION1~~;')
+        ResolvedLocation('LOCATION1', 'LOCATION1~~;')
     ],
     'from': [
-        LocationT('LOCATION2', 'LOCATION2~~;')
+        ResolvedLocation('LOCATION2', 'LOCATION2~~;')
     ]
 }

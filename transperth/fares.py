@@ -10,7 +10,7 @@ import requests
 from . import BASE
 from .utils import clean
 from .routes import determine_routes
-from .location import Location, LocationT
+from .location import Location, ResolvedLocation
 from .exceptions import NoFareData
 
 FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx'
@@ -20,8 +20,8 @@ __all__ = ['determine_fare']
 
 
 def determine_fare(
-        from_loco: Location or LocationT,
-        to_loco: Location or LocationT) -> dict:
+        from_loco: Location or ResolvedLocation,
+        to_loco: Location or ResolvedLocation) -> dict:
     """
     Returns the fare for the recommended route from `from_loco` to
     `to_loco` in the format;

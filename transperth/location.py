@@ -15,7 +15,7 @@ __all__ = [
     'determine_location',
     'Location',
     'parse_locations',
-    'LocationT'
+    'ResolvedLocation'
 ]
 
 
@@ -30,7 +30,7 @@ class Location():
 
 def determine_location(from_loco: Location, to_loco: Location) -> dict:
     """
-    Takes two location objects, and returns a dict of lists of LocationTs
+    Takes two location objects, and returns a dict of lists of ResolvedLocation
     mapping possible corresponding real world locations and their codes.
 
     See :func:`parse_locations` for precise output format.
@@ -70,7 +70,7 @@ def parse_locations(locations: str) -> dict:
 
         {
             "from": [
-                LocationT('<NAME>', '<CODE>')
+                ResolvedLocation('<NAME>', '<CODE>')
             ]
         }
     """
@@ -78,7 +78,7 @@ def parse_locations(locations: str) -> dict:
 
     return {
         element.tag.lower(): [
-            LocationT(
+            ResolvedLocation(
                 *clean(se.itertext())
             )
             for se in element
@@ -87,7 +87,7 @@ def parse_locations(locations: str) -> dict:
     }
 
 
-class LocationT(namedtuple('LocationT', 'name,code')):
+class ResolvedLocation(namedtuple('ResolvedLocation', 'name,code')):
     """
     Represents a location as considered by the transperth api
     """
@@ -95,7 +95,7 @@ class LocationT(namedtuple('LocationT', 'name,code')):
 
 class Location(object):
     """
-    Represents a location that has not been resolved into a (LocationT)
+    Represents a location that has not been resolved into a (ResolvedLocation)
     location code
     """
 

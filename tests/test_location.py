@@ -33,13 +33,13 @@ class TestLocationUtils(unittest.TestCase):
         parse_locations.assert_called_with('TEXT')
 
     def test_parse_locations(self):
-        from transperth.location import parse_locations, LocationT
+        from transperth.location import parse_locations, ResolvedLocation
 
         ret = parse_locations(LOCATION_XML)
 
         self.assertEqual(
             ret,
-            {'from': [LocationT('Name', 'Code')]}
+            {'from': [ResolvedLocation('Name', 'Code')]}
         )
 
 

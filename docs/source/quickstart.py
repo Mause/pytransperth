@@ -1,5 +1,5 @@
 # create the Location object you wish to resolve;
-from transperth.location import Location, LocationT, determine_location
+from transperth.location import Location, ResolvedLocation, determine_location
 
 from_location = Location.from_stop('12111')
 to_location = Location.from_stop('20000')
@@ -10,7 +10,7 @@ locations = determine_location(from_location, to_location)
 # determine_location will return a dictionary like so;
 {
     '<DIRECTION>': [
-        LocationT('<NAME>', '<CODE>'),
+        ResolvedLocation('<NAME>', '<CODE>'),
         # etc
     ]
 }
