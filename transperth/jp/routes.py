@@ -1,6 +1,6 @@
 import requests
 
-from . import BASE
+from .. import BASE
 from .location import determine_location, are_locations
 from .route_parser import parse_routes
 from .utils import format_date

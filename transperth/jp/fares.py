@@ -4,10 +4,9 @@ circumstances
 """
 
 from lxml import etree
-
 import requests
 
-from . import BASE
+from .. import BASE
 from .utils import clean
 from .routes import determine_routes
 from .location import Location, ResolvedLocation

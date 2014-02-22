@@ -4,7 +4,7 @@ from collections import namedtuple
 
 import requests
 
-from . import BASE
+from .. import BASE
 from .utils import format_date, clean
 from .exceptions import InvalidStopNumber, InvalidDirection
 
