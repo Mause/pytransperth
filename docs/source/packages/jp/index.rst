@@ -1,4 +1,4 @@
-:mod:`transperth` Package
+:mod:`jp` Package
 -------------------------
 
 .. toctree::

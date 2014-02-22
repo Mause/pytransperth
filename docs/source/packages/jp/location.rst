@@ -1,6 +1,6 @@
 :mod:`location` Module
 ----------------------
 
-.. automodule:: transperth.location
+.. automodule:: transperth.jp.location
     :members:
     :undoc-members:

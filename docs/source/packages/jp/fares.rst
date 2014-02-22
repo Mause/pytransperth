@@ -1,7 +1,7 @@
 :mod:`fares` Module
 -------------------
 
-.. automodule:: transperth.fares
+.. automodule:: transperth.jp.fares
     :members:
     :undoc-members:
     :show-inheritance:

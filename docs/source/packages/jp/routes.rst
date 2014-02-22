@@ -1,7 +1,7 @@
 :mod:`routes` Module
 --------------------
 
-.. automodule:: transperth.routes
+.. automodule:: transperth.jp.routes
     :members:
     :undoc-members:
     :show-inheritance:
