@@ -27,17 +27,17 @@ class TestRouteParserInterface(unittest.TestCase):
     """
 
     def test_parse_routes(self):
-        from transperth.route_parser import parse_routes
+        from transperth.jp.route_parser import parse_routes
 
         parse_routes(ROUTES)
 
 
 class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
-    @patch('transperth.route_parser._parse_duration')
-    @patch('transperth.route_parser._parse_links')
-    @patch('transperth.route_parser._parse_misc')
+    @patch('transperth.jp.route_parser._parse_duration')
+    @patch('transperth.jp.route_parser._parse_links')
+    @patch('transperth.jp.route_parser._parse_misc')
     def test_parse_header(self, _parse_misc, _parse_links, _parse_duration):
-        from transperth.route_parser import _parse_header
+        from transperth.jp.route_parser import _parse_header
 
         _parse_header(HEADER)
 
@@ -56,11 +56,11 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             'DURATION'
         )
 
-    @patch('transperth.route_parser._parse_img')
+    @patch('transperth.jp.route_parser._parse_img')
     def test_parse_links(self, _parse_img):
         _parse_img.return_value = ('key', 'value')
 
-        from transperth.route_parser import _parse_links
+        from transperth.jp.route_parser import _parse_links
 
         ret = _parse_links(LINKS)
 
@@ -82,7 +82,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         )
 
     def test_parse_img(self):
-        from transperth.route_parser import _parse_img
+        from transperth.jp.route_parser import _parse_img
 
         ret = _parse_img(IMG)
 
@@ -95,7 +95,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         )
 
     def test_parse_duration(self):
-        from transperth.route_parser import _parse_duration
+        from transperth.jp.route_parser import _parse_duration
 
         self.assertEqual(
             _parse_duration(DURATION),
@@ -103,7 +103,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         )
 
     def test_parse_misc(self):
-        from transperth.route_parser import _parse_misc
+        from transperth.jp.route_parser import _parse_misc
 
         ret = _parse_misc(MISC)
 
@@ -117,9 +117,9 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             }
         )
 
-    @patch('transperth.route_parser._parse_step')
+    @patch('transperth.jp.route_parser._parse_step')
     def test_parse_steps(self, _parse_step):
-        from transperth.route_parser import _parse_steps
+        from transperth.jp.route_parser import _parse_steps
 
         _parse_steps(['IGNORED', STEPS])
 
@@ -133,9 +133,9 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             E.TABLE('STEP2')
         )
 
-    @patch('transperth.route_parser._parse_bus_step')
+    @patch('transperth.jp.route_parser._parse_bus_step')
     def test_parse_step_bus(self, _parse_bus_step):
-        from transperth.route_parser import _parse_step
+        from transperth.jp.route_parser import _parse_step
 
         _parse_step(STEP_BUS)
 
@@ -145,9 +145,9 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             'THREE'
         ])
 
-    @patch('transperth.route_parser._parse_train_step')
+    @patch('transperth.jp.route_parser._parse_train_step')
     def test_parse_step_train(self, _parse_train_step):
-        from transperth.route_parser import _parse_step
+        from transperth.jp.route_parser import _parse_step
 
         _parse_step(STEP_TRAIN)
 
@@ -157,9 +157,9 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             'THREE'
         ])
 
-    @patch('transperth.route_parser._parse_walk_step')
+    @patch('transperth.jp.route_parser._parse_walk_step')
     def test_parse_step_walk(self, _parse_walk_step):
-        from transperth.route_parser import _parse_step
+        from transperth.jp.route_parser import _parse_step
 
         _parse_step(STEP_WALK)
 
@@ -170,16 +170,16 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         ])
 
     def test_parse_step_invalid(self):
-        from transperth.route_parser import _parse_step
-        from transperth.exceptions import InvalidStep
+        from transperth.jp.route_parser import _parse_step
+        from transperth.jp.exceptions import InvalidStep
 
         with self.assertRaises(InvalidStep):
             _parse_step(STEP_INVALID)
 
-    @patch('transperth.route_parser._parse_time')
-    @patch('transperth.route_parser._parse_stop')
+    @patch('transperth.jp.route_parser._parse_time')
+    @patch('transperth.jp.route_parser._parse_stop')
     def test_parse_bus_step(self, _parse_stop, _parse_time):
-        from transperth.route_parser import _parse_bus_step
+        from transperth.jp.route_parser import _parse_bus_step
 
         ret = _parse_bus_step([
             'TIME1',
@@ -219,10 +219,10 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             [call('DEP_STOP_NUM'), call('ARR_STOP_NUM')]
         )
 
-    @patch('transperth.route_parser._parse_time')
-    @patch('transperth.route_parser._parse_stop')
+    @patch('transperth.jp.route_parser._parse_time')
+    @patch('transperth.jp.route_parser._parse_stop')
     def test_parse_train_step(self, _parse_stop, _parse_time):
-        from transperth.route_parser import _parse_train_step
+        from transperth.jp.route_parser import _parse_train_step
 
         ret = _parse_train_step([
             'TIME1',
@@ -253,9 +253,9 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             [call('TIME1'), call('TIME2')]
         )
 
-    @patch('transperth.route_parser._parse_time')
+    @patch('transperth.jp.route_parser._parse_time')
     def test_parse_walk_step(self, _parse_time):
-        from transperth.route_parser import _parse_walk_step
+        from transperth.jp.route_parser import _parse_walk_step
 
         ret = _parse_walk_step([
             '111 m',
@@ -274,7 +274,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         _parse_time.assert_called_with('DEPARTURE')
 
     def test_parse_time(self):
-        from transperth.route_parser import _parse_time
+        from transperth.jp.route_parser import _parse_time
 
         ret = _parse_time(
             '\t          10:10 PM \t\t'
@@ -286,7 +286,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         )
 
     def test_parse_stop(self):
-        from transperth.route_parser import _parse_stop
+        from transperth.jp.route_parser import _parse_stop
 
         ret = _parse_stop(
             '(Stop number: 111111)'

@@ -6,12 +6,12 @@ from constants.routes import ROUTES
 
 class TestRoutes(unittest.TestCase):
     # for some reason we have to patch this
-    @patch('transperth.routes.determine_location', return_value=ROUTES)
-    # instead of transperth.location.determine_location
-    @patch('transperth.routes._routes')
+    @patch('transperth.jp.routes.determine_location', return_value=ROUTES)
+    # instead of transperth.jp.location.determine_location
+    @patch('transperth.jp.routes._routes')
     def test_determine_routes(self, _routes, determine_location):
-        from transperth.location import Location
-        from transperth.routes import determine_routes
+        from transperth.jp.location import Location
+        from transperth.jp.routes import determine_routes
 
         determine_routes(
             Location.from_location('LOCATION1'),

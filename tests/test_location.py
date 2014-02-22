@@ -14,7 +14,7 @@ sys.path.insert(0, MODULE_DIR)
 
 class TestLocationUtils(unittest.TestCase):
     @responses.activate
-    @patch('transperth.location.parse_locations')
+    @patch('transperth.jp.location.parse_locations')
     def test_determine_location(self, parse_locations):
         responses.add(
             responses.GET,
@@ -23,7 +23,7 @@ class TestLocationUtils(unittest.TestCase):
             body='TEXT'.encode()
         )
 
-        from transperth.location import determine_location, Location
+        from transperth.jp.location import determine_location, Location
 
         determine_location(
             Location.from_location('Curtin University, Perth'),
@@ -33,7 +33,7 @@ class TestLocationUtils(unittest.TestCase):
         parse_locations.assert_called_with('TEXT')
 
     def test_parse_locations(self):
-        from transperth.location import parse_locations, ResolvedLocation
+        from transperth.jp.location import parse_locations, ResolvedLocation
 
         ret = parse_locations(LOCATION_XML)
 
@@ -45,7 +45,7 @@ class TestLocationUtils(unittest.TestCase):
 
 class TestLocationClass(unittest.TestCase):
     def test_initialisation(self):
-        from transperth.location import Location
+        from transperth.jp.location import Location
 
         self.assertEqual(
             Location({'hello': 'world'})._data,
@@ -60,7 +60,7 @@ class TestLocationClass(unittest.TestCase):
         )
 
     def test_from_address(self):
-        from transperth.location import Location
+        from transperth.jp.location import Location
 
         self.assertEqual(
             Location.from_address('STREET', 'SUBURB')._data,
@@ -75,7 +75,7 @@ class TestLocationClass(unittest.TestCase):
         )
 
     def test_from_stop(self):
-        from transperth.location import Location
+        from transperth.jp.location import Location
 
         self.assertEqual(
             Location.from_stop('11111')._data,
@@ -90,21 +90,21 @@ class TestLocationClass(unittest.TestCase):
         )
 
     def test_from_stop_invalid_exception_string(self):
-        from transperth.location import Location
-        from transperth.exceptions import InvalidStopNumber
+        from transperth.jp.location import Location
+        from transperth.jp.exceptions import InvalidStopNumber
 
         with self.assertRaises(InvalidStopNumber):
             Location.from_stop('1111')
 
     def test_from_stop_invalid_exception_integer(self):
-        from transperth.location import Location
-        from transperth.exceptions import InvalidStopNumber
+        from transperth.jp.location import Location
+        from transperth.jp.exceptions import InvalidStopNumber
 
         with self.assertRaises(InvalidStopNumber):
             Location.from_stop(1111)
 
     def test_from_location(self):
-        from transperth.location import Location
+        from transperth.jp.location import Location
 
         self.assertEqual(
             Location.from_location('LOCATION')._data,
@@ -119,7 +119,7 @@ class TestLocationClass(unittest.TestCase):
         )
 
     def test_as_(self):
-        from transperth.location import Location
+        from transperth.jp.location import Location
 
         self.assertEqual(
             Location.from_location('LOCATION').as_('to'),
@@ -133,14 +133,14 @@ class TestLocationClass(unittest.TestCase):
         )
 
     def test_as_exception(self):
-        from transperth.location import Location
-        from transperth.exceptions import InvalidDirection
+        from transperth.jp.location import Location
+        from transperth.jp.exceptions import InvalidDirection
 
         with self.assertRaises(InvalidDirection):
             Location.from_location('LOCATION').as_('INVALID')
 
     def test__hash__(self):
-        from transperth.location import Location
+        from transperth.jp.location import Location
 
         # really we are just ensuring that no exceptions are thrown
         # whether or not it actually operates correctly is ensured in the
@@ -149,7 +149,7 @@ class TestLocationClass(unittest.TestCase):
         Location({}).__hash__()
 
     def test__eq__(self):
-        from transperth.location import Location
+        from transperth.jp.location import Location
 
         data = {
             'hello': 'world'

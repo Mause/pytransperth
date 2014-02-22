@@ -1,4 +1,4 @@
-from transperth.location import ResolvedLocation
+from transperth.jp.location import ResolvedLocation
 
 ROUTES = {
     'to': [

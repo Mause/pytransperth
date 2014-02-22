@@ -19,11 +19,11 @@ sys.path.insert(0, MODULE_DIR)
 
 
 class TestFares(unittest.TestCase):
-    @patch('transperth.fares.determine_routes', return_value=FARE_BASIC_ROUTES)
-    @patch('transperth.fares._get_fare')
+    @patch('transperth.jp.fares.determine_routes', return_value=FARE_BASIC_ROUTES)
+    @patch('transperth.jp.fares._get_fare')
     def test_determine_fare(self, _get_fare, determine_routes):
-        from transperth.location import Location
-        from transperth.fares import determine_fare
+        from transperth.jp.location import Location
+        from transperth.jp.fares import determine_fare
 
         locos = [
             Location.from_location('Esplanade'),
@@ -36,11 +36,11 @@ class TestFares(unittest.TestCase):
         determine_routes.assert_called_with(*locos)
         _get_fare.assert_called_with('fare', 'request', 'args')
 
-    @patch('transperth.fares.determine_routes', return_value=NO_FARE_DATA)
+    @patch('transperth.jp.fares.determine_routes', return_value=NO_FARE_DATA)
     def test_determine_fare_no_data(self, determine_routes):
-        from transperth.location import Location
-        from transperth.fares import determine_fare
-        from transperth.exceptions import NoFareData
+        from transperth.jp.location import Location
+        from transperth.jp.fares import determine_fare
+        from transperth.jp.exceptions import NoFareData
 
         locos = [
             Location.from_location('Esplanade'),
@@ -51,7 +51,7 @@ class TestFares(unittest.TestCase):
         with self.assertRaises(NoFareData):
             determine_fare(*locos)
 
-    @patch('transperth.fares.parse_fares')
+    @patch('transperth.jp.fares.parse_fares')
     @responses.activate
     def test__get_fare(self, parse_fares):
         # far better than just mocking out requests
@@ -62,14 +62,14 @@ class TestFares(unittest.TestCase):
             body=FARE_BASIC_XML.encode()
         )
 
-        from transperth.fares import _get_fare
+        from transperth.jp.fares import _get_fare
 
         _get_fare(1, '00/00/0000', *range(18))
 
         parse_fares.assert_called_with(FARE_BASIC_XML)
 
     def test_parse_fares(self):
-        from transperth.fares import parse_fares
+        from transperth.jp.fares import parse_fares
 
         # test the function
         ret = parse_fares(FARE_BASIC_XML)
@@ -77,7 +77,7 @@ class TestFares(unittest.TestCase):
         self.assertEqual(ret, FARE_OUTPUT)
 
     def test_parse_money(self):
-        from transperth.fares import parse_money
+        from transperth.jp.fares import parse_money
 
         # test the function
         ret = parse_money('$111.111')

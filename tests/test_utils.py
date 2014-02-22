@@ -4,7 +4,7 @@ import datetime
 
 class TestUtils(unittest.TestCase):
     def test_format_date(self):
-        from transperth.location import format_date
+        from transperth.jp.location import format_date
 
         d = datetime.datetime(2014, 2, 13)
 
@@ -14,7 +14,7 @@ class TestUtils(unittest.TestCase):
         )
 
     def test_clean(self):
-        from transperth.utils import clean
+        from transperth.jp.utils import clean
 
         ret = clean([
             '    ',
