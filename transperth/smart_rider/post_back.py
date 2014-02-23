@@ -149,32 +149,30 @@ def retrieve_postback_settings(document):
 
 def params_from_form(form):
     params = {}
-    for d in form.xpath('.//input'):
-        f = d.name
-        if not f or f == "ScriptManager":
+    for el in form.xpath('.//input'):
+        el_name = el.name
+        if not el_name or el_name == "ScriptManager":
             continue
 
-        m = d.tag.upper()
+        tag = el.tag.upper()
 
-        if m == "INPUT":
-            k = d.type
-            if (k in {"text", "password", "hidden"} or
-                    k in {"checkbox", "radio"} and d.checked):
-                params[f] = d.value if d.value is not None else ''
+        if tag == "INPUT":
+            el_type = el.type.lower()
+            if (el_type in {"text", "password", "hidden"} or
+                    el_type in {"checkbox", "radio"} and el.checked):
 
-        elif m == "SELECT":
-            raise NotImplementedError()
-            # u = d.options.length
-            # for (o = 0; o < u; o++):
-            #     q = d.options[o]
-            #     if (q.selected):
-            #         params[f] = q.value
-            #     }
-            # }
-        elif (m == "TEXTAREA"):
-            params[f] = d.value
+                params[el_name] = '' if el.value is None else el.value
+
+        elif tag == "SELECT":
+            for option in el:
+                if option.attrib['selected'] is True:
+                    params[el_name] = option.value
+            raise Exception()
+
+        elif (tag == "TEXTAREA"):
+            params[el_name] = el.value
         else:
-            raise Exception(m)
+            raise Exception(tag)
 
     return params
 
