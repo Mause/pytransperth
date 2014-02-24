@@ -119,32 +119,20 @@ def _get_post_back_settings(document, a, c):
         return b
 
 
-def retrieve_postback_settings(document):
-    a = (
-        "dnn$"
-        "ctr2061$"
-        "SmartRiderTransactions$"
-        "rgTransactions$"
-        "ctl00$"
-        "ctl02$"
-        "ctl00$"
-        "ctl00"
-    )
-    print(a)
+def retrieve_postback_settings(document, action_code):
+    el_id = _unique_ID_to_client_ID(action_code)
+    el = document.get_element_by_id(el_id, None)
 
-    f = _unique_ID_to_client_ID(a)
-    d = document.get_element_by_id(f, None)
-
-    if d is None:
-        c = _find_nearest_element(document, a)
+    if el is None:
+        c = _find_nearest_element(document, action_code)
         if c is not None:
-            return _get_post_back_settings(document, c, a)
+            return _get_post_back_settings(document, c, action_code)
         else:
             return _create_post_back_settings(
                 False, None, None
             )
     else:
-        return _get_post_back_settings(document, d, a)
+        return _get_post_back_settings(document, el, action_code)
 
 
 def params_from_form(form):
