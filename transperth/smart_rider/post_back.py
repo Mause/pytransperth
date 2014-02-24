@@ -47,19 +47,19 @@ def _matches_parent_ID_in_list(c, b):
     return False
 
 
-def _find_nearest_element(document, a):
-    while a:
-        d = _unique_ID_to_client_ID(a)
-        c = document.get_element_by_id(d, None)
+def _find_nearest_element(document, target_id):
+    while target_id:
+        el_id = _unique_ID_to_client_ID(target_id)
+        el = document.get_element_by_id(el_id, None)
 
-        if c is not None:
-            return c
+        if el is not None:
+            return el
 
-        if '$' not in a:
+        if '$' not in target_id:
             return None
 
-        a = '$'.join(
-            a.split('$')[:-1]
+        target_id = '$'.join(
+            target_id.split('$')[:-1]
         )
 
     return None
