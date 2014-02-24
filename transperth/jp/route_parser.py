@@ -93,16 +93,23 @@ def _parse_links(links) -> dict:
     )
 
 
-def _parse_img(img) -> tuple:
+def _parse_img(img: E.IMG()) -> tuple:
     """
     Grabs the onclick attribute of the given ``<img/>``
-
     :param img: An image tag with an onclick handler containing a function call
-    :returns: a tuple of the function name and function arguments
     """
+
     onclick = img.get('onclick')
 
-    name, args = FUNCTIONCALL_RE.match(onclick).groups()
+    return _parse_function_call(onclick)
+
+
+def _parse_function_call(call_string: str) -> tuple:
+    """
+    :returns: a tuple of the function name and function arguments
+    """
+
+    name, args = FUNCTIONCALL_RE.match(call_string).groups()
 
     clean_args = []
     for arg in map(str.strip, args.split(',')):
