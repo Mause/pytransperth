@@ -165,40 +165,17 @@ def params_from_form(form):
     return params
 
 
-def post_back(session, document, form, code, date_from, date_to):
+def post_back(session, document, form, action_code, extra_params=None):
     params = params_from_form(form)
 
-    _postBackSettings = retrieve_postback_settings(document)
+    # load in the extra parameters
+    params.update(extra_params or {})
+
+    _postBackSettings = retrieve_postback_settings(document, action_code)
     params["ScriptManager"] = _postBackSettings['panelID']
+    params['__EVENTTARGET'] = action_code
+    params.setdefault('__EVENTARGUMENT', '')
 
-    # add in date range
-    params.update({
-        'dnn$ctr2061$SmartRiderTransactions$rdFromDate': (
-            date_from.strftime('%Y-%d-%m')
-        ),
-        'dnn$ctr2061$SmartRiderTransactions$rdFromDate$dateInput': (
-            date_from.strftime('%Y-%d-%m-00-00-00')
-        ),
-        'dnn$ctr2061$SmartRiderTransactions$rdToDate': (
-            date_to.strftime('%Y-%d-%m')
-        ),
-        'dnn$ctr2061$SmartRiderTransactions$rdToDate$dateInput': (
-            date_to.strftime('%Y-%d-%m-00-00-00')
-        )
-    })
-
-    # add in smart rider card selection, for those special few with
-    # more than one
-    params['dnn$ctr2061$SmartRiderTransactions$ddlSmartCardNumber'] = code
-
-    params.update({
-        '__EVENTARGUMENT': (
-            'FireCommand:'
-            'dnn$ctr2061$SmartRiderTransactions$rgTransactions$ctl00;'
-            'PageSize;'
-            '50'
-        )
-    })
     # 'dnn$ctr2061$SmartRiderTransactions$rgTransactions$ctl00$ctl03$ctl01'
     # '$PageSizeComboBox': 50,
     # 'dnn_ctr2061_SmartRiderTransactions_rgTransactions_ctl00_ctl03_ctl01_'
