@@ -1,3 +1,11 @@
+import os
+import sys
+sys.path.insert(
+    0,
+    os.path.join(os.path.dirname(__file__), '..', '..')
+)
+
+
 # create the Location object you wish to resolve;
 from transperth.location import Location, ResolvedLocation, determine_location
 

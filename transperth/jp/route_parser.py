@@ -1,5 +1,6 @@
 from itertools import chain
 from lxml import html, etree
+from lxml.html import builder as E
 import datetime
 import re
 import time
