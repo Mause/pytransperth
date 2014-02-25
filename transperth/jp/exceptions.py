@@ -18,7 +18,7 @@ class InvalidDirection(TransperthException):
 
 class InvalidStep(TransperthException):
     """
-    Thrown when a step is not one of 'bus', 'walk', 'train'
+    Thrown when a step is not one of 'bus', 'walk', or 'train'
     """
 
 
