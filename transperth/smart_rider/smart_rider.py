@@ -125,7 +125,7 @@ def login(username, password):
     return TransperthSession(s)
 
 
-def _get_smart_rider(root):
+def _get_smart_rider_actions(root: str) -> dict:
     root = html.document_fromstring(root)
 
     table = root.xpath("//table[@class='rgMasterTable']")[0]

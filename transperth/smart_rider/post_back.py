@@ -135,7 +135,7 @@ def retrieve_postback_settings(document, action_code):
         return _get_post_back_settings(document, el, action_code)
 
 
-def params_from_form(form):
+def params_from_form(form) -> dict:
     params = {}
     for el in form.xpath('.//input'):
         el_name = el.name
