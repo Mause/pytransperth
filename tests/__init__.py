@@ -6,13 +6,21 @@ import unittest
 MODULE_DIR = join(dirname(__file__), '..')
 MODULE_DIR = abspath(MODULE_DIR)
 
+is_test = lambda filename: (
+    filename.startswith('test_') and
+    filename.endswith('.py')
+)
+
 
 def walker(opath='.'):
+    # walk the directory tree
     for path, folders, files in walk(opath):
         for filename in files:
-            if filename.startswith('test_') and filename.endswith('.py'):
+            if is_test(filename):
+                # get the path minus the origin path
                 rpath = relpath(path, opath)
 
+                # build up the import path
                 yield (rpath + '.' + splitext(filename)[0]).strip('.')
 
 
