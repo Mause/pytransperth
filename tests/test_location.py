@@ -20,8 +20,7 @@ class TestLocationUtils(unittest.TestCase):
         responses.add(
             responses.GET,
             BASE + 'DesktopModules/JourneyPlanner/JP.aspx',
-            body='TEXT'.encode(),
-            match_querystring=False
+            body='TEXT'.encode()
         )
 
         from transperth.jp.location import determine_location, Location
