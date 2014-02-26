@@ -6,133 +6,27 @@ required.
 """
 
 from collections import defaultdict
-from pprint import pprint
 
-# from .. import BASE
-BASE = 'https://www.transperth.wa.gov.au/'
-
-_async_post_back_control_client_IDs = set()
-_post_back_control_client_IDs = set()
-_update_panel_client_IDs = [
-    "dnn_ctr2061_SmartRiderTransactions_pnlModuleMessagePanel",
-    "dnn_ctr2061_SmartRiderTransactions_pnlSmartRiderBalancePanel",
-    "dnn_ctr2061_SmartRiderTransactions_rgTransactionsPanel",
-    "dnn_ctr2061_SmartRiderTransactions_rdFromDatePanel",
-    "dnn_ctr2061_SmartRiderTransactions_rdToDatePanel",
-    "RadAjaxManager1SU"
-]
-_update_panel_has_children_as_triggers = [True, True, True, True, True, True]
-_update_panel_IDs = [
-    "dnn$ctr2061$SmartRiderTransactions$pnlModuleMessagePanel",
-    "dnn$ctr2061$SmartRiderTransactions$pnlSmartRiderBalancePanel",
-    "dnn$ctr2061$SmartRiderTransactions$rgTransactionsPanel",
-    "dnn$ctr2061$SmartRiderTransactions$rdFromDatePanel",
-    "dnn$ctr2061$SmartRiderTransactions$rdToDatePanel",
-    "RadAjaxManager1SU"
-]
-_create_post_back_settings = lambda c, b, a: {
-    'async': c,
-    'panelID': b,
-    'sourceElement': a
-}
+from .. import BASE
+from ..jp.utils import clean
+from ..jp.route_parser import _parse_function_call, FUNCTIONCALL_RE
 
 
-_unique_ID_to_client_ID = lambda a: '_'.join(a.split('$'))
+def create_post_back_settings(async: str, panel_ID: str, source_element: str):
+    return {
+        'async': async,
+        'panelID': panel_ID,
+        'sourceElement': source_element
+    }
+
+unique_ID_to_client_ID = lambda a: a.replace('$', '_')
 
 
-def _matches_parent_ID_in_list(c, b):
+def matches_parent_ID_in_list(c, b):
     for a in b:
-        if (c.starts_with(a + "_")):
+        if (c.startswith(a + "_")):
             return True
     return False
-
-
-def _find_nearest_element(document, target_id):
-    while target_id:
-        el_id = _unique_ID_to_client_ID(target_id)
-        el = document.get_element_by_id(el_id, None)
-
-        if el is not None:
-            return el
-
-        if '$' not in target_id:
-            return None
-
-        target_id = '$'.join(
-            target_id.split('$')[:-1]
-        )
-
-    return None
-
-
-def _get_post_back_settings(document, a, c):
-    d = a
-    b = None
-    while a is not None:
-        if a.attrib['id']:
-            if not b and a.attrib['id'] in _async_post_back_control_client_IDs:
-                b = _create_post_back_settings(
-                    True,
-                    'ScriptManager|' + c,
-                    d
-                )
-            elif not b and a.attrib['id'] in _post_back_control_client_IDs:
-                return _create_post_back_settings(False, None, None)
-            else:
-                if a.attrib['id'] in _update_panel_client_IDs:
-                    e = _update_panel_client_IDs.index(a.attrib['id'])
-                else:
-                    e = -1
-
-                if e != -1:
-                    if (_update_panel_has_children_as_triggers[e]):
-                        return _create_post_back_settings(
-                            True,
-                            _update_panel_IDs[e] + "|" + c,
-                            d
-                        )
-                    else:
-                        return _create_post_back_settings(
-                            True,
-                            'ScriptManager|' + c,
-                            d
-                        )
-
-            if not b:
-                if _matches_parent_ID_in_list(
-                        a.attrib['id'],
-                        _async_post_back_control_client_IDs):
-                    b = _create_post_back_settings(
-                        True,
-                        'ScriptManager|' + c,
-                        d
-                    )
-                elif _matches_parent_ID_in_list(a.attrib['id'],
-                                                _post_back_control_client_IDs):
-                    return _create_post_back_settings(False, None, None)
-
-        a = a.getparent()
-
-    if (not b):
-        return _create_post_back_settings(False, None, None)
-    else:
-        return b
-
-
-def retrieve_postback_settings(document, action_code):
-    el_id = _unique_ID_to_client_ID(action_code)
-    el = document.get_element_by_id(el_id, None)
-
-    if el is None:
-        c = _find_nearest_element(document, action_code)
-        if c is not None:
-            return _get_post_back_settings(document, c, action_code)
-        else:
-            return _create_post_back_settings(
-                False, None, None
-            )
-    else:
-        return _get_post_back_settings(document, el, action_code)
 
 
 def params_from_form(form) -> dict:
@@ -163,43 +57,6 @@ def params_from_form(form) -> dict:
             raise Exception(tag)
 
     return params
-
-
-def post_back(session, document, form, action_code, extra_params=None):
-    params = params_from_form(form)
-
-    # load in the extra parameters
-    params.update(extra_params or {})
-
-    _postBackSettings = retrieve_postback_settings(document, action_code)
-    params["ScriptManager"] = _postBackSettings['panelID']
-    params['__EVENTTARGET'] = action_code
-    params.setdefault('__EVENTARGUMENT', '')
-
-    # 'dnn$ctr2061$SmartRiderTransactions$rgTransactions$ctl00$ctl03$ctl01'
-    # '$PageSizeComboBox': 50,
-    # 'dnn_ctr2061_SmartRiderTransactions_rgTransactions_ctl00_ctl03_ctl01_'
-    # 'PageSizeComboBox_ClientState': '',
-    # 'dnn_ctr2061_SmartRiderTransactions_rgTransactions_ctl00_ctl03_ctl01_'
-    # 'PageSizeComboBox_ClientState': (
-    #     '{"logEntries": [],"value": "50","text": "50","enabled": true}'
-    # )
-
-    pprint(params)
-
-    r = session.post(
-        BASE + "TravelEasy/MySmartRider/tabid/71/Default.aspx",
-        data=params,
-        headers={
-            "X-MicrosoftAjax": "Delta=true",
-            "Cache-Control": "no-cache",
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 6.1; WOW64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/32.0.1700.107 Safari/537.36)"
-            )
-        }
-    )
 
 
 def parse_delta(raw_delta: str) -> str:
@@ -238,3 +95,268 @@ def parse_delta(raw_delta: str) -> str:
         })
 
     return updates
+
+
+class PageRequestManagerOriginal(object):
+    def __init__(self, url: str, document=None):
+        self.url = url
+        self.document = document
+
+        self._active_default_button = None
+        self._active_default_button_clicked = False
+        self._update_panel_IDs = [
+            "dnn$ctr2061$SmartRiderTransactions$pnlModuleMessagePanel",
+            "dnn$ctr2061$SmartRiderTransactions$pnlSmartRiderBalancePanel",
+            "dnn$ctr2061$SmartRiderTransactions$rgTransactionsPanel",
+            "dnn$ctr2061$SmartRiderTransactions$rdFromDatePanel",
+            "dnn$ctr2061$SmartRiderTransactions$rdToDatePanel",
+            "RadAjaxManager1SU"
+        ]
+        self._update_panel_client_IDs = [
+            "dnn_ctr2061_SmartRiderTransactions_pnlModuleMessagePanel",
+            "dnn_ctr2061_SmartRiderTransactions_pnlSmartRiderBalancePanel",
+            "dnn_ctr2061_SmartRiderTransactions_rgTransactionsPanel",
+            "dnn_ctr2061_SmartRiderTransactions_rdFromDatePanel",
+            "dnn_ctr2061_SmartRiderTransactions_rdToDatePanel",
+            "RadAjaxManager1SU"
+        ]
+        self._update_panel_has_children_as_triggers = [
+            True, True, True, True, True, True
+        ]
+        self._async_post_back_control_IDs = None
+        self._async_post_back_control_client_IDs = [
+            "dnn_ctr2061_SmartRiderTransactions_ddlSmartCardNumber",
+            "dnn_ctr2061_SmartRiderTransactions_rgTransactions",
+            "dnn_ctr2061_SmartRiderTransactions_rdToDate",
+            "dnn_ctr2061_SmartRiderTransactions_rdFromDate"
+        ]
+        self._post_back_control_IDs = None
+        self._post_back_control_client_IDs = []
+        self._script_manager_ID = None or 'ScriptManager'
+        self._page_loaded_handler = None
+        self._additional_input = None
+        self._onsubmit = None
+        self._on_submit_statements = []
+        self._original_do_post_back = None
+        self._original_do_post_back_with_options = None
+        self._original_fire_default_button = None
+        self._original_do_callback = None
+        self._is_cross_post = False
+        self._post_back_settings = None
+        self._request = None
+        self._on_form_submit_handler = None
+        self._on_form_element_click_handler = None
+        self._on_window_unload_handler = None
+        self._async_post_back_timeout = None
+        self._control_ID_to_focus = None
+        self._scroll_position = None
+        self._processing_request = False
+        self._script_disposes = {}
+        self._transient_fields = [
+            "__VIEWSTATEENCRYPTED",
+            "__VIEWSTATEFIELDCOUNT"
+        ]
+
+        if self.document is not None:
+            self.initalise_from_document()
+
+    @property
+    def _form(self):
+        return self.document.forms[0]
+
+    def find_nearest_element(self, target_id):
+        """
+        Find the nearest element as consider by the path dictated by
+        `target_id`
+        """
+        while target_id:
+            el_id = unique_ID_to_client_ID(target_id)
+            el = self.document.get_element_by_id(el_id, None)
+
+            if el is not None:
+                return el
+
+            if '$' not in target_id:
+                return None
+
+            # remove the latter most section
+            target_id = '$'.join(
+                target_id.split('$')[:-1]
+            )
+
+        return None
+
+    def get_post_back_settings(self, a, c):
+        d = a
+        b = None
+        while a is not None:
+            if a.attrib.get('id'):
+                if (not b and
+                        a.attrib['id'] in self._async_post_back_control_client_IDs):
+                    b = create_post_back_settings(
+                        True,
+                        self._script_manager_ID + '|' + c,
+                        d
+                    )
+                elif (not b and
+                        a.attrib['id'] in self._post_back_control_client_IDs):
+                    return create_post_back_settings(False, None, None)
+                else:
+                    if a.attrib['id'] in self._update_panel_client_IDs:
+                        e = self._update_panel_client_IDs.index(a.attrib['id'])
+                    else:
+                        e = -1
+
+                    if e != -1:
+                        if (self._update_panel_has_children_as_triggers[e]):
+                            return create_post_back_settings(
+                                True,
+                                self._update_panel_IDs[e] + "|" + c,
+                                d
+                            )
+                        else:
+                            return create_post_back_settings(
+                                True,
+                                self._script_manager_ID + '|' + c,
+                                d
+                            )
+
+                if not b:
+                    if matches_parent_ID_in_list(
+                            a.attrib['id'],
+                            self._async_post_back_control_client_IDs):
+                        b = create_post_back_settings(
+                            True,
+                            self._script_manager_ID + '|' + c,
+                            d
+                        )
+                    elif matches_parent_ID_in_list(
+                            a.attrib['id'],
+                            self._post_back_control_client_IDs):
+                        return create_post_back_settings(False, None, None)
+
+            a = a.getparent()
+
+        if (not b):
+            return create_post_back_settings(False, None, None)
+        else:
+            return b
+
+    def retrieve_postback_settings(self, action_code):
+        el_id = unique_ID_to_client_ID(action_code)
+        el = self.document.get_element_by_id(el_id, None)
+
+        if el is None:
+            c = self.find_nearest_element(action_code)
+            if c is not None:
+                return self.get_post_back_settings(c, action_code)
+            else:
+                return create_post_back_settings(
+                    False, None, None
+                )
+        else:
+            return self.get_post_back_settings(el, action_code)
+
+    def post_back(self, session, action_code, extra_params=None):
+        params = params_from_form(self._form)
+
+        # load in the extra parameters
+        params.update(extra_params or {})
+
+        _postBackSettings = self.retrieve_postback_settings(action_code)
+        params["ScriptManager"] = _postBackSettings['panelID']
+        params['__EVENTTARGET'] = action_code
+        params.setdefault('__EVENTARGUMENT', '')
+
+        r = session.post(
+            BASE + "TravelEasy/MySmartRider/tabid/71/Default.aspx",
+            data=params,
+            headers={
+                "X-MicrosoftAjax": "Delta=true",
+                "Cache-Control": "no-cache",
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 6.1; WOW64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/32.0.1700.107 Safari/537.36)"
+                )
+            }
+        )
+
+        updates = parse_delta(r.text)
+
+        if (updates['pageRedirect'] or
+                '/TravelEasy/tabid/69/Default.aspx?returnurl=' in r.url):
+            raise Exception('Not logged in: {}'.format(
+                updates['pageRedirect'][0]['content']
+            ))
+
+        return updates
+
+
+class PageRequestManagerAugmentations(object):
+    def initalise_from_document(self):
+        return
+        self._form = self.document.forms[0]
+        scripts = self.document.xpath(".//script")
+
+        for script in scripts:
+            if script.attrib.get('src') is None:
+                # try:
+                print(script.text[:150])
+                # except
+                # print(script.text.encode()[:150])
+                if 'PageRequestManager._initialize' in script.text:
+                    print(script.text)
+
+                    lines = clean(script.text.splitlines())
+                    lines = filter(FUNCTIONCALL_RE.search, lines)
+
+                    calls = dict(
+                        map(_parse_function_call, lines)
+                    )
+
+                    from pprint import pprint
+                    pprint(calls)
+
+        # Sys.WebForms.PageRequestManager._initialize(
+        #     'ScriptManager',
+        #     document.get_element_by_Id('Form')
+        # )
+        # Sys.WebForms.PageRequestManager.getInstance().
+        # _updateControls(
+        #     [
+        #         'tdnn$ctr2061$SmartRiderTransactions$pnlModuleMessagePanel',
+        #         'tdnn$ctr2061$SmartRiderTransactions$pnlSmartRiderBalancePanel',
+        #         'tdnn$ctr2061$SmartRiderTransactions$rgTransactionsPanel',
+        #         'tdnn$ctr2061$SmartRiderTransactions$rdFromDatePanel',
+        #         'tdnn$ctr2061$SmartRiderTransactions$rdToDatePanel',
+        #         'tRadAjaxManager1SU'
+        #     ],
+        #     [
+        #         'dnn$ctr2061$SmartRiderTransactions$ddlSmartCardNumber',
+        #         'dnn$ctr2061$SmartRiderTransactions$rgTransactions',
+        #         'dnn$ctr2061$SmartRiderTransactions$rdToDate',
+        #         'dnn$ctr2061$SmartRiderTransactions$rdFromDate'
+        #     ],
+        #     [],
+        #     90
+        # );
+
+        print('fin')
+        raise Exception()
+
+    def possible_actions(self):
+        hrefs = self.document.xpath('//[@href]')
+
+        print(hrefs)
+
+        import IPython
+        IPython.embed()
+
+        # href="javascript:__doPostBack('dnn$dnnSEARCH$cmdSearch','')"
+
+
+class PageRequestManager(
+        PageRequestManagerAugmentations,
+        PageRequestManagerOriginal):
+    pass
