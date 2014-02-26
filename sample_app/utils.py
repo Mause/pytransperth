@@ -26,11 +26,11 @@ def fares_to_table(fares):
     table_rows = [['Fare Type']]
     table_rows[-1].extend(key.title() for key in keys)
 
-    for key in values[0].keys():
+    for key in sorted(values[0].keys()):
         table_rows.append([key.title()])
 
         table_rows[-1].extend(
-            ticket_type[key]
+            '${}'.format(ticket_type[key])
             for ticket_type in values
         )
 
