@@ -83,6 +83,7 @@ def _parse_links(links) -> dict:
     passes them through to _parse_img for parsing
 
     :param links: Element tree containing links
+    :returns: a dictionary mapping functions to their arguments
     """
 
     # TODO: check if these can be melded
@@ -123,6 +124,9 @@ def _parse_function_call(call_string: str) -> tuple:
 
 
 def _parse_duration(duration) -> datetime.timedelta:
+    """
+    :returns: a ``datetime.timedelta`` representing the duration provided
+    """
     duration = duration.find('span')
     duration = list(duration.itertext())[1]
 
@@ -160,12 +164,21 @@ def _parse_misc(misc) -> dict:
 
 
 def _parse_steps(steps) -> list:
+    """
+    :returns: a list of steps
+    """
     steps = steps[1].xpath('td/div/table')
 
     return list(map(_parse_step, steps))
 
 
-def _parse_step(step) -> dict:
+def _parse_step(step: E.TABLE()) -> dict:
+    """
+    Extracts the text from the step, and passes it through to the function
+    denoted by the alt attribute of the ``<img/>`` tag
+
+    :returns: a dictionary representing a step
+    """
     parts = step.xpath('tr/td')
 
     step_type = parts.pop(0).xpath('img/@alt')[0].lower()
@@ -243,6 +256,9 @@ def _parse_walk_step(texts: str) -> dict:
 
 
 def _parse_time(string: str) -> datetime.time:
+    """
+    :returns: the parsed time
+    """
     string = TIME_RE.search(string).groups()[0]
 
     t = time.strptime(string, '%I:%M %p')
