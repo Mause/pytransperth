@@ -50,11 +50,12 @@ def parse_routes(text: str) -> list:
         })
 
         if header['misc']['number_of_legs'] != len(steps):
-            msg = 'Steps parsed incorrectly: {} != {}'.format(
-                header['misc']['number_of_legs'],
-                len(steps)
+            raise Exception(
+                'Steps parsed incorrectly: {} != {}'.format(
+                    header['misc']['number_of_legs'],
+                    len(steps)
+                )
             )
-            raise Exception(msg)
 
     return routes
 
