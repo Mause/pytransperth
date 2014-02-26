@@ -201,25 +201,36 @@ def post_back(session, document, form, action_code, extra_params=None):
         }
     )
 
-    updates = _parse_delta(r.text)
 
-    if updates['pageRedirect']:
-        raise Exception(('Not logged in', updates['pageRedirect']))
+def parse_delta(raw_delta: str) -> str:
+    """
+    Parses the deltas returned by the transperth api to ajax requests.
 
-    return updates
+    They are in the format;
 
+    .. code-block:: none
 
-def _parse_delta(c):
-    updates = defaultdict(list)
-    c = c.split('|')
+        content_length|content_type|content_id|content|
 
-    while c:
-        if c[0] == '':
-            break
-
-        length, frag_type, frag_id, content = (
-            c.pop(0), c.pop(0), c.pop(0), c.pop(0)
+    There can be none, one, or many. This function loops until there
+    are no more to consume.
+    """
+    def grab_section(raw_delta, length=None):
+        return (
+            raw_delta[(length or raw_delta.index('|')) + 1:],
+            raw_delta[:(length or raw_delta.index('|'))]
         )
+
+    updates = defaultdict(list)
+
+    while raw_delta:
+        raw_delta, length = grab_section(raw_delta)
+
+        raw_delta, frag_type = grab_section(raw_delta)
+
+        raw_delta, frag_id = grab_section(raw_delta)
+
+        raw_delta, content = grab_section(raw_delta, int(length))
 
         updates[frag_type].append({
             'id': frag_id,
