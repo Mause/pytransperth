@@ -40,7 +40,7 @@ class TestFares(unittest.TestCase):
     def test_determine_fare_no_data(self, determine_routes):
         from transperth.jp.location import Location
         from transperth.jp.fares import determine_fare
-        from transperth.jp.exceptions import NoFareData
+        from transperth.exceptions import NoFareData
 
         locos = [
             Location.from_location('Esplanade'),

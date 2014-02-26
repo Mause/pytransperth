@@ -5,7 +5,7 @@ import datetime
 import re
 import time
 
-from .exceptions import InvalidStep
+from ..exceptions import InvalidStep
 
 DURATION_RE = re.compile(r'(\d+):(\d+) hrs')
 FUNCTIONCALL_RE = re.compile(r'(\w+)\(([^\)]*)\)')

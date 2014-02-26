@@ -20,6 +20,7 @@ BASE = 'https://www.transperth.wa.gov.au/'
 
 # we actually need a class for the login part of the website,
 # as the session has to be stored somewhere
+from ..exceptions import NotLoggedIn
 
 
 logging.basicConfig(level=logging.DEBUG)

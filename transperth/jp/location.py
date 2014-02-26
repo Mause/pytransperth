@@ -6,7 +6,7 @@ import requests
 
 from .. import BASE
 from .utils import format_date, clean
-from .exceptions import InvalidStopNumber, InvalidDirection
+from ..exceptions import InvalidStopNumber, InvalidDirection
 
 STOPNUM_RE = re.compile(r'\d{5}')
 

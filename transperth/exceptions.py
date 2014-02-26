@@ -27,3 +27,9 @@ class NoFareData(TransperthException):
     Thrown when transperth does not provide data from which we
     can assertain the fare for a route
     """
+
+
+class NotLoggedIn(TransperthException):
+    """
+    Raised when the library detects that the session has expired
+    """

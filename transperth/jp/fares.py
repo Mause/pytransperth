@@ -10,7 +10,7 @@ from .. import BASE
 from .utils import clean
 from .routes import determine_routes
 from .location import Location, ResolvedLocation
-from .exceptions import NoFareData
+from ..exceptions import NoFareData
 
 FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx'
 
