@@ -4,7 +4,7 @@ from collections import namedtuple
 
 import requests
 
-from .. import BASE
+from .. import BASE_HTTP
 from .utils import format_date, clean
 from ..exceptions import InvalidStopNumber, InvalidDirection
 
@@ -37,7 +37,7 @@ def determine_location(from_loco: Location, to_loco: Location) -> dict:
     """
     assert are_locations(from_loco, to_loco)
 
-    URL = BASE + 'DesktopModules/JourneyPlanner/JP.aspx'
+    URL = BASE_HTTP + 'DesktopModules/JourneyPlanner/JP.aspx'
 
     params = {
         'jpDate': format_date(),

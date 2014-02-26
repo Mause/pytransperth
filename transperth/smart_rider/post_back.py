@@ -7,7 +7,7 @@ required.
 
 from collections import defaultdict
 
-from .. import BASE
+from .. import BASE_HTTPS
 from ..jp.utils import clean
 from ..jp.route_parser import _parse_function_call, FUNCTIONCALL_RE
 
@@ -269,7 +269,7 @@ class PageRequestManagerOriginal(object):
         params.setdefault('__EVENTARGUMENT', '')
 
         r = session.post(
-            BASE + "TravelEasy/MySmartRider/tabid/71/Default.aspx",
+            BASE_HTTPS + "TravelEasy/MySmartRider/tabid/71/Default.aspx",
             data=params,
             headers={
                 "X-MicrosoftAjax": "Delta=true",

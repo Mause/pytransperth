@@ -54,10 +54,10 @@ class TestFares(unittest.TestCase):
     @patch('transperth.jp.fares.parse_fares')
     @responses.activate
     def test__get_fare(self, parse_fares):
-        from transperth import BASE
+        from transperth import BASE_HTTP
         responses.add(
             responses.GET,
-            BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx',
+            BASE_HTTP + 'DesktopModules/JourneyPlannerResults/GetFares.aspx',
             body=FARE_BASIC_XML.encode()
         )
 

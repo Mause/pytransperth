@@ -20,6 +20,7 @@ BASE = 'https://www.transperth.wa.gov.au/'
 
 # we actually need a class for the login part of the website,
 # as the session has to be stored somewhere
+from .. import BASE_HTTPS
 from ..exceptions import NotLoggedIn
 
 

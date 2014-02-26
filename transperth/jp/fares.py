@@ -6,13 +6,13 @@ circumstances
 from lxml import etree
 import requests
 
-from .. import BASE
+from .. import BASE_HTTP
 from .utils import clean
 from .routes import determine_routes
 from .location import Location, ResolvedLocation
 from ..exceptions import NoFareData
 
-FARE_URL = BASE + 'DesktopModules/JourneyPlannerResults/GetFares.aspx'
+FARE_URL = BASE_HTTP + 'DesktopModules/JourneyPlannerResults/GetFares.aspx'
 
 
 __all__ = ['determine_fare']

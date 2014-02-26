@@ -1,6 +1,6 @@
 import requests
 
-from .. import BASE
+from .. import BASE_HTTP
 from .location import (
     determine_location,
     are_locations,
@@ -58,7 +58,7 @@ def _routes(from_code, to_code):
 
     return parse_routes(
         requests.get(
-            BASE + 'JourneyPlanner/tabid/233/Default.aspx',
+            BASE_HTTP + 'JourneyPlanner/tabid/233/Default.aspx',
             params=params
         ).text
     )

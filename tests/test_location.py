@@ -16,10 +16,10 @@ class TestLocationUtils(unittest.TestCase):
     @responses.activate
     @patch('transperth.jp.location.parse_locations')
     def test_determine_location(self, parse_locations):
-        from transperth import BASE
+        from transperth import BASE_HTTP
         responses.add(
             responses.GET,
-            BASE + 'DesktopModules/JourneyPlanner/JP.aspx',
+            BASE_HTTP + 'DesktopModules/JourneyPlanner/JP.aspx',
             body='TEXT'.encode()
         )
 
