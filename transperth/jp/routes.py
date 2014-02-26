@@ -1,7 +1,12 @@
 import requests
 
 from .. import BASE
-from .location import determine_location, are_locations
+from .location import (
+    determine_location,
+    are_locations,
+    Location,
+    ResolvedLocation
+)
 from .route_parser import parse_routes
 from .utils import format_date
 
@@ -9,7 +14,9 @@ from .utils import format_date
 __all__ = ['determine_routes']
 
 
-def determine_routes(from_loco, to_loco):
+def determine_routes(
+        from_loco: Location or ResolvedLocation,
+        to_loco: Location or ResolvedLocation) -> list:
     """
     Determine possible routes between the two provided locations
     """

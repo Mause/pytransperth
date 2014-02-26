@@ -14,7 +14,7 @@ def format_date(date=None) -> str:
     return date.strftime('%A, %d %B %Y')
 
 
-def clean(iterator):
+def clean(iterator) -> list:
     """
     Takes an iterator of strings and removes those that consist
     that str.strip considers to consist entirely of whitespace.
