@@ -20,6 +20,7 @@ BASE = 'https://www.transperth.wa.gov.au/'
 
 # we actually need a class for the login part of the website,
 # as the session has to be stored somewhere
+from .post_back import PageRequestManager
 from .. import BASE_HTTPS
 from ..exceptions import NotLoggedIn
 
@@ -35,6 +36,31 @@ class TransperthSession(object):
         self._smart_riders = None
         self._smart_rider_document = None
         self._smart_rider_form = None
+
+        self._request_managers = {}
+
+    def get_rqm(self, url):
+        if url not in self._request_managers:
+
+            r = self.session.get(
+                BASE_HTTPS + url
+            )
+
+            if '?returnurl=' in r.url:
+                raise NotLoggedIn('Not logged in')
+
+            self._request_managers[url] = PageRequestManager(
+                url,
+                html.document_fromstring(r.text)
+            )
+
+        return self._request_managers[url]
+
+    def smart_rider_request_manager(self):
+        return self.get_rqm(
+            # "TravelEasy/MySmartRider/tabid/71/Default.aspx"
+            'TravelEasy/MySmartRider.aspx'
+        )
 
     def smart_riders(self):
         if not self._smart_riders:
