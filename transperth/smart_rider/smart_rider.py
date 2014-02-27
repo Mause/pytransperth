@@ -76,7 +76,8 @@ class TransperthSession(object):
 
     def smart_riders(self) -> dict:
         if not self._smart_riders:
-            select = self.smart_rider_document().get_element_by_id(
+            doc = self.smart_rider_request_manager().document
+            select = doc.get_element_by_id(
                 'dnn_ctr2061_SmartRiderTransactions_ddlSmartCardNumber'
             )
 
