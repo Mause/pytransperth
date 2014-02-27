@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="{{ static_url('ribs/css/Ribs.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ static_url('css/colors.css') }}">
+    </head>
+    <body>
+        <div class="container">
+            <div class="sixteen columns">
+                <div class="row">
+                    {% if is_authenticated() %}
+                        <a href="/logout">
+                            Logout
+                        </a>
+                    {% else %}
+                        <a href="/login">
+                            Login
+                        </a>
+                    {% end %}
+                </div>
+            </div>
+            {% block content %}
+            {% end %}
+        </div>
+    </body>
+</html>
