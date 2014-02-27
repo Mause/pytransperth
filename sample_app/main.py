@@ -1,6 +1,7 @@
 # standard library
 import logging
 import os
+import json
 import sys
 
 here = os.path.dirname(__file__)
@@ -19,6 +20,7 @@ from location_proxy import determine_location
 from utils import fares_to_table, BaseRequestHandler
 from transperth_auth import TransperthAuthMixin
 
+# setup logging
 logging.basicConfig(level=logging.DEBUG)
 tornado.log.enable_pretty_logging()
 
