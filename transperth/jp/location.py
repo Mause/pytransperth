@@ -64,7 +64,7 @@ def determine_location(from_loco: Location, to_loco: Location) -> dict:
 
 def parse_locations(locations: str) -> dict:
     """
-    Takes the (pure) XML from the locations request and returns in the format;
+    Takes the (pure) XML from the locations request and returns it like so;
 
     .. code-block:: python
 
