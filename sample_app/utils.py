@@ -1,10 +1,10 @@
-
 import tornado.web
 import ipy_table
-from transperth.location import Location
+from transperth.jp.location import Location
+from transperth_auth import TransperthAuthMixin
 
 
-class BaseRequestHandler(tornado.web.RequestHandler):
+class BaseRequestHandler(TransperthAuthMixin, tornado.web.RequestHandler):
     @property
     def args(self):
         args = self.request.arguments
@@ -18,6 +18,10 @@ class BaseRequestHandler(tornado.web.RequestHandler):
         return Location.from_location(
             self.get_argument(key)
         )
+
+    def render(self, *args, **kwargs):
+        kwargs['is_authenticated'] = self.is_authenticated
+        return super().render(*args, **kwargs)
 
 
 def fares_to_table(fares):

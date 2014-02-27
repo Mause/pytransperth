@@ -13,8 +13,11 @@ import tornado.web
 
 # application specific
 import transperth.fares
+from transperth.smart_rider.smart_rider import login
+from transperth.exceptions import NotLoggedIn
 from location_proxy import determine_location
 from utils import fares_to_table, BaseRequestHandler
+from transperth_auth import TransperthAuthMixin
 
 logging.basicConfig(level=logging.DEBUG)
 tornado.log.enable_pretty_logging()
@@ -43,14 +46,54 @@ class FaresRequestHandler(BaseRequestHandler):
         self.render('fares_display.html', fares_table=table._repr_html_())
 
 
+
+REASONS = {
+    'session_expired': "Your session has expired. Please login again"
+}
+
+
+class LoginHandler(BaseRequestHandler, TransperthAuthMixin):
+    def get(self):
+        if self.is_authenticated():
+            self.redirect('/')
+
+        reason = self.get_argument('reason', None)
+        reason = REASONS.get(reason)
+
+        self.render('transperth_login.html', reason=reason)
+
+    def post(self):
+        usr, pwd = self.get_argument('username'), self.get_argument('password')
+
+        ts = login(usr, pwd)
+
+        creds = json.dumps(ts.session.cookies.get_dict())
+
+        self.set_secure_cookie('transperth_creds', creds)
+
+        self.redirect('/')
+
+
+class LogoutHandler(BaseRequestHandler):
+    def get(self):
+        self.clear_cookie('transperth_creds')
+
+        self.redirect('/')
+
+
 settings = {
     'debug': True,
-    'template_path': os.path.join(here, 'templates')
+    'template_path': os.path.join(here, 'templates'),
+    'cookie_secret': 'blardyunicurtinblarg',
+    'login_url': '/login'
 }
 
 
 application = tornado.web.Application([
     (r"/fares", FaresRequestHandler)
+
+    (r"/login", LoginHandler),
+    (r"/logout", LogoutHandler)
 ], **settings)
 
 if __name__ == "__main__":
