@@ -24,7 +24,7 @@ logging.basicConfig(level=logging.DEBUG)
 class TransperthSession(object):
     SR_NAME_RE = re.compile(r'(?:\W+([A-Za-z\W]+)\W+)?(\d+)(?:\W+)?')
 
-    def __init__(self, session):
+    def __init__(self, session: requests.Session):
         self.session = session
         self._smart_riders = None
         self._smart_rider_document = None
@@ -69,7 +69,7 @@ class TransperthSession(object):
             extra_params
         )
 
-    def smart_riders(self):
+    def smart_riders(self) -> dict:
         if not self._smart_riders:
             select = self.smart_rider_document().get_element_by_id(
                 'dnn_ctr2061_SmartRiderTransactions_ddlSmartCardNumber'
