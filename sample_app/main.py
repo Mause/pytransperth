@@ -84,6 +84,7 @@ class LogoutHandler(BaseRequestHandler):
 settings = {
     'debug': True,
     'template_path': os.path.join(here, 'templates'),
+    'static_path': os.path.join(here, 'static'),
     'cookie_secret': 'blardyunicurtinblarg',
     'login_url': '/login'
 }
