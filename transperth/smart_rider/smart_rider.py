@@ -86,31 +86,29 @@ class TransperthSession(object):
 
         return self._smart_riders
 
-    def smart_rider_document(self):
-        if self._smart_rider_document is None:
-            r = self.session.get(
-                BASE + "TravelEasy/MySmartRider/tabid/71/Default.aspx"
+    def get_actions(self, sr_code: str):
+        def action_page(action_code=None):
+            updates = self._send_smart_rider_activites_request(
+                sr_code,
+                date_from,
+                date_to,
+                action_code=action_code
             )
-            self._smart_rider_document = html.document_fromstring(r.text)
+            return _get_smart_rider_actions(
+                updates['updatePanel'][1]['content']
+            )
 
-        return self._smart_rider_document
+        def pages(remaining_pages):
+            for key, action_code in remaining_pages:
+                yield action_page(action_code)['actions']
 
-    def smart_rider_form(self):
-        if self._smart_rider_form is None:
-            self._smart_rider_form = self.smart_rider_document().forms[0]
-
-        return self._smart_rider_form
-
-    def get_activities(self, sr_code):
         date_from, date_to = date_parse('01/01/2010'), date_parse('01/01/2015')
 
-        updates = post_back(
-            self.session,
-            self.smart_rider_document(),
-            self.smart_rider_form(),
-            sr_code,
-            date_from,
-            date_to
+        page_one = action_page()
+
+        remaining_pages = sorted(
+            page_one['pages'].items(),
+            key=lambda x: int(x[0])
         )
 
         assert self.session
@@ -120,6 +118,14 @@ class TransperthSession(object):
         return _get_smart_rider(
             updates['updatePanel'][1]['content']
         )
+        remaining_pages = list(remaining_pages)[1:]
+
+        print('remaining_pages:', remaining_pages)
+
+        for page in chain([page_one['actions']], pages(remaining_pages)):
+            for activity in page:
+                yield activity
+
 
 
 
