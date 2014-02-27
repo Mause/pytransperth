@@ -62,6 +62,20 @@ class TransperthSession(object):
             'TravelEasy/MySmartRider.aspx'
         )
 
+    def fire_action(self, action_code: str, extra_params: dict=None) -> dict:
+        """
+        Fires an `action` into the abyss.
+        """
+        assert len(self.smart_rider_request_manager().document.forms) > 0, (
+            self.smart_rider_request_manager().document.forms
+        )
+
+        return self.smart_rider_request_manager().post_back(
+            self.session,
+            action_code,
+            extra_params
+        )
+
     def smart_riders(self):
         if not self._smart_riders:
             select = self.smart_rider_document().get_element_by_id(
