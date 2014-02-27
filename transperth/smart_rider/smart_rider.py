@@ -127,6 +127,39 @@ def login(username, password):
     return TransperthSession(s)
 
 
+def mend_location(string: str) -> str:
+    """
+    For display, the transperth website brutalises the location names somewhat,
+    removing entire words or simply shortening them.
+
+    These tend to be uniform, so this function attempts to clean them up.
+    """
+    string = (
+        string
+        .title()
+        .replace(" A ", " after ")
+        .replace(" B ", " before ")
+        .replace('nnn', 'annin')
+        .replace('NNN', 'ANNIN')
+        .replace('Brdge', 'Bridge')
+        .replace('Bsprt', 'Esplanade Busport')
+    )
+
+    string = re.sub(
+        r'\WSt (\d+)\W',
+        lambda match: 'Stop {}'.format(match.groups()[0]),
+        string
+    )
+
+    string = re.sub(
+        r'\WS(\d+)\W',
+        lambda match: 'Stop {}'.format(match.groups()[0]),
+        string
+    )
+
+    return string
+
+
 def _get_smart_rider_actions(root: str) -> dict:
     root = html.document_fromstring(root)
 
@@ -142,17 +175,12 @@ def _get_smart_rider_actions(root: str) -> dict:
 
     actions = []
     for action in items:
-        action[2] = (
-            action[2]
-            .replace(" a ", " after ")
-            .replace(" b ", " before")
-            .replace('nnn', 'annin')
-        )
+        action = list(map(str.strip, action))
 
         actions.append({
             'time': date_parse(action[0] + " +0800"),
             'action': action[1],
-            'location': action[2],
+            'location': mend_location(action[2]),
             'service': action[3],
             'zone': action[4],
             'amount': 0 if action[5] == '\xa0' else action[5],
