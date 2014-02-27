@@ -33,10 +33,15 @@ class TransperthSession(object):
         self._smart_rider_document = None
         self._smart_rider_form = None
 
-        self._request_managers = {}
+        self.request_managers = {}
 
-    def get_rqm(self, url):
-        if url not in self._request_managers:
+    def get_rqm(self, url: str):
+        """
+        :returns: PageRequestManager instance with a url and the urls \
+        content, or a previous version if one had already been requested for \
+        that url
+        """
+        if url not in self.request_managers:
 
             r = self.session.get(
                 BASE_HTTPS + url
@@ -45,12 +50,12 @@ class TransperthSession(object):
             if '?returnurl=' in r.url:
                 raise NotLoggedIn('Not logged in')
 
-            self._request_managers[url] = PageRequestManager(
+            self.request_managers[url] = PageRequestManager(
                 url,
                 html.document_fromstring(r.text)
             )
 
-        return self._request_managers[url]
+        return self.request_managers[url]
 
     def smart_rider_request_manager(self):
         return self.get_rqm(
