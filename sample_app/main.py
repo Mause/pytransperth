@@ -46,6 +46,23 @@ class FaresRequestHandler(BaseRequestHandler):
         self.render('fares_display.html', fares_table=table._repr_html_())
 
 
+class ActionsHandler(BaseRequestHandler):
+    def get(self):
+        # ts = self.get_current_user()
+        ts = self.current_user
+        if not ts:
+            return self.reauth()
+
+        try:
+            riders = ts.smart_riders()
+        except NotLoggedIn:
+            return self.reauth()
+
+        actions = ts.get_actions(
+            list(riders.values())[0]['code']
+        )
+
+        self.render('actions.html', actions=list(actions))
 
 REASONS = {
     'session_expired': "Your session has expired. Please login again"
@@ -91,7 +108,8 @@ settings = {
 
 
 application = tornado.web.Application([
-    (r"/fares", FaresRequestHandler)
+    (r"/fares", FaresRequestHandler),
+    (r"/actions", ActionsHandler),
 
     (r"/login", LoginHandler),
     (r"/logout", LogoutHandler)

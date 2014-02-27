@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="sixteen columns">
+    <div class="row">
+        {{len(actions)}} actions
+    </div>
+
+    {% for action in actions %}
+        <div class="row">
+            {% if action['action'] %}
+                <strong>Action:</strong>
+                {{action['action']}}<br/>
+            {% end %}
+
+            {% if action['action'] != "SV Update" %}
+
+                {% if action['zone'] %}
+                    <strong>Zone:</strong>
+                    {{action['zone']}}<br/>
+                {% end %}
+
+                {% if action['service'] %}
+                    <strong>Service:</strong>
+                    {{action['service']}}<br/>
+                {% end %}
+
+
+                {% if action['location'] %}
+                    <strong>Location:</strong>
+                    {{action['location']}}<br/>
+                {% end %}
+
+                {% if action['notes'] %}
+                    <strong>Notes:</strong>
+                    {{action['notes']}}<br/>
+                {% end %}
+
+            {% end %}
+
+            <strong>Balance:</strong> ${{action['balance']}}<br/>
+
+            {% if action['time'] %}
+                <strong>Time:</strong>
+                {{
+
+                action['time'].strftime(
+                    '%I:%M %p %m/%d/%Y'
+                )
+
+                }}<br/>
+            {% end %}
+
+        </div>
+    {% end %}
+</div>
+
+{% end %}
