@@ -1,7 +1,9 @@
 import logging
 
-from transperth.location import determine_location as _determine_location_raw
-from transperth.location import Location
+from transperth.jp.location import (
+    determine_location as _determine_location_raw
+)
+from transperth.jp.location import Location
 
 _location_cache = {}
 

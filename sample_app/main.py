@@ -12,7 +12,7 @@ import tornado.log
 import tornado.web
 
 # application specific
-import transperth.fares
+from transperth.jp.fares import determine_fare
 from transperth.smart_rider.smart_rider import login
 from transperth.exceptions import NotLoggedIn
 from location_proxy import determine_location
@@ -36,7 +36,7 @@ class FaresRequestHandler(BaseRequestHandler):
         from_loco = locations['from'][0]
         to_loco = locations['to'][0]
 
-        fares = transperth.fares.determine_fare(
+        fares = determine_fare(
             from_loco,
             to_loco
         )
