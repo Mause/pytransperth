@@ -4,6 +4,7 @@ Based off the code that blha303 (http://github/blha303) provided me with
 """
 
 from dateutil.parser import parse as date_parse
+import datetime
 from itertools import chain
 from pprint import pprint
 import logging
