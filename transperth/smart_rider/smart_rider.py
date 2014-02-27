@@ -126,7 +126,49 @@ class TransperthSession(object):
             for activity in page:
                 yield activity
 
+    def _send_smart_rider_activites_request(
+            self, code: str, date_from: datetime.datetime,
+            date_to: datetime.datetime, action_code: str=None) -> dict:
+        # add in date range
+        extra_params = {
+            'dnn$ctr2061$SmartRiderTransactions$rdFromDate': (
+                date_from.strftime('%Y-%m-%d')
+            ),
+            'dnn$ctr2061$SmartRiderTransactions$rdFromDate$dateInput': (
+                date_from.strftime('%Y-%m-%d-00-00-00')
+            ),
+            'dnn$ctr2061$SmartRiderTransactions$rdToDate': (
+                date_to.strftime('%Y-%m-%d')
+            ),
+            'dnn$ctr2061$SmartRiderTransactions$rdToDate$dateInput': (
+                date_to.strftime('%Y-%m-%d-00-00-00')
+            ),
+            'dnn_ctr2061_SmartRiderTransactions_rdFromDate_calendar_AD': (
+                date_from.strftime('[[1980,1,1],[2099,12,30],[%Y,%m,%d]]')
+            ),
+            'dnn_ctr2061_SmartRiderTransactions_rdToDate_calendar_AD': (
+                date_to.strftime('[[1980,1,1],[2099,12,30],[%Y,%m,%d]]')
+            ),
+        }
 
+        # add in smart rider card selection, for those special few with
+        # more than one
+        extra_params.update({
+            'dnn$ctr2061$SmartRiderTransactions$ddlSmartCardNumber': code
+        })
+
+        action_code = action_code or (
+            "dnn$"
+            "ctr2061$"
+            "SmartRiderTransactions$"
+            "rgTransactions$"
+            "ctl00$"
+            "ctl02$"
+            "ctl00$"
+            "ctl00"
+        )
+
+        return self.fire_action(action_code, extra_params)
 
 
 def login(username: str, password: str) -> TransperthSession:
