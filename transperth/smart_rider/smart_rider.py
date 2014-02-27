@@ -4,20 +4,17 @@ Based off the code that blha303 (http://github/blha303) provided me with
 """
 
 from dateutil.parser import parse as date_parse
-import datetime
 from itertools import chain
-from pprint import pprint
+import datetime
 import logging
 import re
 
 from lxml import html, etree
 import requests
 
-
-from .post_back import PageRequestManager
 from .. import BASE_HTTPS
 from ..exceptions import NotLoggedIn
-
+from .post_back import PageRequestManager
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
