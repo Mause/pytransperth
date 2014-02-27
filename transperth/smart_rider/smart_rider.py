@@ -19,9 +19,14 @@ from ..exceptions import NotLoggedIn
 
 
 logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 
 class TransperthSession(object):
+    """
+    Provides an interface to the sections on the transperth website
+    that require authentication.
+    """
     SR_NAME_RE = re.compile(r'(?:\W+([A-Za-z\W]+)\W+)?(\d+)(?:\W+)?')
 
     def __init__(self, session: requests.Session):
