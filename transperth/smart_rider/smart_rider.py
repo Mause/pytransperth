@@ -199,6 +199,8 @@ def _login(session: requests.Session, email: str, password: str):
         }
     )
 
+STOP_RE = re.compile(r'(?<=\W)St (\d+)(?=\W)?')
+
 
 def mend_location(string: str) -> str:
     """
@@ -218,19 +220,12 @@ def mend_location(string: str) -> str:
         .replace('Bsprt', 'Esplanade Busport')
     )
 
-    string = re.sub(
-        r'\WSt (\d+)\W',
+    print(STOP_RE.findall(string), string)
+
+    return STOP_RE.sub(
         lambda match: 'Stop {}'.format(match.groups()[0]),
         string
     )
-
-    string = re.sub(
-        r'\WS(\d+)\W',
-        lambda match: 'Stop {}'.format(match.groups()[0]),
-        string
-    )
-
-    return string
 
 
 def _get_smart_rider_actions(root: str) -> dict:
