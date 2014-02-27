@@ -98,6 +98,11 @@ class LogoutHandler(BaseRequestHandler):
         self.redirect('/')
 
 
+class RootHandler(BaseRequestHandler):
+    def get(self):
+        self.render('root.html')
+
+
 settings = {
     'debug': True,
     'template_path': os.path.join(here, 'templates'),
@@ -108,6 +113,7 @@ settings = {
 
 
 application = tornado.web.Application([
+    (r"/", RootHandler),
     (r"/fares", FaresRequestHandler),
     (r"/actions", ActionsHandler),
 
