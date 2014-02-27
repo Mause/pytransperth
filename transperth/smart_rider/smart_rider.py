@@ -96,6 +96,9 @@ class TransperthSession(object):
         return self._smart_riders
 
     def get_actions(self, sr_code: str):
+        """
+        :returns: a generator yielding action for the provided smart rider
+        """
         def action_page(action_code=None):
             updates = self._send_smart_rider_activites_request(
                 sr_code,
@@ -173,6 +176,9 @@ class TransperthSession(object):
 
 
 def login(username: str, password: str) -> TransperthSession:
+    """
+    :returns: a session object with login cookies attached
+    """
     logger.info('Authenticating...')
 
     s = requests.Session()
@@ -192,6 +198,9 @@ def login(username: str, password: str) -> TransperthSession:
 
 
 def _login(session: requests.Session, email: str, password: str):
+    """
+    Performs actual login
+    """
     return session.post(
         "https://www.transperth.wa.gov.au/Default.aspx?tabid=69",
         data={
