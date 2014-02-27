@@ -89,42 +89,35 @@ class TransperthSession(object):
         )
 
 
-def login(username, password):
-    params = {
-        "txtUsername_2099": username,
-        "txtPassword_2099": password,
-        "__EVENTTARGET": "UserLogin",
-        "__EVENTARGUMENT": "",
-        "dnn$dnnSEARCH$Search": "optSite",
-        "dnn$dnnSEARCH$txtSearch": "",
-        "dnn$dnnRADTABSTRIP$TS": {
-            "State": {},
-            "TabState": {
-                "dnn_dnnRADTABSTRIP_TS_TS_69": {
-                    "Selected": True
-                }
-            }
-        },
-        "dnn$dnnRADPANELBAR$RadPanel1": "",
-        "XsltDbGlobals": "%24tabid=69",
-        "mdo-hid-i7-value": "",
-        "btnLogin_2099": "Login",
-        "dnn$ctr2099$DynamicLogin$objDDL": "False",
-        "__dnnVariable": {
-            "__scdoff": "1",
-            "__dnn_pageload": (
-                "__dnn_SetInitialFocus(\u0027txtUsername_2099\u0027);"
-            )
-        }
-    }
+
+def login(username: str, password: str) -> TransperthSession:
+    logger.info('Authenticating...')
 
     s = requests.Session()
 
-    r = s.post(BASE + "Default.aspx?tabid=69", data=params)
+    r = _login(s, username, password)
 
-    assert r.url.endswith('Home.aspx'), 'Login failed'
+    doc = html.document_fromstring(r.text)
+    message = doc.xpath("//span[@class='dnn_ctr2099_ctl00_lblMessage']")
+    if message:
+        print(message[0].text)
+
+    print('Title:', doc.xpath('.//title')[0].text)
+
+    assert r.url.endswith('Home.aspx'), 'Login failed: {}'.format(r.url)
 
     return TransperthSession(s)
+
+
+def _login(session: requests.Session, email: str, password: str):
+    return session.post(
+        "https://www.transperth.wa.gov.au/Default.aspx?tabid=69",
+        data={
+            "txtUsername_2099": email,
+            "txtPassword_2099": password,
+            "__EVENTTARGET": "UserLogin",
+        }
+    )
 
 
 def mend_location(string: str) -> str:
