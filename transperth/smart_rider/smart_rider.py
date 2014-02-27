@@ -6,20 +6,13 @@ Based off the code that blha303 (http://github/blha303) provided me with
 from dateutil.parser import parse as date_parse
 from itertools import chain
 from pprint import pprint
-import json
 import logging
 import re
 
 from lxml import html, etree
 import requests
 
-from post_back import post_back
-# from .. import BASE
-BASE = 'https://www.transperth.wa.gov.au/'
 
-
-# we actually need a class for the login part of the website,
-# as the session has to be stored somewhere
 from .post_back import PageRequestManager
 from .. import BASE_HTTPS
 from ..exceptions import NotLoggedIn
@@ -228,29 +221,3 @@ def _get_smart_rider_actions(root: str) -> dict:
         'actions': actions,
         'actions_total': items
     }
-
-if __name__ == '__main__':
-    import os
-
-    if not os.path.exists('session.json'):
-        print('logging in...')
-
-        s = login(*open('auth').read().split(','))
-
-        print('login succesful')
-
-        with open('session.json', 'w') as fh:
-            json.dump(s.session.cookies.get_dict(), fh, indent=4)
-    else:
-        s = requests.Session()
-        with open('session.json') as fh:
-            s.cookies.update(json.load(fh))
-        s = TransperthSession(s)
-
-    riders = s.smart_riders()
-
-    pprint(riders)
-
-    act = s.get_activities('222664')
-
-    pprint(act)
