@@ -79,9 +79,9 @@ def parse_locations(locations: str) -> dict:
     return {
         element.tag.lower(): [
             ResolvedLocation(
-                *clean(se.itertext())
+                *clean(sub_element.itertext())
             )
-            for se in element
+            for sub_element in element
         ]
         for element in root
     }
