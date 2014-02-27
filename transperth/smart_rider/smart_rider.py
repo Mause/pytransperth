@@ -116,14 +116,6 @@ class TransperthSession(object):
             page_one['pages'].items(),
             key=lambda x: int(x[0])
         )
-
-        assert self.session
-        assert self.smart_rider_document is not None
-        assert self.smart_rider_form is not None
-
-        return _get_smart_rider(
-            updates['updatePanel'][1]['content']
-        )
         remaining_pages = list(remaining_pages)[1:]
 
         print('remaining_pages:', remaining_pages)
