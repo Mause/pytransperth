@@ -263,7 +263,15 @@ def _get_smart_rider_actions(root: str) -> dict:
     pagination = root.xpath("//div[@class='rgWrap rgInfoPart']")[0]
     items = int(list(pagination.itertext())[1])
 
+    div = root.xpath("//div[@class='rgWrap rgNumPart']")[0]
+
+    pages = {
+        anchor[0].text: anchor.attrib['href'].split("'")[1]
+        for anchor in div
+    }
+
     return {
         'actions': actions,
-        'actions_total': items
+        'actions_total': items,
+        'pages': pages
     }
