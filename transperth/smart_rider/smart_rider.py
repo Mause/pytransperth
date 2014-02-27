@@ -263,7 +263,7 @@ def _get_smart_rider_actions(root: str) -> dict:
             'location': mend_location(action[2]),
             'service': action[3],
             'zone': action[4],
-            'amount': 0 if action[5] == '\xa0' else action[5],
+            'amount': float(action[5]) if action[5] else 0,
             'balance': float(action[6]),
             'notes': action[7]
         })
