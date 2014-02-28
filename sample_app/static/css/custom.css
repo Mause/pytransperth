@@ -14,11 +14,16 @@ ul .nav {
     border: solid black 1px;
     padding: 10px;
     height: 100%;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-right: 5px;
 }
 
 .step {
     display: inline-block;
-    height: 60px;
+    height: 82px;
     padding-bottom: 10px;
 }
 
