@@ -213,8 +213,8 @@ def _parse_step(step: E.TABLE()) -> dict:
 
 
 ROUTE_TEXT_RE = re.compile(
-    r'''(?:(?P<route_moniker>[\dA-Za-z\s]*) )?(?:\((?P<flags>[A-Za-z]+)\) )?'''
-    r'''(?P<from>[^(-]*) - (?P<to>.*)'''
+    r'(?:(?P<route_moniker>[\dA-Za-z\s]*) )?(?:\((?P<flags>[A-Za-z|]+)\) )?'
+    r'(?P<from>[^(-]*) - (?P<to>.*)'
 )
 
 
