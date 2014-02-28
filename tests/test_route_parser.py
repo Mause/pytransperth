@@ -178,18 +178,14 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         from transperth.jp.route_parser import _parse_bus_step
 
         ret = _parse_bus_step([
-            'TIME1',
-            'TIME2',
-            'DEP_STOP_NAME',
-            'DEP_STOP_NUM',
-            'ARR_STOP_NAME',
-            'ARR_STOP_NUM',
+            ('TIME1', 'TIME2'),
+            ('DEP_STOP_NAME', 'DEP_STOP_NUM'),
+            ('ARR_STOP_NAME', 'ARR_STOP_NUM'),
             '12345678ROUTE'
         ])
 
         assertion = {
             'step_type': 'bus',
-            'route': 'ROUTE',
             'departure': {
                 'stop_name': 'DEP_STOP_NAME',
                 'time': ANY,
@@ -221,16 +217,13 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         from transperth.jp.route_parser import _parse_train_step
 
         ret = _parse_train_step([
-            'TIME1',
-            'TIME2',
-            'DEP_STOP_NAME',
-            'ARR_STOP_NAME',
+            ('TIME1', 'TIME2'),
+            ('DEP_STOP_NAME', 'ARR_STOP_NAME'),
             '12345678ROUTE'
         ])
 
         assertion = {
             'step_type': 'train',
-            'route': 'ROUTE',
             'departure': {
                 'stop_name': 'DEP_STOP_NAME',
                 'time': ANY
