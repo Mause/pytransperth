@@ -26,6 +26,23 @@
 </div>
 
 
+<div style="height: 60px;">
+    <div class="pull-left step_part" style="height: 100%">
+        {{route_path['from']}}
+    </div>
+
+    <div class="pull-left step_part">
+        <img src="{{ static_url('np/icon_34/icon_34.png') }}"/>
+    </div>
+
+    <div class="pull-left step_part" style="height: 100%">
+        {{route_path['to']}}
+    </div>
+</div>
+
+<br/><br/><br/>
+
+
 {% for step in route['steps'] %}
     <div class="step row">
         {% if 'departure' in step %}

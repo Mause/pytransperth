@@ -71,7 +71,11 @@ class RoutesRequestHandler(BaseRequestHandler):
             'routes.html',
             fares_table=fares_to_table(fares)._repr_html_(),
             route=route,
-            humanise_flag=humanise_flag
+            humanise_flag=humanise_flag,
+            route_path={
+                'from': from_loco.name,
+                'to': to_loco.name
+            }
         )
 
 
