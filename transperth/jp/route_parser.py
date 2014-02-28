@@ -219,7 +219,6 @@ ROUTE_TEXT_RE = re.compile(
 
 
 def _parse_route_text(string):
-    print(string)
     match = ROUTE_TEXT_RE.match(string)
 
     if match:

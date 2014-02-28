@@ -231,8 +231,6 @@ def mend_location(string: str) -> str:
         .replace('Bsprt', 'Esplanade Busport')
     )
 
-    print(STOP_RE.findall(string), string)
-
     return STOP_RE.sub(
         lambda match: 'Stop {}'.format(match.groups()[0]),
         string
