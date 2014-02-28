@@ -48,9 +48,16 @@ class RoutesRequestHandler(BaseRequestHandler):
 
         route = routes[0]
 
+        route['meta']['misc'] = {
+            key: (
+                value.strftime('%I:%M %p') if hasattr(value, 'strftime')
+                else value
+            )
+            for key, value in route['meta']['misc'].items()
+        }
+
         fares = fares_for_route(route)
 
-        humanise = lambda string: ' '.join(string.split('_')).title()
         humanise_flag = {
             "*": 'Estimated time only',
             "Dv": 'Deviating Service',
@@ -64,7 +71,7 @@ class RoutesRequestHandler(BaseRequestHandler):
             'routes.html',
             fares_table=fares_to_table(fares)._repr_html_(),
             route=route,
-            humanise=humanise
+            humanise_flag=humanise_flag
         )
 
 

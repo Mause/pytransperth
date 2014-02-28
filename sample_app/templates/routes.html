@@ -5,12 +5,23 @@
 
 <div class="row">
     <table>
-        {% for key, value in route['meta']['misc'].items() %}
-            <tr>
-                <td>{{ humanise(key) }}</td>
-                <td>{{value}}</td>
-            </tr>
-        {% end %}
+        {% set misc = route['meta']['misc'] %}
+        <tr>
+            <td>Total walking distance: </td>
+            <td>{{misc['total_walking_distance']}}m</td>
+        </tr>
+        <tr>
+            <td>Departure time: </td>
+            <td>{{misc['depart_time']}}</td>
+        </tr>
+        <tr>
+            <td>Arrival time:</td>
+            <td>{{misc['arrival_time']}}</td>
+        </tr>
+        <tr>
+            <td>Number of legs: </td>
+            <td>{{misc['total_walking_distance']}}</td>
+        </tr>
     </table>
 </div>
 
