@@ -213,7 +213,7 @@ def _parse_step(step: E.TABLE()) -> dict:
 
 
 ROUTE_TEXT_RE = re.compile(
-    r'''(?:(?P<route_moniker>[\dA-Z]*) )?(?:\((?P<flags>[A-Za-z]+)\) )?'''
+    r'''(?:(?P<route_moniker>[\dA-Za-z\s]*) )?(?:\((?P<flags>[A-Za-z]+)\) )?'''
     r'''(?P<from>[^(-]*) - (?P<to>.*)'''
 )
 
@@ -228,7 +228,12 @@ def _parse_route_text(string):
         if route_info['flags']:
             route_info['flags'] = route_info['flags'].split('|')
 
-    return route_info if match else string
+        if 'Departs' in route_info['to']:
+            route_info['to'], route_info['departs'] = route_info['to'].split(
+                ' Departs '
+            )
+
+    return route_info if match else {'route_moniker': string}
 
 
 def _parse_bus_step(texts: str) -> dict:

@@ -76,6 +76,10 @@
                     <strong>To:</strong> {{step['route']['to']}}<br/>
                 {% end %}
 
+                {% if step['route'].get('departs') is not None %}
+                    <strong>Departs:</strong> {{step['route']['departs']}}<br/>
+                {% end %}
+
             </div>
         {% end %}
 
