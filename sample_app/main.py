@@ -33,14 +33,16 @@ class RoutesRequestHandler(BaseRequestHandler):
     def get(self):
         self.render('enter_route.html')
 
-    def post(self):
+    def resolve_location(self):
         from_loco = self.get_location('from')
         to_loco = self.get_location('to')
 
         locations = determine_location(from_loco, to_loco)
 
-        from_loco = locations['from'][0]
-        to_loco = locations['to'][0]
+        return locations['from'][0], locations['to'][0]
+
+    def post(self):
+        from_loco, to_loco = self.resolve_location()
 
         routes = determine_routes(from_loco, to_loco)
 
