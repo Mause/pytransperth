@@ -50,8 +50,8 @@ class TransperthSession(object):
             if '?returnurl=' in r.url:
                 raise NotLoggedIn('Not logged in')
 
-            self.request_managers[url] = PageRequestManager(
-                url,
+            self.request_managers[url] = PageRequestManager(url)
+            self.request_managers[url].load_document(
                 html.document_fromstring(r.text)
             )
 

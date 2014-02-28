@@ -98,9 +98,9 @@ def parse_delta(raw_delta: str) -> str:
 
 
 class PageRequestManagerOriginal(object):
-    def __init__(self, url: str, document=None):
+    def __init__(self, url: str):
         self.url = url
-        self.document = document
+        self.document = None
 
         self._active_default_button = None
         self._active_default_button_clicked = False
@@ -157,12 +157,13 @@ class PageRequestManagerOriginal(object):
             "__VIEWSTATEFIELDCOUNT"
         ]
 
-        if self.document is not None:
-            self.initalise_from_document()
-
     @property
     def _form(self):
         return self.document.forms[0]
+
+    def load_document(self, document):
+        self.document = document
+        self.initalise_from_document()
 
     def find_nearest_element(self, target_id):
         """
