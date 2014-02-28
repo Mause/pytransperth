@@ -51,6 +51,14 @@ class RoutesRequestHandler(BaseRequestHandler):
         fares = fares_for_route(route)
 
         humanise = lambda string: ' '.join(string.split('_')).title()
+        humanise_flag = {
+            "*": 'Estimated time only',
+            "Dv": 'Deviating Service',
+            "Ls": 'Limited stops service',
+            "+": 'indicates the following day',
+            "As": 'Accessible service',
+            "Ch": 'Service undergoing change'
+        }.get
 
         self.render(
             'routes.html',

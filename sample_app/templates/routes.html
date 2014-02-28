@@ -54,7 +54,7 @@
 
                 {% if step['route']['flags'] is not None %}
                     <strong>Flags:</strong>
-                    {{ ', '.join(step['route']['flags']) }}
+                    {{ ', '.join(map(humanise_flag, step['route']['flags'])) }}
                 {% end %}
 
                 <br/>
