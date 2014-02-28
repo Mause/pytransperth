@@ -5,3 +5,24 @@ ul .nav {
 .nav li {
     display: inline;
 }
+
+.pull-left {
+    float: left;
+}
+
+.step_part {
+    border: solid black 1px;
+    padding: 10px;
+    height: 100%;
+}
+
+.step {
+    display: inline-block;
+    height: 60px;
+    padding-bottom: 10px;
+}
+
+.step_part img {
+    vertical-align: middle;
+    height: 60px;
+}
