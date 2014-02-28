@@ -58,20 +58,23 @@
 
         {% if 'route' in step %}
             <div class="pull-left step_part">
-                {% if step['route']['route_moniker'] is not None %}
-                    <strong>Route:</strong>
-                    {{step['route']['route_moniker']}}
-                {% end %}
+                <strong>Route:</strong>
+                {{step['route']['route_moniker']}}
 
-                {% if step['route']['flags'] is not None %}
+                {% if step['route'].get('flags') is not None %}
                     <strong>Flags:</strong>
                     {{ ', '.join(map(humanise_flag, step['route']['flags'])) }}
                 {% end %}
 
                 <br/>
 
-                <strong>From:</strong> {{step['route']['from']}}<br/>
-                <strong>To:</strong> {{step['route']['to']}}<br/>
+                {% if step['route'].get('from') is not None %}
+                    <strong>From:</strong> {{step['route']['from']}}<br/>
+                {% end %}
+
+                {% if step['route'].get('to') is not None %}
+                    <strong>To:</strong> {{step['route']['to']}}<br/>
+                {% end %}
 
             </div>
         {% end %}
