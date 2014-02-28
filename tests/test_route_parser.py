@@ -140,9 +140,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         _parse_step(STEP_BUS)
 
         _parse_bus_step.assert_called_with([
-            'ONE',
-            'TWO',
-            'THREE'
+            ('ONE', 'TWO')
         ])
 
     @patch('transperth.jp.route_parser._parse_train_step')
@@ -152,9 +150,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         _parse_step(STEP_TRAIN)
 
         _parse_train_step.assert_called_with([
-            'ONE',
-            'TWO',
-            'THREE'
+            ('ONE', 'TWO')
         ])
 
     @patch('transperth.jp.route_parser._parse_walk_step')
