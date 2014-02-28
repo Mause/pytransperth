@@ -27,7 +27,7 @@
                     {{step['departure']['stop_num']}}<br/>
                 {% end %}
                 <strong>Time:</strong>
-                {{step['departure']['time']}}
+                {{step['departure']['time'].strftime('%I:%M %p')}}
             </div>
 
             <div class="pull-left step_part">
@@ -79,7 +79,7 @@
                     {{step['arrival']['stop_num']}}<br/>
                 {% end %}
                 <strong>Time:</strong>
-                {{step['arrival']['time']}}
+                {{step['arrival']['time'].strftime('%I:%M %p')}}
             </div>
         {% end %}
 
