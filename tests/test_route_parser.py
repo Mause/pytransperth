@@ -290,5 +290,37 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         self.assertEqual(ret, 111111)
 
+    def test_parse_route_text(self):
+        from transperth.jp.route_parser import _parse_route_text
+
+        self.assertDictEqual(
+            _parse_route_text(
+                '100 (As) Curtin University Bus Stn - '
+                'Canning Bridge Stn'
+            ),
+            {
+                'flags': ['As'],
+                'route_moniker': '100',
+                'from': 'Curtin University Bus Stn',
+                'to': 'Canning Bridge Stn'
+            }
+        )
+
+        self.assertDictEqual(
+            _parse_route_text(
+                'Mandurah Line (As) Mandurah Stn - '
+                'Perth Underground Stn All Stops Mandurah to Esplanade Stn'
+            ),
+            {
+                'flags': ['As'],
+                'route_moniker': 'Mandurah Line',
+                'from': 'Mandurah Stn',
+                'to': (
+                    'Perth Underground Stn All Stops Mandurah to Esplanade Stn'
+                )
+            }
+        )
+
+
 if __name__ == '__main__':
     unittest.main()
