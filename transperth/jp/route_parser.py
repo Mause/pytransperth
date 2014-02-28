@@ -193,20 +193,45 @@ def _parse_step(step: E.TABLE()) -> dict:
     # how long the iterator it is consuming is
     texts = list(texts)[:-1]
 
-    if step_type == 'bus':
-        return _parse_bus_step(texts)
+    if step_type in {'bus', 'train'}:
+        route = texts.pop(-1)[8:]
+        texts = list(zip(texts[::2], texts[1::2]))
+
+        step = {
+            'bus': _parse_bus_step,
+            'train': _parse_train_step
+        }[step_type](texts)
+
+        step['route'] = _parse_route_text(route)
+
+        return step
+
     elif step_type == 'walk':
         return _parse_walk_step(texts)
-    elif step_type == 'train':
-        return _parse_train_step(texts)
     else:
         raise InvalidStep(step_type)
 
 
-def _parse_bus_step(texts: str) -> dict:
-    route = texts.pop(-1)[8:]
-    texts = list(zip(texts[::2], texts[1::2]))
+ROUTE_TEXT_RE = re.compile(
+    r'''(?:(?P<route_moniker>[\dA-Z]*) )?(?:\((?P<flags>[A-Za-z]+)\) )?'''
+    r'''(?P<from>[^(-]*) - (?P<to>.*)'''
+)
 
+
+def _parse_route_text(string):
+    print(string)
+    match = ROUTE_TEXT_RE.match(string)
+
+    if match:
+        route_info = match.groupdict()
+
+        if route_info['flags']:
+            route_info['flags'] = route_info['flags'].split('|')
+
+    return route_info if match else string
+
+
+def _parse_bus_step(texts: str) -> dict:
     dep, arr = {}, {}
     dep['time'], arr['time'] = map(_parse_time, texts.pop(0))
 
@@ -218,16 +243,12 @@ def _parse_bus_step(texts: str) -> dict:
 
     return {
         'step_type': 'bus',
-        'route': route,
         'departure': dep,
         'arrival': arr
     }
 
 
 def _parse_train_step(texts: str) -> dict:
-    route = texts.pop(-1)[8:]
-    texts = list(zip(texts[::2], texts[1::2]))
-
     # train steps are different from bus steps in that they don't have stop
     # numbers, only stop names
 
@@ -237,7 +258,6 @@ def _parse_train_step(texts: str) -> dict:
 
     return {
         'step_type': 'train',
-        'route': route,
         'departure': dep,
         'arrival': arr
     }
@@ -251,7 +271,7 @@ def _parse_walk_step(texts: str) -> dict:
 
     return {
         'step_type': 'walk',
-        'departure': departure,
+        'departure': {'time': departure},
         'walking_distance': int(texts[0].split(' ')[0])
     }
 
