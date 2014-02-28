@@ -3,6 +3,7 @@ import logging
 import os
 import json
 import sys
+import pickle
 
 here = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(here, '..'))
@@ -117,7 +118,7 @@ class LoginHandler(BaseRequestHandler, TransperthAuthMixin):
 
         ts = login(usr, pwd)
 
-        creds = json.dumps(ts.session.cookies.get_dict())
+        creds = pickle.dumps(ts)
 
         self.set_secure_cookie('transperth_creds', creds)
 

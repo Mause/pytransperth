@@ -1,9 +1,7 @@
-import json
-import requests
 import logging
-from auth_base import AuthMixin
+import pickle
 
-from transperth.smart_rider.smart_rider import TransperthSession
+from auth_base import AuthMixin
 
 logger = logging.getLogger(__name__)
 
@@ -18,13 +16,7 @@ class TransperthAuthMixin(AuthMixin):
 
         cookie = self.get_secure_cookie('transperth_creds')
 
-        if hasattr(cookie, 'decode'):
-            cookie = cookie.decode()
-
-        s = requests.Session()
-        s.cookies.update(json.loads(cookie))
-
-        return TransperthSession(s)
+        return pickle.loads(cookie)
 
     def reauth(self):
         self.clear_cookie('transperth_creds')
