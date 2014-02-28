@@ -37,6 +37,10 @@ def determine_fare(
 
     route = routes[0]
 
+    return fares_for_route(route)
+
+
+def fares_for_route(route):
     arguments = route['meta']['links'].get('getFares', None)
 
     if arguments is None:
