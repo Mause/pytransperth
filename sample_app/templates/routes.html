@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% raw fares_table %}
+
+<div class="row">
+    <table>
+        {% for key, value in route['meta']['misc'].items() %}
+            <tr>
+                <td>{{ humanise(key) }}</td>
+                <td>{{value}}</td>
+            </tr>
+        {% end %}
+    </table>
+</div>
+
+
+{% for step in route['steps'] %}
+    <div class="step row">
+        {% if 'departure' in step %}
+            <div class="pull-left step_part">
+                {% if 'stop_name' in step['departure'] %}
+                    <strong>Stop name:</strong> {{step['departure']['stop_name']}}<br/>
+                {% end %}
+                {% if 'stop_num' in step['departure'] %}
+                    <strong>Stop number:</strong>
+                    {{step['departure']['stop_num']}}<br/>
+                {% end %}
+                <strong>Time:</strong>
+                {{step['departure']['time']}}
+            </div>
+
+            <div class="pull-left step_part">
+                <img src="{{ static_url('np/icon_34/icon_34.png') }}"/>
+            </div>
+        {% end %}
+
+        <div class="pull-left step_part">
+            {% if step['step_type'] == 'bus' %}
+                <img src="{{ static_url('np/icon_97/icon_97.svg') }}"/>
+            {% elif step['step_type'] == 'train' %}
+                <img src="{{ static_url('np/icon_67/icon_67.svg') }}"/>
+            {% else %}
+                <img src="{{ static_url('np/icon_250/icon_250.svg') }}"/>
+            {% end %}
+        </div>
+
+        {% if 'route' in step %}
+            <div class="pull-left step_part">
+                {% if step['route']['route_moniker'] is not None %}
+                    <strong>Route:</strong>
+                    {{step['route']['route_moniker']}}
+                    <br/>
+                {% end %}
+
+                <strong>From:</strong> {{step['route']['from']}}<br/>
+                <strong>To:</strong> {{step['route']['to']}}
+            </div>
+        {% end %}
+
+        {% if 'arrival' in step %}
+            <div class="pull-left step_part">
+                <img src="{{ static_url('np/icon_34/icon_34.png') }}"/>
+            </div>
+
+            <div class="pull-left step_part">
+                {% if 'stop_name' in step['arrival'] %}
+                    <strong>Stop name:</strong> {{step['arrival']['stop_name']}}<br/>
+                {% end %}
+                {% if 'stop_num' in step['arrival'] %}
+                    <strong>Stop number:</strong>
+                    {{step['arrival']['stop_num']}}<br/>
+                {% end %}
+                <strong>Time:</strong>
+                {{step['arrival']['time']}}
+            </div>
+        {% end %}
+
+    </div>
+    <br/>
+{% end %}
+
+{% end %}
