@@ -339,6 +339,18 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             }
         )
 
+        self.assertDictEqual(
+            # i don't understand the route, but i took it directly from
+            # the transperth website, so meh
+            _parse_route_text('98 (Ls|As) Fremantle Stn - Fremantle Stn'),
+            {
+                'flags': ['Ls', 'As'],
+                'from': 'Fremantle Stn',
+                'to': 'Fremantle Stn',
+                'route_moniker': '98'
+            }
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
