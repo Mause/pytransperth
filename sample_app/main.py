@@ -13,9 +13,13 @@ import tornado.log
 import tornado.web
 
 # application specific
-from transperth.jp.fares import determine_fare
+from transperth.jp.fares import fares_for_route
+from transperth.jp.routes import determine_routes
+
 from transperth.smart_rider.smart_rider import login
+
 from transperth.exceptions import NotLoggedIn
+
 from location_proxy import determine_location
 from utils import fares_to_table, BaseRequestHandler
 from transperth_auth import TransperthAuthMixin
@@ -25,9 +29,9 @@ logging.basicConfig(level=logging.DEBUG)
 tornado.log.enable_pretty_logging()
 
 
-class FaresRequestHandler(BaseRequestHandler):
+class RoutesRequestHandler(BaseRequestHandler):
     def get(self):
-        self.render('fares.html')
+        self.render('enter_route.html')
 
     def post(self):
         from_loco = self.get_location('from')
@@ -38,14 +42,20 @@ class FaresRequestHandler(BaseRequestHandler):
         from_loco = locations['from'][0]
         to_loco = locations['to'][0]
 
-        fares = determine_fare(
-            from_loco,
-            to_loco
+        routes = determine_routes(from_loco, to_loco)
+
+        route = routes[0]
+
+        fares = fares_for_route(route)
+
+        humanise = lambda string: ' '.join(string.split('_')).title()
+
+        self.render(
+            'routes.html',
+            fares_table=fares_to_table(fares)._repr_html_(),
+            route=route,
+            humanise=humanise
         )
-
-        table = fares_to_table(fares)
-
-        self.render('fares_display.html', fares_table=table._repr_html_())
 
 
 class ActionsHandler(BaseRequestHandler):
@@ -116,7 +126,7 @@ settings = {
 
 application = tornado.web.Application([
     (r"/", RootHandler),
-    (r"/fares", FaresRequestHandler),
+    (r"/routes", RoutesRequestHandler),
     (r"/actions", ActionsHandler),
 
     (r"/login", LoginHandler),
