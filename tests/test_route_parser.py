@@ -321,6 +321,24 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
             }
         )
 
+        self.assertDictEqual(
+            _parse_route_text(
+                'Thornlie Line (As) Perth Stn - Thornlie Stn T '
+                'Pattern to Thornlie. Departs Platform 4 At Perth, '
+                'Platform 2 At Mciver And Claisebrook.'
+            ),
+            {
+                'flags': ['As'],
+                'route_moniker': 'Thornlie Line',
+                'from': 'Perth Stn',
+                'to': 'Thornlie Stn T Pattern to Thornlie.',
+                'departs': (
+                    'Platform 4 At Perth, '
+                    'Platform 2 At Mciver And Claisebrook.'
+                )
+            }
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
