@@ -50,11 +50,18 @@
                 {% if step['route']['route_moniker'] is not None %}
                     <strong>Route:</strong>
                     {{step['route']['route_moniker']}}
-                    <br/>
                 {% end %}
 
+                {% if step['route']['flags'] is not None %}
+                    <strong>Flags:</strong>
+                    {{ ', '.join(step['route']['flags']) }}
+                {% end %}
+
+                <br/>
+
                 <strong>From:</strong> {{step['route']['from']}}<br/>
-                <strong>To:</strong> {{step['route']['to']}}
+                <strong>To:</strong> {{step['route']['to']}}<br/>
+
             </div>
         {% end %}
 
