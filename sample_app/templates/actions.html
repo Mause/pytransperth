@@ -8,10 +8,8 @@
 
     {% for action in actions %}
         <div class="row">
-            {% if action['action'] %}
-                <strong>Action:</strong>
-                {{action['action']}}<br/>
-            {% end %}
+            <strong>Action:</strong>
+            {{action['action']}}<br/>
 
             {% if action['action'] != "SV Update" %}
 
@@ -42,13 +40,8 @@
 
             {% if action['time'] %}
                 <strong>Time:</strong>
-                {{
-
-                action['time'].strftime(
-                    '%I:%M %p %m/%d/%Y'
-                )
-
-                }}<br/>
+                {{action['time'].strftime('%I:%M %p %d/%m/%Y')}}
+                <br/>
             {% end %}
 
         </div>

@@ -1,7 +1,6 @@
 # standard library
 import logging
 import os
-import json
 import sys
 import pickle
 
@@ -73,7 +72,6 @@ class RoutesRequestHandler(BaseRequestHandler):
 
 class ActionsHandler(BaseRequestHandler):
     def get(self):
-        # ts = self.get_current_user()
         ts = self.current_user
         if not ts:
             return self.reauth('not_logged_in')
@@ -83,9 +81,9 @@ class ActionsHandler(BaseRequestHandler):
         except NotLoggedIn:
             return self.reauth()
 
-        actions = ts.get_actions(
-            list(riders.values())[0]['code']
-        )
+        sr_code = list(riders.values())[0]['code']
+
+        actions = ts.get_actions(sr_code)
 
         self.render('actions.html', actions=list(actions))
 
