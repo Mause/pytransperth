@@ -19,7 +19,7 @@ from transperth.jp.routes import determine_routes
 
 from transperth.smart_rider.smart_rider import login
 
-from transperth.exceptions import NotLoggedIn
+from transperth.exceptions import NotLoggedIn, LoginFailed
 
 from location_proxy import determine_location
 from utils import fares_to_table, BaseRequestHandler
@@ -85,7 +85,7 @@ class ActionsHandler(BaseRequestHandler):
         # ts = self.get_current_user()
         ts = self.current_user
         if not ts:
-            return self.reauth()
+            return self.reauth('not_logged_in')
 
         try:
             riders = ts.smart_riders()
@@ -99,7 +99,9 @@ class ActionsHandler(BaseRequestHandler):
         self.render('actions.html', actions=list(actions))
 
 REASONS = {
-    'session_expired': "Your session has expired. Please login again"
+    'session_expired': "Your session has expired. Please login again",
+    'bad_credentials': 'You supplied incorrect credentials',
+    'not_logged_in': 'Please login to access that feature'
 }
 
 
@@ -116,7 +118,10 @@ class LoginHandler(BaseRequestHandler, TransperthAuthMixin):
     def post(self):
         usr, pwd = self.get_argument('username'), self.get_argument('password')
 
-        ts = login(usr, pwd)
+        try:
+            ts = login(usr, pwd)
+        except LoginFailed:
+            return self.reauth('bad_credentials')
 
         creds = pickle.dumps(ts)
 

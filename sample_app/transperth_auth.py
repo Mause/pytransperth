@@ -18,8 +18,8 @@ class TransperthAuthMixin(AuthMixin):
 
         return pickle.loads(cookie)
 
-    def reauth(self):
+    def reauth(self, reason="session_expired"):
         self.clear_cookie('transperth_creds')
         return self.redirect(
-            self.get_login_url() + '?reason=session_expired'
+            self.get_login_url() + '?reason={}'.format(reason)
         )
