@@ -192,6 +192,6 @@ class Location(object):
         return hash(','.join(map(':'.join, items)))
 
     def __eq__(self, other):
-        assert isinstance(other, Location)
+        assert isinstance(other, self.__class__)
 
         return self.__hash__() == other.__hash__()

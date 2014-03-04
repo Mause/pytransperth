@@ -265,7 +265,7 @@ class PageRequestManagerOriginal(object):
         params.update(extra_params or {})
 
         _postBackSettings = self.retrieve_postback_settings(action_code)
-        params["ScriptManager"] = _postBackSettings['panelID']
+        params[self._script_manager_ID] = _postBackSettings['panelID']
         params['__EVENTTARGET'] = action_code
         params.setdefault('__EVENTARGUMENT', '')
 
