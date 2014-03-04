@@ -33,3 +33,9 @@ class NotLoggedIn(TransperthException):
     """
     Raised when the library detects that the session has expired
     """
+
+
+class LoginFailed(NotLoggedIn):
+    """
+    Thrown when a login attempt fails
+    """

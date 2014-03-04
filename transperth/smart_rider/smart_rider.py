@@ -13,7 +13,7 @@ from lxml import html, etree
 import requests
 
 from .. import BASE_HTTPS
-from ..exceptions import NotLoggedIn
+from ..exceptions import NotLoggedIn, LoginFailed
 from .post_back import PageRequestManager
 
 logging.basicConfig(level=logging.DEBUG)
@@ -186,13 +186,12 @@ def login(username: str, password: str) -> TransperthSession:
     r = _login(s, username, password)
 
     doc = html.document_fromstring(r.text)
-    message = doc.xpath("//span[@class='dnn_ctr2099_ctl00_lblMessage']")
-    if message:
-        print(message[0].text)
+    message = doc.get_element_by_id("dnn_ctr2099_ctl00_lblMessage", [])
+    if message != []:
+        raise LoginFailed(message.text)
 
-    print('Title:', doc.xpath('.//title')[0].text)
-
-    assert r.url.endswith('Home.aspx'), 'Login failed: {}'.format(r.url)
+    elif not r.url.endswith('Home.aspx'):
+        raise LoginFailed('Login failed: {}'.format(r.url))
 
     return TransperthSession(s)
 
