@@ -22,7 +22,7 @@ from transperth.smart_rider.smart_rider import login
 from transperth.exceptions import NotLoggedIn, LoginFailed
 
 from location_proxy import determine_location
-from utils import fares_to_table, BaseRequestHandler
+from utils import fares_to_table, BaseRequestHandler, humanise_flag
 from transperth_auth import TransperthAuthMixin
 
 # setup logging
@@ -58,15 +58,6 @@ class RoutesRequestHandler(BaseRequestHandler):
         }
 
         fares = fares_for_route(route)
-
-        humanise_flag = {
-            "*": 'Estimated time only',
-            "Dv": 'Deviating Service',
-            "Ls": 'Limited stops service',
-            "+": 'indicates the following day',
-            "As": 'Accessible service',
-            "Ch": 'Service undergoing change'
-        }.get
 
         self.render(
             'routes.html',

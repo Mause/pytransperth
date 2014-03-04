@@ -42,3 +42,13 @@ def fares_to_table(fares):
     table.apply_theme('basic')
 
     return table
+
+
+humanise_flag = {
+    "*": 'Estimated time only',
+    "Dv": 'Deviating Service',
+    "Ls": 'Limited stops service',
+    "+": 'indicates the following day',
+    "As": 'Accessible service',
+    "Ch": 'Service undergoing change'
+}.get
