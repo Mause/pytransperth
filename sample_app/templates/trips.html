@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="sixteen columns">
+    {% for trip in trips %}
+        <div class="row">
+        {% for step in trip %}
+            <div>
+                <strong>Location:</strong>
+                {{step['tagon']['location']}} -> {{step['tagoff']['location']}}
+                <br/>
+
+                <strong>Time:</strong>
+                {{step['tagon']['time'].strftime('%I:%M %p %d/%m/%Y')}} ->&nbsp;
+                {{step['tagoff']['time'].strftime('%I:%M %p %d/%m/%Y')}}
+                <br/>
+
+                <strong>Zone:</strong>
+                {{step['tagon']['zone']}} -> {{step['tagoff']['zone']}}
+                <br/>
+
+                <strong>Amount:</strong>
+                ${{step['tagoff']['amount']}}
+                <br/>
+
+                <strong>Service:</strong>
+                {{step['tagoff']['service']}}
+                <br/>
+
+                <strong>Balance:</strong>
+                ${{step['tagoff']['balance']}}
+                <br/>
+
+            </div>
+            <br/>
+        {% end %}
+        </div>
+        <hr/>
+    {% end %}
+</div>
+
+{% end %}

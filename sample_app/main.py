@@ -17,6 +17,7 @@ from transperth.jp.fares import fares_for_route
 from transperth.jp.routes import determine_routes
 
 from transperth.smart_rider.smart_rider import login
+from transperth.smart_rider.trips import determine_trips
 
 from transperth.exceptions import NotLoggedIn, LoginFailed
 
@@ -92,6 +93,33 @@ class ActionsHandler(BaseRequestHandler):
 
         self.render('actions.html', actions=list(actions))
 
+
+class TripHandler(BaseRequestHandler):
+    def get(self):
+        ts = self.current_user
+        if not ts:
+            return self.reauth('not_logged_in')
+
+        try:
+            riders = ts.smart_riders()
+        except NotLoggedIn:
+            return self.reauth()
+
+        sr_code = list(riders.values())[0]['code']
+
+        actions = ts.get_actions(sr_code)
+        actions = sorted(
+            actions,
+            key=itemgetter('time'),
+            reverse=True
+        )
+        actions = list(actions)
+
+        trips = determine_trips(actions)
+
+        self.render('trips.html', trips=list(trips))
+
+
 REASONS = {
     'session_expired': "Your session has expired. Please login again",
     'bad_credentials': 'You supplied incorrect credentials',
@@ -149,6 +177,7 @@ application = tornado.web.Application([
     (r"/", RootHandler),
     (r"/routes", RoutesRequestHandler),
     (r"/actions", ActionsHandler),
+    (r"/trips", TripHandler),
 
     (r"/login", LoginHandler),
     (r"/logout", LogoutHandler)
