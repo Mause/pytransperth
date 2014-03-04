@@ -84,6 +84,11 @@ class ActionsHandler(BaseRequestHandler):
         sr_code = list(riders.values())[0]['code']
 
         actions = ts.get_actions(sr_code)
+        actions = sorted(
+            actions,
+            key=itemgetter('time'),
+            reverse=True
+        )
 
         self.render('actions.html', actions=list(actions))
 
