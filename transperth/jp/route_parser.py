@@ -284,7 +284,7 @@ def _parse_time(string: str) -> datetime.time:
     """
     :returns: the parsed time
     """
-    string = TIME_RE.search(string).groups()[0]
+    string = TIME_RE.search(string.strip()).groups()[0]
 
     t = time.strptime(string, '%I:%M %p')
 
