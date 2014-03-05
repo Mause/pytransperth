@@ -347,14 +347,32 @@ class PageRequestManagerAugmentations(object):
         raise Exception()
 
     def possible_actions(self):
-        hrefs = self.document.xpath('//[@href]')
+        def args_from_href(href):
+            href = href.split('javascript:__doPostBack(')[1][:-1]
+            return href.replace("'", '').split(',')
 
-        print(hrefs)
+        hrefs = self.document.xpath('//*[@href]')
 
-        import IPython
-        IPython.embed()
+        hrefs = (
+            href
+            for href in hrefs
+            if '__doPostBack' in href.attrib['href']
+        )
 
-        # href="javascript:__doPostBack('dnn$dnnSEARCH$cmdSearch','')"
+        nhrefs = {}
+        for href in hrefs:
+            if 'id' in href.attrib:
+                name = href.attrib.get('id')
+            elif 'title' in href.attrib:
+                name = href.attrib.get('title')
+            else:
+                name = href.attrib['class']
+
+            assert name, (href.attrib, href)
+
+            nhrefs[name] = args_from_href(href.attrib['href'])
+
+        return nhrefs
 
 
 class PageRequestManager(
