@@ -1,5 +1,6 @@
 import tornado.web
 import ipy_table
+
 from transperth.jp.location import Location
 from transperth_auth import TransperthAuthMixin
 

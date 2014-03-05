@@ -14,11 +14,11 @@ ul .nav {
     border: solid black 1px;
     padding: 10px;
     height: 100%;
+    margin-right: 5px;
 
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    margin-right: 5px;
 }
 
 .step {
