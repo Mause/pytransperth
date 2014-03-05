@@ -26,7 +26,7 @@
 </div>
 
 
-<div style="height: 60px;">
+<div style="height: 60px;" class="step">
     <div class="pull-left step_part" style="height: 100%">
         {{route_path['from']}}
     </div>
@@ -63,42 +63,43 @@
             </div>
         {% end %}
 
-        <div class="pull-left step_part">
-            {% if step['step_type'] == 'bus' %}
-                <img src="{{ static_url('np/icon_97/icon_97.svg') }}"/>
-            {% elif step['step_type'] == 'train' %}
-                <img src="{{ static_url('np/icon_67/icon_67.svg') }}"/>
-            {% else %}
-                <img src="{{ static_url('np/icon_250/icon_250.svg') }}"/>
-            {% end %}
-        </div>
 
-        {% if 'route' in step %}
             <div class="pull-left step_part">
-                <strong>Route:</strong>
-                {{step['route']['route_moniker']}}
+                <div class="pull-left step_part">
+                    {% if step['step_type'] == 'bus' %}
+                        <img src="{{ static_url('np/icon_97/icon_97.svg') }}"/>
+                    {% elif step['step_type'] == 'train' %}
+                        <img src="{{ static_url('np/icon_67/icon_67.svg') }}"/>
+                    {% else %}
+                        <img src="{{ static_url('np/icon_250/icon_250.svg') }}"/>
+                    {% end %}
+                </div>
 
-                {% if step['route'].get('flags') is not None %}
-                    <strong>Flags:</strong>
-                    {{ ', '.join(map(humanise_flag, step['route']['flags'])) }}
+
+                {% if 'route' in step %}
+                    <strong>Route:</strong>
+                    {{step['route']['route_moniker']}}
+
+                    {% if step['route'].get('flags') is not None %}
+                        <strong>Flags:</strong>
+                        {{ ', '.join(map(humanise_flag, step['route']['flags'])) }}
+                    {% end %}
+
+                    <br/>
+
+                    {% if step['route'].get('from') is not None %}
+                        <strong>From:</strong> {{step['route']['from']}}<br/>
+                    {% end %}
+
+                    {% if step['route'].get('to') is not None %}
+                        <strong>To:</strong> {{step['route']['to']}}<br/>
+                    {% end %}
+
+                    {% if step['route'].get('departs') is not None %}
+                        <strong>Departs:</strong> {{step['route']['departs']}}<br/>
+                    {% end %}
                 {% end %}
-
-                <br/>
-
-                {% if step['route'].get('from') is not None %}
-                    <strong>From:</strong> {{step['route']['from']}}<br/>
-                {% end %}
-
-                {% if step['route'].get('to') is not None %}
-                    <strong>To:</strong> {{step['route']['to']}}<br/>
-                {% end %}
-
-                {% if step['route'].get('departs') is not None %}
-                    <strong>Departs:</strong> {{step['route']['departs']}}<br/>
-                {% end %}
-
             </div>
-        {% end %}
 
         {% if 'arrival' in step %}
             <div class="pull-left step_part">
