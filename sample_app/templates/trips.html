@@ -17,6 +17,15 @@
             </div>
             <br/>
 
+            <div>
+                {% for step in trip['path'][:-1] %}
+                    {{step}} →&nbsp;
+                {% end %}
+
+                {{trip['path'][-1]}}
+            </div>
+            <br/>
+
         {% for step in trip['steps'] %}
             <div>
                 <strong>Location:</strong>
