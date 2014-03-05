@@ -2,7 +2,7 @@
 Parses actions into separate trips
 """
 from functools import reduce
-from operator import add
+from operator import add, itemgetter
 
 
 TAG_OFF = 'Normal TAG OFF'
@@ -26,8 +26,13 @@ class TripTracer(object):
             if current_trip[-1]['tagon']['notes'] == TRANSFER:
                 current_trip.extend(self.consume_trip())
 
+            sorted_trip = sorted(
+                current_trip,
+                key=lambda step: step['tagon']['time']
+            )
+
             current_trip = {
-                'steps': current_trip,
+                'steps': list(sorted_trip),
                 'meta': self.generate_meta(current_trip)
             }
 
