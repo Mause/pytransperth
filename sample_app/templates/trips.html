@@ -20,12 +20,11 @@
         {% for step in trip['steps'] %}
             <div>
                 <strong>Location:</strong>
-                {{step['tagon']['location']}} -> {{step['tagoff']['location']}}
+                {{step['tagon']['location']}} → {{step['tagoff']['location']}}
                 <br/>
 
                 <strong>Time:</strong>
-                {{step['tagon']['time'].strftime('%I:%M %p %d/%m/%Y')}} ->&nbsp;
-                {{step['tagoff']['time'].strftime('%I:%M %p %d/%m/%Y')}}
+                {{step['tagon']['time'].strftime('%I:%M %p %d/%m/%Y')}} → {{step['tagoff']['time'].strftime('%I:%M %p %d/%m/%Y')}}
                 <br/>
 
                 <strong>Zone:</strong>
