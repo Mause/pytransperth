@@ -4,6 +4,19 @@
 <div class="sixteen columns">
     {% for trip in trips %}
         <div class="row">
+            <div>
+                From {{trip['meta']['from']}}
+                to {{trip['meta']['to']}}
+                <br/>
+
+                Travel time: {{trip['meta']['travel_time']}}
+                <br/>
+
+                Wait time: {{trip['meta']['wait_time']}}
+                <br/>
+            </div>
+            <br/>
+
         {% for step in trip %}
             <div>
                 <strong>Location:</strong>

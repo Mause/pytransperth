@@ -1,3 +1,10 @@
+"""
+Parses actions into separate trips
+"""
+from functools import reduce
+from operator import add
+
+
 TAG_OFF = 'Normal TAG OFF'
 TAG_ON = 'Normal TAG ON'
 TRANSFER = 'Transfer'
@@ -19,6 +26,11 @@ class TripTracer(object):
             if current_trip[-1]['tagon']['notes'] == TRANSFER:
                 current_trip.extend(self.consume_trip())
 
+            current_trip = {
+                'steps': current_trip,
+                'meta': self.generate_meta(current_trip)
+            }
+
             yield current_trip
 
     def consume_trip(self):
@@ -32,6 +44,47 @@ class TripTracer(object):
         return {
             'tagoff': self.actions.pop(0),
             'tagon': self.actions.pop(0)
+        }
+
+    def generate_meta(self, trip):
+        def readable(td):
+            from itertools import chain
+            td = td.__str__().split(':')
+            td = zip(td, ['hours,', 'minutes, and', 'seconds'])
+            td = chain.from_iterable(td)
+            return ' '.join(td)
+
+        determine_breadth = lambda iterable: reduce(add, iterable)
+
+        travel_time = determine_breadth(
+            step['tagoff']['time'] - step['tagon']['time']
+            for step in trip
+        )
+
+        wait_time = 0
+        if len(trip) > 1:
+            waiting = []
+            qtrip = list(trip)
+
+            while len(qtrip) > 1:
+                latter = qtrip.pop(0)['tagoff']
+                waiting.append(latter['time'] - qtrip[0]['tagon']['time'])
+                print(
+                    '\t\t\t\t\t',
+                    qtrip[0]['tagon']['location'], qtrip[0]['tagon']['time'],
+                    '->',
+                    latter['location'], latter['time'],
+                )
+
+            print('\n')
+
+            wait_time = determine_breadth(waiting)
+
+        return {
+            'from': trip[0]['tagon']['location'],
+            'to': trip[-1]['tagon']['location'],
+            'travel_time': travel_time,
+            'wait_time': wait_time
         }
 
 
