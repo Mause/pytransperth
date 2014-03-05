@@ -55,16 +55,16 @@ class TripTracer(object):
     def determine_path(self, trip):
         path_steps = [None]
 
+        for step in trip:
+            if step['tagon'] != path_steps[-1]:
+                path_steps.append(step['tagon'])
+
+            if step['tagoff'] != path_steps[-1]:
+                path_steps.append(step['tagoff'])
+
         fmt = '{location} ({service})'.format_map
 
-        for step in trip:
-            if fmt(step['tagon']) != path_steps[-1]:
-                path_steps.append(fmt(step['tagon']))
-
-            if fmt(step['tagoff']) != path_steps[-1]:
-                path_steps.append(fmt(step['tagoff']))
-
-        return path_steps[1:]
+        return list(map(fmt, path_steps[1:]))
 
     def generate_meta(self, trip):
         def readable(td):
