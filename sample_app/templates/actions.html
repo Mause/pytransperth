@@ -18,6 +18,11 @@
                     {{action['zone']}}<br/>
                 {% end %}
 
+                {% if action['amount'] is not None %}
+                    <strong>Amount:</strong>
+                    ${{action['amount']}}<br/>
+                {% end %}
+
                 {% if action['service'] %}
                     <strong>Service:</strong>
                     {{action['service']}}<br/>
