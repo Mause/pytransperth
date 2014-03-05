@@ -31,3 +31,7 @@ ul .nav {
     vertical-align: middle;
     height: 60px;
 }
+
+.container {
+    width: 90% !important;
+}
