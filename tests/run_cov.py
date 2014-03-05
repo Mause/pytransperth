@@ -1,13 +1,12 @@
-import unittest
 import coverage
 
-from __init__ import suite
+from __init__ import main
 
 cov = coverage.coverage()
 cov.start()
 
 try:
-    unittest.TextTestRunner().run(suite())
+    main()
 finally:
     cov.stop()
     cov.save()

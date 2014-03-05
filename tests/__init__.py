@@ -34,3 +34,10 @@ def suite():
     chdir(dirname(__file__))
 
     return unittest.TestLoader().loadTestsFromNames(SUB_UNITS)
+
+
+def main():
+    unittest.TextTestRunner().run(suite())
+
+if __name__ == '__main__':
+    main()
