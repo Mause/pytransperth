@@ -28,7 +28,11 @@
                 <br/>
 
                 <strong>Zone:</strong>
-                {{step['tagon']['zone']}} -> {{step['tagoff']['zone']}}
+                {% if step['tagon']['zone'] == step['tagoff']['zone'] %}
+                    Within zone {{step['tagon']['zone']}}
+                {% else %}
+                    {{step['tagon']['zone']}} → {{step['tagoff']['zone']}}
+                {% end %}
                 <br/>
 
                 <strong>Amount:</strong>
