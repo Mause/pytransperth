@@ -17,7 +17,7 @@
             </div>
             <br/>
 
-        {% for step in trip %}
+        {% for step in trip['steps'] %}
             <div>
                 <strong>Location:</strong>
                 {{step['tagon']['location']}} -> {{step['tagoff']['location']}}
