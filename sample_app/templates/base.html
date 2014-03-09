@@ -8,29 +8,38 @@
     </head>
     <body>
         <div class="container">
-            <div class="sixteen columns">
+            <div class="nine columns">
                 <div class="row">
-                    <ul class="nav">
-                        <li>
-                            {% if is_authenticated() %}
-                                <a href="/logout">Logout</a>
-                            {% else %}
-                                <a href="/login">Login</a>
-                            {% end %}
-                        </li>
-                        <li>
-                            <a href="/actions">Actions</a>
-                        </li>
-                        <li>
-                            <a href="/trips">Trips</a>
-                        </li>
-                        <li>
-                            <a href="/routes">Routes</a>
-                        </li>
-                    </ul>
-
+                    <h2>
+                        Sample Transperth App
+                    </h2>
                 </div>
             </div>
+            <div class="five columns pull-left">
+                <div class="row">
+                    <nav>
+                        <ul class="nav">
+                            <li>
+                                {% if is_authenticated() %}
+                                    <a href="/logout">Logout</a>
+                                {% else %}
+                                    <a href="/login">Login</a>
+                                {% end %}
+                            </li>
+                            <li>
+                                <a href="/actions">Actions</a>
+                            </li>
+                            <li>
+                                <a href="/trips">Trips</a>
+                            </li>
+                            <li>
+                                <a href="/routes">Routes</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <hr/>
             {% block content %}
             {% end %}
         </div>
