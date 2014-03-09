@@ -1,0 +1,109 @@
+[
+  {
+    "Armadale Line": [
+      "Perth Stn",
+      "McIver Stn",
+      "Claisebrook Stn",
+      "Burswood Stn",
+      "Victoria Park Stn",
+      "Carlisle Stn",
+      "Oats Street Stn",
+      "Welshpool Stn",
+      "Queens Park Stn",
+      "Cannington Stn",
+      "Beckenham Stn",
+      "Kenwick Stn",
+      "Maddington Stn",
+      "Gosnells Stn",
+      "Seaforth Stn",
+      "Kelmscott Stn",
+      "Challis Stn",
+      "Sherwood Stn",
+      "Armadale Stn"
+    ]
+  },
+  {
+    "Thornlie Line": [
+      "Perth Stn",
+      "McIver Stn",
+      "Claisebrook Stn",
+      "Burswood Stn",
+      "Victoria Park Stn",
+      "Carlisle Stn",
+      "Oats Street Stn",
+      "Welshpool Stn",
+      "Queens Park Stn",
+      "Cannington Stn",
+      "Thornlie Stn"
+    ]
+  },
+  {
+    "Midland Line": [
+      "Perth Stn",
+      "McIver Stn",
+      "Claisebrook Stn",
+      "East Perth Stn",
+      "Mt Lawley Stn",
+      "Maylands Stn",
+      "Meltham Stn",
+      "Bayswater Stn",
+      "Ashfield Stn",
+      "Bassendean Stn",
+      "Success Hill Stn",
+      "Guildford Stn",
+      "East Guildford Stn",
+      "Woodbridge Stn",
+      "Midland Stn"
+    ]
+  },
+  {
+    "Fremantle Line": [
+      "Perth Stn",
+      "City West Stn",
+      "West Leederville Stn",
+      "Subiaco Stn",
+      "Daglish Stn",
+      "Shenton Park Stn",
+      "Karrakatta Stn",
+      "Loch Street Stn",
+      "Claremont Stn",
+      "Swanbourne Stn",
+      "Grant Street Stn",
+      "Cottesloe Stn",
+      "Mosman Park Stn",
+      "Victoria Street Stn",
+      "North Fremantle Stn",
+      "Fremantle Stn"
+    ]
+  },
+  {
+    "Joondalup Line": [
+      "Perth Underground Stn",
+      "Leederville Stn",
+      "Glendalough Stn",
+      "Stirling Stn",
+      "Warwick Stn",
+      "Greenwood Stn",
+      "Whitfords Stn",
+      "Edgewater Stn",
+      "Joondalup Stn",
+      "Currambine Stn",
+      "Clarkson Stn"
+    ]
+  },
+  {
+    "Mandurah Line": [
+      "Perth Underground Stn",
+      "Esplanade Stn",
+      "Canning Bridge Stn",
+      "Bull Creek Stn",
+      "Murdoch Stn",
+      "Cockburn Central Stn",
+      "Kwinana Stn",
+      "Wellard Stn",
+      "Rockingham Stn",
+      "Warnbro Stn",
+      "Mandurah Stn"
+    ]
+  }
+]
