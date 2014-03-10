@@ -6,7 +6,6 @@
 
    fares
    location
-   exceptions
    route_parser
    routes
    utils
