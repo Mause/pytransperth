@@ -2,8 +2,7 @@
 Parses actions into separate trips
 """
 from functools import reduce
-from operator import add, itemgetter
-
+from operator import add
 
 TAG_OFF = 'Normal TAG OFF'
 TAG_ON = 'Normal TAG ON'
@@ -50,6 +49,14 @@ class TripTracer(object):
                 'path': self.determine_path(sorted_trip)
             }
 
+    def determine_price(self, trip):
+        # we negate the price to get a positive number, so the when summed
+        # we get a positive price
+
+        return sum(map(
+            lambda step: -step['tagoff']['amount'],
+            trip
+        ))
 
     def consume_trip(self) -> list:
         """
@@ -127,7 +134,8 @@ class TripTracer(object):
             'from': trip[0]['tagon']['location'],
             'to': trip[-1]['tagon']['location'],
             'travel_time': travel_time,
-            'wait_time': wait_time
+            'wait_time': timedelta_repr(wait_time),
+            'price': self.determine_price(trip)
         }
 
 
