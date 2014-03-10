@@ -125,7 +125,7 @@ class TripTracer(object):
 
         return {
             'from': trip[0]['tagon']['location'],
-            'to': trip[-1]['tagon']['location'],
+            'to': trip[-1]['tagoff']['location'],
             'travel_time': travel_time,
             'wait_time': timedelta_repr(wait_time),
             'price': self.determine_price(trip)
