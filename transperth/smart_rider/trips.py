@@ -120,14 +120,6 @@ class TripTracer(object):
             while len(qtrip) > 1:
                 latter = qtrip.pop(0)['tagoff']
                 waiting.append(latter['time'] - qtrip[0]['tagon']['time'])
-                print(
-                    '\t\t\t\t\t',
-                    qtrip[0]['tagon']['location'], qtrip[0]['tagon']['time'],
-                    '->',
-                    latter['location'], latter['time'],
-                )
-
-            print('\n')
 
             wait_time = determine_breadth(waiting)
 
