@@ -42,14 +42,14 @@ class TripTracer(object):
                 current_trip,
                 key=lambda step: step['tagon']['time']
             )
+            sorted_trip = list(sorted_trip)
 
-            current_trip = {
-                'steps': list(sorted_trip),
-                'meta': self.generate_meta(current_trip),
+            yield {
+                'steps': sorted_trip,
+                'meta': self.generate_meta(sorted_trip),
                 'path': self.determine_path(sorted_trip)
             }
 
-            yield current_trip
 
     def consume_trip(self) -> list:
         """
