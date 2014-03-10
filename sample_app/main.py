@@ -150,7 +150,9 @@ class LoginHandler(BaseRequestHandler, TransperthAuthMixin):
 
         self.set_secure_cookie('transperth_creds', creds)
 
-        self.redirect('/')
+        redirect = self.get_argument('redirect', None) or '/'
+
+        self.redirect(redirect)
 
 
 class LogoutHandler(BaseRequestHandler):

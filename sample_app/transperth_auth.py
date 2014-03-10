@@ -1,5 +1,6 @@
 import logging
 import pickle
+from urllib.parse import urlencode, urljoin
 
 from auth_base import AuthMixin
 
@@ -19,7 +20,12 @@ class TransperthAuthMixin(AuthMixin):
         return pickle.loads(cookie)
 
     def reauth(self, reason="session_expired"):
+        params = {
+            "reason": reason,
+            "redirect": self.request.uri
+        }
+
         self.clear_cookie('transperth_creds')
         return self.redirect(
-            self.get_login_url() + '?reason={}'.format(reason)
+            self.get_login_url() + '?' + urlencode(params)
         )
