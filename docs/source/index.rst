@@ -5,6 +5,8 @@ Welcome to Transperth's documentation!
    :maxdepth: 2
 
    quickstart
+   exceptions
+   livetimes
    packages/jp/index
    packages/smart_rider/index
 
