@@ -19,10 +19,15 @@
                     {{trip['meta']['wait_time']}}
                 {% end %}
                 <br/>
+
+                <strong>Price:</strong>
+                ${{trip['meta']['price']}}
+                <br/>
             </div>
             <br/>
 
             <div>
+                <strong>Route:</strong>
                 {% for step in trip['path'][:-1] %}
                     {{step}} →&nbsp;
                 {% end %}
