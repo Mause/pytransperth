@@ -59,7 +59,6 @@ class TransperthSession(object):
 
     def smart_rider_request_manager(self):
         return self.get_rqm(
-            # "TravelEasy/MySmartRider/tabid/71/Default.aspx"
             'TravelEasy/MySmartRider.aspx'
         )
 
@@ -201,7 +200,7 @@ def _login(session: requests.Session, email: str, password: str):
     Performs actual login
     """
     return session.post(
-        "https://www.transperth.wa.gov.au/Default.aspx?tabid=69",
+        BASE_HTTPS + "Default.aspx?tabid=69",
         data={
             "txtUsername_2099": email,
             "txtPassword_2099": password,

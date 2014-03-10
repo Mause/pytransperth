@@ -63,7 +63,7 @@ def parse_delta(raw_delta: str) -> str:
     """
     Parses the deltas returned by the transperth api to ajax requests.
 
-    They are in the format;
+    They are in the format
 
     .. code-block:: none
 
