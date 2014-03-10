@@ -3,6 +3,7 @@ Parses actions into separate trips
 """
 from functools import reduce
 from operator import add
+import datetime
 
 TAG_OFF = 'Normal TAG OFF'
 TAG_ON = 'Normal TAG ON'
@@ -111,7 +112,7 @@ class TripTracer(object):
         )
         travel_time = timedelta_repr(travel_time)
 
-        wait_time = 0
+        wait_time = datetime.timedelta()
         if len(trip) > 1:
             waiting = []
             qtrip = list(trip)
