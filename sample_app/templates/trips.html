@@ -12,7 +12,12 @@
                 Travel time: {{trip['meta']['travel_time']}}
                 <br/>
 
-                Wait time: {{trip['meta']['wait_time']}}
+                <strong>Wait time:</strong>
+                {% if trip['meta']['wait_time'] == '' %}
+                    none
+                {% else %}
+                    {{trip['meta']['wait_time']}}
+                {% end %}
                 <br/>
             </div>
             <br/>
@@ -45,7 +50,11 @@
                 <br/>
 
                 <strong>Amount:</strong>
-                ${{step['tagoff']['amount']}}
+                {% if step['tagoff']['amount'] == 0 %}
+                    free
+                {% else %}
+                    ${{step['tagoff']['amount']}}
+                {% end %}
                 <br/>
 
                 <strong>Service:</strong>
