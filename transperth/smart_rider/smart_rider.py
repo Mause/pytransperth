@@ -63,9 +63,9 @@ class TransperthSession(object):
             'TravelEasy/MySmartRider.aspx'
         )
 
-    def fire_action(self, action_code: str, extra_params: dict=None) -> dict:
+    def fire_event(self, event_code: str, extra_params: dict=None) -> dict:
         """
-        Fires an `action` into the abyss.
+        Fires an event at the ASP.net backend.
         """
         assert len(self.smart_rider_request_manager().document.forms) > 0, (
             self.smart_rider_request_manager().document.forms
@@ -73,7 +73,7 @@ class TransperthSession(object):
 
         return self.smart_rider_request_manager().post_back(
             self.session,
-            action_code,
+            event_code,
             extra_params
         )
 
@@ -172,7 +172,7 @@ class TransperthSession(object):
             "ctl00"
         )
 
-        return self.fire_action(action_code, extra_params)
+        return self.fire_event(action_code, extra_params)
 
 
 def login(username: str, password: str) -> TransperthSession:
