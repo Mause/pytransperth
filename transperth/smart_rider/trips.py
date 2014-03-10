@@ -29,6 +29,9 @@ class TripTracer(object):
         self.actions = list(actions)
 
     def trace(self):
+        """
+        Consumes the provided actions, yielding trips consisting of stepss
+        """
         while self.actions:
             current_trip = [self.grab_step()]
 
@@ -48,20 +51,26 @@ class TripTracer(object):
 
             yield current_trip
 
-    def consume_trip(self):
+    def consume_trip(self) -> list:
+        """
+        Consumes a single trip, bar the first step
+        """
         current_trip = [self.grab_step()]
         while self.actions and current_trip[-1]['tagon']['notes'] == TRANSFER:
             current_trip.append(self.grab_step())
 
         return current_trip
 
-    def grab_step(self):
+    def grab_step(self) -> dict:
+        """
+        :returns: a dictionary representing the step
+        """
         return {
             'tagoff': self.actions.pop(0),
             'tagon': self.actions.pop(0)
         }
 
-    def determine_path(self, trip):
+    def determine_path(self, trip: list) -> list:
         path_steps = [None]
 
         for step in trip:
