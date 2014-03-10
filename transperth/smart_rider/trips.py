@@ -84,20 +84,25 @@ class TripTracer(object):
 
         return list(map(fmt, path_steps[1:]))
 
-    def generate_meta(self, trip):
-        def readable(td):
-            from itertools import chain
-            td = td.__str__().split(':')
-            td = zip(td, ['hours,', 'minutes, and', 'seconds'])
-            td = chain.from_iterable(td)
-            return ' '.join(td)
+    def generate_meta(self, trip: list) -> dict:
+        """
+        Computes the following;
 
+         * from location (for the trip)
+         * to location (for the trip)
+         * trip duration
+         * wait time between steps. this is zero on single step trips
+         * total price for the trip
+
+        :returns: metadata for a trip
+        """
         determine_breadth = lambda iterable: reduce(add, iterable)
 
         travel_time = determine_breadth(
             step['tagoff']['time'] - step['tagon']['time']
             for step in trip
         )
+        travel_time = timedelta_repr(travel_time)
 
         wait_time = 0
         if len(trip) > 1:
@@ -124,6 +129,34 @@ class TripTracer(object):
             'travel_time': travel_time,
             'wait_time': wait_time
         }
+
+
+def timedelta_repr(td: datetime.timedelta) -> str:
+    """
+    :returns: a human readable represation of the provided timedelta object
+    """
+    assert isinstance(td, datetime.timedelta), type(td)
+    ZERO = {'00', '0'}
+
+    td = td.__str__().split(':')
+
+    end = []
+    if td[0] not in ZERO:
+        end.append('{} hours'.format(td[0]))
+
+    if td[1] not in ZERO:
+        end.append('{} minutes'.format(td[1]))
+
+    if td[2] not in ZERO:
+        end.append('{} seconds'.format(td[2]))
+
+    if len(end) > 1:
+        end.append('and ' + end.pop(-1))
+
+    return ', '.join(
+        val.lstrip('0')
+        for val in end
+    )
 
 
 def determine_trips(actions):
