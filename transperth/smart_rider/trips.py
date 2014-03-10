@@ -7,13 +7,22 @@ from operator import add, itemgetter
 
 TAG_OFF = 'Normal TAG OFF'
 TAG_ON = 'Normal TAG ON'
+
+# synthetic actions are created when the smart rider user forgets to either
+# tag on at the start, or tag off at the end of a trip aboard one of the
+# transport services
+SYNTHETIC_TAG_ON = 'Synthetic TAG ON'
+SYNTHETIC_TAG_OFF = 'Synthetic TAG OFF'  # this is only presumed to exist
+
+VALID_TRIP_ACTIONS = [TAG_OFF, TAG_ON, SYNTHETIC_TAG_ON, SYNTHETIC_TAG_OFF]
+
 TRANSFER = 'Transfer'
 
 
 class TripTracer(object):
     def __init__(self, actions):
         actions = filter(
-            lambda action: action['action'] in [TAG_OFF, TAG_ON],
+            lambda action: action['action'] in VALID_TRIP_ACTIONS,
             actions
         )
 
