@@ -1,7 +1,7 @@
 :mod:`exceptions` Module
 ------------------------
 
-.. automodule:: transperth.jp.exceptions
+.. automodule:: transperth.exceptions
     :members:
     :undoc-members:
     :show-inheritance:
