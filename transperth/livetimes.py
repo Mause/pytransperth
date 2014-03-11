@@ -56,10 +56,10 @@ def _parse_trips(trips):
     return trips
 
 
-def main():
+def _main():
     from pprint import pprint
     pprint(times_for_station('Perth Underground Stn'))
 
 
 if __name__ == '__main__':
-    main()
+    _main()
