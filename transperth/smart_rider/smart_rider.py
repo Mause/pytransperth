@@ -250,6 +250,13 @@ def mend_location(string: str) -> str:
         string
     )
 
+def _pages(doc):
+    "pulls out the pages and their action codes"
+    div = doc.xpath("//div[@class='rgWrap rgNumPart']")[0]
+    return {
+        anchor[0].text: anchor.attrib['href'].split("'")[1]
+        for anchor in div
+    }
 
 def _get_smart_rider_actions(root: str) -> dict:
     root = html.document_fromstring(root)
@@ -279,18 +286,8 @@ def _get_smart_rider_actions(root: str) -> dict:
             'notes': action[7]
         })
 
-    pagination = root.xpath("//div[@class='rgWrap rgInfoPart']")[0]
-    items = int(list(pagination.itertext())[1])
-
-    div = root.xpath("//div[@class='rgWrap rgNumPart']")[0]
-
-    pages = {
-        anchor[0].text: anchor.attrib['href'].split("'")[1]
-        for anchor in div
-    }
-
     return {
         'actions': actions,
         'actions_total': items,
-        'pages': pages
+        'pages': _pages(root)
     }
