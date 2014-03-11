@@ -251,6 +251,18 @@ def mend_location(string: str) -> str:
     )
 
 
+def _get_items(doc):
+    items = doc.xpath(
+        "//table[@class='rgMasterTable']/"  # pull out the table
+        "tbody/"                            # grab the body of the table
+        "tr/td/"                            # grab the rows
+        "text()"                            # grab the text of the rows
+    )
+    items = list(map(str.strip, items))
+
+    while items:
+        yield [items.pop(0) for _ in range(8)]
+
 
 def _total_actions(doc):
     "pulls out the total number of actions for the date range"
@@ -266,23 +278,12 @@ def _pages(doc):
         for anchor in div
     }
 
+
 def _get_smart_rider_actions(root: str) -> dict:
     root = html.document_fromstring(root)
 
-    table = root.xpath("//table[@class='rgMasterTable']")[0]
-
-    rows = table.find('tbody').findall('tr')
-    items = (
-        map(etree._Element.itertext, row.findall('td'))
-        for row in rows
-    )
-    items = map(chain.from_iterable, items)
-    items = map(list, items)
-
     actions = []
-    for action in items:
-        action = list(map(str.strip, action))
-
+    for action in _get_items(root):
         actions.append({
             'time': date_parse(action[0] + " +0800"),
             'action': action[1],
