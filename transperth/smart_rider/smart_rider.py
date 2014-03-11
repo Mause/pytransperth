@@ -250,6 +250,14 @@ def mend_location(string: str) -> str:
         string
     )
 
+
+
+def _total_actions(doc):
+    "pulls out the total number of actions for the date range"
+    pagination = doc.xpath("//div[@class='rgWrap rgInfoPart']")[0]
+    return int(list(pagination.itertext())[1])
+
+
 def _pages(doc):
     "pulls out the pages and their action codes"
     div = doc.xpath("//div[@class='rgWrap rgNumPart']")[0]
@@ -288,6 +296,6 @@ def _get_smart_rider_actions(root: str) -> dict:
 
     return {
         'actions': actions,
-        'actions_total': items,
+        'actions_total': _total_actions(root),
         'pages': _pages(root)
     }
