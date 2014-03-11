@@ -9,7 +9,7 @@ from datetime import datetime
 import logging
 import re
 
-from lxml import html, etree
+from lxml import html
 import requests
 
 from .. import BASE_HTTPS
