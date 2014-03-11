@@ -210,6 +210,29 @@ def _login(session: requests.Session, email: str, password: str):
 
 STOP_RE = re.compile(r'(?<=\W)St (\d+)(?=\W)?')
 
+REPLACEMENTS = [
+    # generics
+    (" A ", " after "),
+    (" B ", " before "),
+    ('nnn', 'annin'),
+
+    # abbreviations
+    ('Brdge', 'Bridge'),
+    ('Stn', 'Station'),
+
+    # laziness
+    ('Bsprt', 'Esplanade Busport'),
+    ('Alxndr', 'Alexander'),
+    ('Albny', 'Albany'),
+    ('Brrndh', 'Burrendah'),
+    ('Pinetreerd', 'Pinetree Rd'),
+    ('Sth', 'South'),
+    ('Wlnn', 'Walanna'),
+    ('Lown', 'Lowan Loop '),
+    ('Frmntl', 'Freemantle'),
+    ('Ccl', 'Cecil')
+]
+
 
 def mend_location(string: str) -> str:
     """
@@ -218,16 +241,10 @@ def mend_location(string: str) -> str:
 
     These tend to be uniform, so this function attempts to clean them up.
     """
-    string = (
-        string
-        .title()
-        .replace(" A ", " after ")
-        .replace(" B ", " before ")
-        .replace('nnn', 'annin')
-        .replace('NNN', 'ANNIN')
-        .replace('Brdge', 'Bridge')
-        .replace('Bsprt', 'Esplanade Busport')
-    )
+    string = string.title()
+
+    for old, new in REPLACEMENTS:
+        string = string.replace(old, new)
 
     return STOP_RE.sub(
         lambda match: 'Stop {}'.format(match.groups()[0]),
