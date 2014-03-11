@@ -5,7 +5,7 @@ Based off the code that blha303 (http://github/blha303) provided me with
 
 from dateutil.parser import parse as date_parse
 from itertools import chain
-import datetime
+from datetime import datetime
 import logging
 import re
 
@@ -94,7 +94,7 @@ class TransperthSession(object):
 
         return self._smart_riders
 
-    def get_actions(self, sr_code: str):
+    def get_actions(self, sr_code: str, date_from=None, date_to=None):
         """
         :returns: a generator yielding action for the provided smart rider
         """
@@ -113,7 +113,8 @@ class TransperthSession(object):
             for key, action_code in remaining_pages:
                 yield action_page(action_code)['actions']
 
-        date_from, date_to = date_parse('01/01/2010'), date_parse('01/01/2015')
+        date_from = date_from or date_parse('01/01/2010')
+        date_to = date_to or date_parse('01/01/2015')
 
         page_one = action_page()
 
@@ -123,15 +124,13 @@ class TransperthSession(object):
         )
         remaining_pages = list(remaining_pages)[1:]
 
-        print('remaining_pages:', remaining_pages)
-
         for page in chain([page_one['actions']], pages(remaining_pages)):
             for activity in page:
                 yield activity
 
     def _send_smart_rider_activites_request(
-            self, code: str, date_from: datetime.datetime,
-            date_to: datetime.datetime, action_code: str=None) -> dict:
+            self, code: str, date_from: datetime,
+            date_to: datetime, action_code: str=None) -> dict:
         # add in date range
         extra_params = {
             'dnn$ctr2061$SmartRiderTransactions$rdFromDate': (
