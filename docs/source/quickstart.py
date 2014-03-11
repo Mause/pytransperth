@@ -7,10 +7,15 @@ sys.path.insert(
 
 
 # create the Location object you wish to resolve;
-from transperth.location import Location, ResolvedLocation, determine_location
+from transperth.jp.location import (
+    Location,
+    ResolvedLocation,
+    determine_location
+)
 
-from_location = Location.from_stop('12111')
-to_location = Location.from_stop('20000')
+from_location = Location.from_location('Curtin University, Perth')
+to_location = Location.from_location('Arena Joondalup')
+
 
 # then we resolve it into something that the transperth api will accept
 locations = determine_location(from_location, to_location)
@@ -29,7 +34,7 @@ from_location = locations['from'][0]
 to_location = locations['to'][0]
 
 # once we have these, we can grab the routes
-from transperth.routes import determine_routes
+from transperth.jp.routes import determine_routes
 
 routes = determine_routes(from_location, to_location)
 
@@ -37,4 +42,5 @@ routes = determine_routes(from_location, to_location)
 route = routes[0]
 
 # and use 'em how you like
-print(route['duration'])
+from transperth.smart_rider.trips import timedelta_repr
+print(timedelta_repr(route['meta']['duration']))
