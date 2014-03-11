@@ -285,7 +285,7 @@ def _get_smart_rider_actions(root: str) -> dict:
     actions = []
     for action in _get_items(root):
         actions.append({
-            'time': date_parse(action[0] + " +0800"),
+            'time': datetime.strptime(action[0].strip(), '%d/%m/%Y %H:%M:%S'),
             'action': action[1],
             'location': mend_location(action[2]),
             'service': action[3],
