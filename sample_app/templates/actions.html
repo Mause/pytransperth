@@ -1,11 +1,13 @@
 {% extends "base.html" %}
+
+{% block nav %}
+<div class="row">
+    {% include "select_smartrider.html" %}
+</div>
+{% end %}
+
 {% block content %}
-
 <div class="sixteen columns">
-    <div class="row">
-        {% include "select_smartrider.html" %}
-    </div>
-
     <div class="row">
         {% if actions %}
             {{len(actions)}} actions
