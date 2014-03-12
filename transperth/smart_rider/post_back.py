@@ -243,28 +243,47 @@ class PageRequestManagerOriginal(object):
         else:
             return b
 
-    def retrieve_postback_settings(self, action_code):
-        el_id = unique_ID_to_client_ID(action_code)
-        el = self.document.get_element_by_id(el_id, None)
+    def _post_back(self, a, e=""):
+        self._additionalInput = None
 
-        if el is None:
-            c = self.find_nearest_element(action_code)
-            if c is not None:
-                return self.get_post_back_settings(c, action_code)
-            else:
-                return create_post_back_settings(
-                    False, None, None
-                )
+        if not a or self._is_cross_post:
+            _postBackSettings = create_post_back_settings(False, None, None)
+            self._is_cross_post = False
         else:
-            return self.get_post_back_settings(el, action_code)
+            f = unique_ID_to_client_ID(a)
+            d = self.document.get_element_by_id(f, None)
 
-    def post_back(self, session, action_code, extra_params=None):
+            if d is None:
+                if a in self._async_post_back_control_IDs:
+                    _postBackSettings = create_post_back_settings(
+                        True,
+                        self._scriptManagerID + "|" + a,
+                        None
+                    )
+                elif a in self._post_back_control_IDs:
+                    _postBackSettings = create_post_back_settings(
+                        False, None, None
+                    )
+                else:
+                    c = self.find_nearest_element(a)
+                    if c is not None:
+                        _postBackSettings = self.get_post_back_settings(c, a)
+                    else:
+                        _postBackSettings = create_post_back_settings(
+                            False, None, None
+                        )
+            else:
+                _postBackSettings = self.get_post_back_settings(d, a)
+
+        return _postBackSettings
+
+    def post_back(self, session, event_code, extra_params=None):
         params = params_from_form(self._form)
 
         # load in the extra parameters
         params.update(extra_params or {})
 
-        _postBackSettings = self.retrieve_postback_settings(action_code)
+        _postBackSettings = self._post_back(event_code)
         params[self._script_manager_ID] = _postBackSettings['panelID']
         params['__EVENTTARGET'] = action_code
         params.setdefault('__EVENTARGUMENT', '')
