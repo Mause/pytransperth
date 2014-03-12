@@ -290,7 +290,7 @@ class PageRequestManagerOriginal(object):
 
         _postBackSettings = self._post_back(event_code)
         params[self._script_manager_ID] = _postBackSettings['panelID']
-        params['__EVENTTARGET'] = action_code
+        params['__EVENTTARGET'] = event_code
         params.setdefault('__EVENTARGUMENT', '')
 
         r = session.post(
