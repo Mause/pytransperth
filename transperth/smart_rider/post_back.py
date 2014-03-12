@@ -123,14 +123,19 @@ class PageRequestManagerOriginal(object):
         self._update_panel_has_children_as_triggers = [
             True, True, True, True, True, True
         ]
-        self._async_post_back_control_IDs = None
+        self._async_post_back_control_IDs = [
+            "dnn$ctr2061$SmartRiderTransactions$ddlSmartCardNumber",
+            "dnn$ctr2061$SmartRiderTransactions$rgTransactions",
+            "dnn$ctr2061$SmartRiderTransactions$rdToDate",
+            "dnn$ctr2061$SmartRiderTransactions$rdFromDate"
+        ]
         self._async_post_back_control_client_IDs = [
             "dnn_ctr2061_SmartRiderTransactions_ddlSmartCardNumber",
             "dnn_ctr2061_SmartRiderTransactions_rgTransactions",
             "dnn_ctr2061_SmartRiderTransactions_rdToDate",
             "dnn_ctr2061_SmartRiderTransactions_rdFromDate"
         ]
-        self._post_back_control_IDs = None
+        self._post_back_control_IDs = []
         self._post_back_control_client_IDs = []
         self._script_manager_ID = None or 'ScriptManager'
         self._page_loaded_handler = None
