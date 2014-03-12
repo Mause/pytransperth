@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 import tornado.web
 import ipy_table
 
@@ -23,6 +25,12 @@ class BaseRequestHandler(TransperthAuthMixin, tornado.web.RequestHandler):
     def render(self, *args, **kwargs):
         kwargs['is_authenticated'] = self.is_authenticated
         return super().render(*args, **kwargs)
+
+    def redirect(self, url, *args, **kwargs):
+        params = kwargs.get('params')
+        return super().redirect(
+            url + ('?' + urlencode(params) if params else '')
+        )
 
     def get_smartrider(self):
         sr_code = self.get_argument('sr_code', None)

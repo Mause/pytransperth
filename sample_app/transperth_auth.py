@@ -1,6 +1,5 @@
 import logging
 import pickle
-from urllib.parse import urlencode, urljoin
 
 from auth_base import AuthMixin
 
@@ -27,5 +26,6 @@ class TransperthAuthMixin(AuthMixin):
 
         self.clear_cookie('transperth_creds')
         return self.redirect(
-            self.get_login_url() + '?' + urlencode(params)
+            self.get_login_url(),
+            params=params
         )
