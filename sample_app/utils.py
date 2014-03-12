@@ -40,6 +40,23 @@ class BaseRequestHandler(TransperthAuthMixin, tornado.web.RequestHandler):
             url + ('?' + urlencode(params) if params else '')
         )
 
+
+class SmartRiderMixin(tornado.web.RequestHandler):
+    def render(self, *args, **kwargs):
+        if 'smart_riders' not in kwargs:
+            kwargs['smart_riders'] = (
+                self.current_user.smart_riders()
+            )
+
+            sr_code = self.get_argument('sr_code', None)
+            for num, meta in kwargs['smart_riders'].items():
+                if meta['code'] == sr_code:
+                    meta['default'] = True
+                else:
+                    meta['default'] = False
+
+        return super().render(*args, **kwargs)
+
     def get_smartrider(self):
         sr_code = self.get_argument('sr_code', None)
 
