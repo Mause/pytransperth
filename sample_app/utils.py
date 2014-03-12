@@ -24,6 +24,18 @@ class BaseRequestHandler(TransperthAuthMixin, tornado.web.RequestHandler):
         kwargs['is_authenticated'] = self.is_authenticated
         return super().render(*args, **kwargs)
 
+    def get_smartrider(self):
+        sr_code = self.get_argument('sr_code', None)
+
+        if sr_code is not None:
+            return sr_code
+
+        riders = self.current_user.smart_riders()
+        if len(riders) > 1:
+            return None  # trigger smart rider selection
+        else:
+            return list(riders.values())[0]
+
 
 def fares_to_table(fares):
     keys, values = zip(*fares.items())
@@ -53,3 +65,20 @@ humanise_flag = {
     "As": 'Accessible service',
     "Ch": 'Service undergoing change'
 }.get
+
+
+def auth_required(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        # asserts the user is logged in from our perspective
+        if not self.current_user:
+            return self.reauth('not_logged_in')
+
+        try:
+            return func(self, *args, **kwargs)
+        except NotLoggedIn:
+            # the user is not logged in from transperths perspective
+            # some functions handle the NotLoggedIn error elsewhere
+            return self.reauth()
+
+    return wrapper

@@ -20,10 +20,16 @@ from transperth.jp.routes import determine_routes
 from transperth.smart_rider.smart_rider import login
 from transperth.smart_rider.trips import determine_trips
 
-from transperth.exceptions import NotLoggedIn, LoginFailed
+from transperth.exceptions import LoginFailed
 
 from location_proxy import determine_location
-from utils import fares_to_table, BaseRequestHandler, humanise_flag
+from utils import (
+    fares_to_table,
+    BaseRequestHandler,
+    SmartRiderMixin,
+    humanise_flag,
+    auth_required
+)
 from transperth_auth import TransperthAuthMixin
 
 # setup logging
@@ -72,20 +78,17 @@ class RoutesRequestHandler(BaseRequestHandler):
         )
 
 
-class ActionsHandler(BaseRequestHandler):
+class ActionsHandler(SmartRiderMixin, BaseRequestHandler):
+    @auth_required
     def get(self):
-        ts = self.current_user
-        if not ts:
-            return self.reauth('not_logged_in')
+        sr_code = self.get_smartrider()
+        if sr_code is None:
+            return self.redirect(
+                '/select_smartrider',
+                params={'redirect': self.request.uri}
+            )
 
-        try:
-            riders = ts.smart_riders()
-        except NotLoggedIn:
-            return self.reauth()
-
-        sr_code = list(riders.values())[0]['code']
-
-        actions = ts.get_actions(sr_code)
+        actions = self.current_user.get_actions(sr_code)
         actions = sorted(
             actions,
             key=itemgetter('time'),
@@ -95,20 +98,12 @@ class ActionsHandler(BaseRequestHandler):
         self.render('actions.html', actions=list(actions))
 
 
-class TripHandler(BaseRequestHandler):
+class TripHandler(SmartRiderMixin, BaseRequestHandler):
+    @auth_required
     def get(self):
-        ts = self.current_user
-        if not ts:
-            return self.reauth('not_logged_in')
+        sr_code = self.get_smartrider()
 
-        try:
-            riders = ts.smart_riders()
-        except NotLoggedIn:
-            return self.reauth()
-
-        sr_code = list(riders.values())[0]['code']
-
-        actions = ts.get_actions(sr_code)
+        actions = self.current_user.get_actions(sr_code)
         actions = sorted(
             actions,
             key=itemgetter('time'),

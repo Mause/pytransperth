@@ -2,6 +2,10 @@
 {% block content %}
 
 <div class="sixteen columns">
+    <div class="row">
+        {% include "select_smartrider.html" %}
+    </div>
+
     {% for trip in trips %}
         <div class="row">
             <div>
