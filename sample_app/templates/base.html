@@ -8,32 +8,32 @@
     </head>
     <body>
         <div class="container">
-            <div class="nine columns">
+            <div class="seven columns">
                 <div class="row">
                     <h2>
                         Sample Transperth App
                     </h2>
                 </div>
             </div>
-            <div class="five columns pull-left">
+            <div class="six columns pull-left">
                 <div class="row">
                     <nav>
                         <ul class="nav">
                             <li>
                                 {% if is_authenticated() %}
-                                    <a href="/logout">Logout</a>
+                                    <a class="button" href="/logout">Logout</a>
                                 {% else %}
-                                    <a href="/login">Login</a>
+                                    <a class="button" href="/login">Login</a>
                                 {% end %}
                             </li>
                             <li>
-                                <a href="/actions">Actions</a>
+                                <a class="button" href="/actions">Actions</a>
                             </li>
                             <li>
-                                <a href="/trips">Trips</a>
+                                <a class="button" href="/trips">Trips</a>
                             </li>
                             <li>
-                                <a href="/routes">Routes</a>
+                                <a class="button" href="/routes">Routes</a>
                             </li>
                         </ul>
                     </nav>
