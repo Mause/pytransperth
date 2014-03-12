@@ -45,6 +45,10 @@ ul .nav {
     width: 90% !important;
 }
 
+.inline {
+    display: inline-block !important;
+}
+
 .compact_form > input, select {
     padding: 0;
 }
