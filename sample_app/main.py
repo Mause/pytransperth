@@ -82,11 +82,6 @@ class ActionsHandler(SmartRiderMixin, BaseRequestHandler):
     @auth_required
     def get(self):
         sr_code = self.get_smartrider()
-        if sr_code is None:
-            return self.redirect(
-                '/select_smartrider',
-                params={'redirect': self.request.uri}
-            )
 
         actions = self.current_user.get_actions(sr_code)
         actions = sorted(
@@ -109,9 +104,7 @@ class TripHandler(SmartRiderMixin, BaseRequestHandler):
             key=itemgetter('time'),
             reverse=True
         )
-        actions = list(actions)
-
-        trips = determine_trips(actions)
+        trips = determine_trips(list(actions))
 
         self.render('trips.html', trips=list(trips))
 
