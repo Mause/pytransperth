@@ -6,6 +6,8 @@ import ipy_table
 from transperth.jp.location import Location
 from transperth_auth import TransperthAuthMixin
 
+from transperth.smart_rider.smart_rider import smartrider_format
+
 
 class BaseRequestHandler(TransperthAuthMixin, tornado.web.RequestHandler):
     @property
@@ -23,7 +25,13 @@ class BaseRequestHandler(TransperthAuthMixin, tornado.web.RequestHandler):
         )
 
     def render(self, *args, **kwargs):
-        kwargs['is_authenticated'] = self.is_authenticated
+        kwargs.update({
+            # helper functions
+            'is_authenticated': self.is_authenticated,
+            'smartrider_format': smartrider_format
+        })
+        kwargs.setdefault('redirect', None)
+
         return super().render(*args, **kwargs)
 
     def redirect(self, url, *args, **kwargs):
