@@ -1,11 +1,20 @@
-<form method="POST">
-    <label>
-        From: <input type="text" name="from"/>
-    </label>
+{% extends "base.html" %}
+{% block content %}
 
-    <label>
-        To: <input type="text" name="to"/>
-    </label>
+<div class="sixteen columns">
+    <div class="row">
+        <form method="POST">
+            <label>
+                From: <input type="text" name="from"/>
+            </label>
 
-    <input type="submit"/>
-</form>
+            <label>
+                To: <input type="text" name="to"/>
+            </label>
+
+            <input type="submit" value="Compute routes"/>
+        </form>
+    </div>
+</div>
+
+{% end %}
