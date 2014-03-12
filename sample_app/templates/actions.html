@@ -7,7 +7,11 @@
     </div>
 
     <div class="row">
-        {{len(actions)}} actions
+        {% if actions %}
+            {{len(actions)}} actions
+        {% else %}
+            No actions to display
+        {% end %}
     </div>
 
     {% for action in actions %}

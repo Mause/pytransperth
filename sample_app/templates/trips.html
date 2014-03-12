@@ -6,6 +6,12 @@
         {% include "select_smartrider.html" %}
     </div>
 
+    {% if not trips %}
+        <div class="row">
+            No actions and hence no trips to display
+        </div>
+    {% end %}
+
     {% for trip in trips %}
         <div class="row">
             <div>
