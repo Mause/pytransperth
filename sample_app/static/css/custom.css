@@ -44,3 +44,7 @@ ul .nav {
 .container {
     width: 90% !important;
 }
+
+.compact_form > input, select {
+    padding: 0;
+}
