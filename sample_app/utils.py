@@ -1,9 +1,11 @@
+from functools import wraps
 from urllib.parse import urlencode
 
 import tornado.web
 import ipy_table
 
 from transperth.jp.location import Location
+from transperth.exceptions import NotLoggedIn
 from transperth_auth import TransperthAuthMixin
 
 from transperth.smart_rider.smart_rider import smartrider_format
