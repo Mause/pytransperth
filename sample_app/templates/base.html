@@ -19,13 +19,6 @@
                     <nav>
                         <ul class="nav">
                             <li>
-                                {% if is_authenticated() %}
-                                    <a class="button" href="/logout">Logout</a>
-                                {% else %}
-                                    <a class="button" href="/login">Login</a>
-                                {% end %}
-                            </li>
-                            <li>
                                 <a class="button" href="/actions">Actions</a>
                             </li>
                             <li>
@@ -34,6 +27,14 @@
                             <li>
                                 <a class="button" href="/routes">Routes</a>
                             </li>
+                            <li>
+                                {% if is_authenticated() %}
+                                    <a class="button" href="/logout">Logout</a>
+                                {% else %}
+                                    <a class="button" href="/login">Login</a>
+                                {% end %}
+                            </li>
+
                             {% block nav %}
                             {% end %}
                         </ul>
