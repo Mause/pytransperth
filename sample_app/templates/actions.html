@@ -33,8 +33,9 @@
                     {% if action['amount'] == 0 %}
                         free
                     {% else %}
-                        ${{action['amount']}}<br/>
+                        ${{action['amount']}}
                     {% end %}
+                    <br/>
                 {% end %}
 
                 {% if action['service'] %}
