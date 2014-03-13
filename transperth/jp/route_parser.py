@@ -1,6 +1,5 @@
 from itertools import chain
 from lxml import html, etree
-from lxml.html import builder as E
 import datetime
 import re
 import time
@@ -96,7 +95,7 @@ def _parse_links(links) -> dict:
     )
 
 
-def _parse_img(img: E.IMG()) -> tuple:
+def _parse_img(img: '<img/>') -> tuple:
     """
     Grabs the onclick attribute of the given ``<img/>``
     :param img: An image tag with an onclick handler containing a function call
@@ -173,7 +172,7 @@ def _parse_steps(steps) -> list:
     return list(map(_parse_step, steps))
 
 
-def _parse_step(step: E.TABLE()) -> dict:
+def _parse_step(step: '<table/>') -> dict:
     """
     Extracts the text from the step, and passes it through to the function
     denoted by the alt attribute of the ``<img/>`` tag

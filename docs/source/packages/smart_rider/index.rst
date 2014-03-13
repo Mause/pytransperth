@@ -1,5 +1,5 @@
 :mod:`smart_rider` Package
--------------------------
+--------------------------
 
 .. toctree::
    :maxdepth: 2
