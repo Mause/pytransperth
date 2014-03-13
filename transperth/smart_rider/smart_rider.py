@@ -313,6 +313,16 @@ SR_NUM_RE = re.compile(r'(\d{4})(\d{4})(\d)')
 
 
 def smartrider_format(string):
+    """
+    Formats the smart rider number as per transperth convention;
+
+    .. code-block:: text
+
+        SR XXXX XXXX X
+
+    whereby the X's represent the corresponding numbers from the smart rider
+    number
+    """
     return 'SR {} {} {}'.format(
         *SR_NUM_RE.match(string).groups()
     )

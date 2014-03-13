@@ -22,7 +22,7 @@ TRAIN_STATIONS_SET = set(chain.from_iterable(TRAIN_STATIONS_SET))
 
 def times_for_station(station_name):
     """
-    Given a station name (from TRAIN_STATIONS_SET) return the associated
+    Given a station name (from ``TRAIN_STATIONS_SET``) return the associated
     incoming train timings
     """
     if station_name not in TRAIN_STATIONS_SET:
