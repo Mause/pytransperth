@@ -1,5 +1,6 @@
 import logging
 import pickle
+from collections import Counter
 
 from auth_base import AuthMixin
 
@@ -16,7 +17,9 @@ class TransperthAuthMixin(AuthMixin):
 
         cookie = self.get_secure_cookie('transperth_creds')
 
-        return pickle.loads(cookie)
+        sess = pickle.loads(cookie)
+        sess.session.hooks['response'] = self.increm
+        return sess
 
     def reauth(self, reason="session_expired"):
         params = {
@@ -29,3 +32,26 @@ class TransperthAuthMixin(AuthMixin):
             self.get_login_url(),
             params=params
         )
+
+    def increm(self, hook_data, **kwargs):
+        if not hasattr(self, 'requests'):
+            self.requests = [hook_data]
+        else:
+            self.requests.append(hook_data)
+
+    def on_finish(self):
+        if hasattr(self, 'requests'):
+            urls = Counter(
+                r.url.strip('https://www.transperth.wa.gov.au/')
+                for r in self.requests
+            )
+
+            urls = ', '.join(
+                '{} * {}'.format(url, count)
+                for url, count in urls.items()
+            )
+
+            logging.info('{} total -> {}'.format(
+                len(self.requests), urls
+            ))
+            self.requests = []
