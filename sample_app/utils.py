@@ -43,12 +43,12 @@ class BaseRequestHandler(TransperthAuthMixin, tornado.web.RequestHandler):
 
 class SmartRiderMixin(tornado.web.RequestHandler):
     def render(self, *args, **kwargs):
-        if 'smart_riders' not in kwargs:
-            kwargs['smart_riders'] = (
-                self.current_user.smart_riders()
-            )
+        kwargs['smart_riders'] = (
+            self.current_user.smart_riders()
+        )
 
-            sr_code = self.get_argument('sr_code', None)
+        sr_code = self.get_argument('sr_code', None)
+        if sr_code:
             for num, meta in kwargs['smart_riders'].items():
                 if meta['code'] == sr_code:
                     meta['default'] = True
@@ -66,7 +66,7 @@ class SmartRiderMixin(tornado.web.RequestHandler):
         riders = self.current_user.smart_riders()
         for sr_num, sr_meta in riders.items():
             if sr_meta['default']:
-                return riders[sr_num]
+                return riders[sr_num]['code']
 
 
 def fares_to_table(fares):
