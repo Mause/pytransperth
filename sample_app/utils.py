@@ -64,10 +64,9 @@ class SmartRiderMixin(tornado.web.RequestHandler):
             return sr_code
 
         riders = self.current_user.smart_riders()
-        if len(riders) > 1:
-            return None  # trigger smart rider selection
-        else:
-            return list(riders.values())[0]
+        for sr_num, sr_meta in riders.items():
+            if sr_meta['default']:
+                return riders[sr_num]
 
 
 def fares_to_table(fares):
