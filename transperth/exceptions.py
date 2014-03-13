@@ -39,3 +39,9 @@ class LoginFailed(NotLoggedIn):
     """
     Thrown when a login attempt fails
     """
+
+
+class BadStationError(TransperthException):
+    """
+    Thrown when the library encounters a bad station name
+    """

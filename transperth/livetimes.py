@@ -5,6 +5,8 @@ from os.path import join, dirname
 import requests
 from lxml import etree
 
+from .exceptions import BadStationError
+
 URL = (
     'http://livetimes.transperth.wa.gov.au/LiveTimes.asmx'
     '/GetSercoTimesForStation'
@@ -24,7 +26,7 @@ def times_for_station(station_name):
     incoming train timings
     """
     if station_name not in TRAIN_STATIONS_SET:
-        raise Exception('Bad station')
+        raise BadStationError()
 
     r = requests.get(
         URL,
