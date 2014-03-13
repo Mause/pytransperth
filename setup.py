@@ -33,7 +33,6 @@ config = {
     # description='Automated REST APIs for existing database-driven systems',
     'long_description': long_description,
     'packages': ['transperth'],
-    'install_requires': ['lxml'],  # no idea why
     # include_package_data=True,
     'platforms': 'any',
     'test_suite': 'tests.suite',
