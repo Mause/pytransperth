@@ -54,8 +54,10 @@
                     <strong>Stop number:</strong>
                     {{step['departure']['stop_num']}}<br/>
                 {% end %}
-                <strong>Time:</strong>
-                {{step['departure']['time'].strftime('%I:%M %p')}}
+                {% if step['departure']['time'] %}
+                    <strong>Time:</strong>
+                    {{step['departure']['time'].strftime('%I:%M %p')}}
+                {% end %}
             </div>
 
             <div class="pull-left step_part">
