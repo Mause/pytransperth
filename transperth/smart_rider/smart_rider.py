@@ -308,3 +308,11 @@ def _get_smart_rider_actions(root: str) -> dict:
         'actions_total': _total_actions(root),
         'pages': _pages(root)
     }
+
+SR_NUM_RE = re.compile(r'(\d{4})(\d{4})(\d)')
+
+
+def smartrider_format(string):
+    return 'SR {} {} {}'.format(
+        *SR_NUM_RE.match(string).groups()
+    )
