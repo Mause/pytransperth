@@ -30,7 +30,11 @@
 
                 {% if action['amount'] is not None %}
                     <strong>Amount:</strong>
-                    ${{action['amount']}}<br/>
+                    {% if action['amount'] == 0 %}
+                        free
+                    {% else %}
+                        ${{action['amount']}}<br/>
+                    {% end %}
                 {% end %}
 
                 {% if action['service'] %}
