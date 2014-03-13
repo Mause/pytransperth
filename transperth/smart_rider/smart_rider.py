@@ -25,7 +25,7 @@ class TransperthSession(object):
     Provides an interface to the sections on the transperth website
     that require authentication.
     """
-    SR_NAME_RE = re.compile(r'(?:\W+([A-Za-z\W]+)\W+)?(\d+)(?:\W+)?')
+    SR_NAME_RE = re.compile(r'(?:([A-Za-z\W]+)\W+)?(\d+)?')
 
     def __init__(self, session: requests.Session):
         self.session = session
