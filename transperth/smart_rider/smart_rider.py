@@ -89,8 +89,16 @@ class TransperthSession(object):
 
                 self._smart_riders[number] = {
                     'code': option.get('value'),
-                    'name': name
+                    'name': name,
+                    'default': False
                 }
+
+            default = select.xpath('//option[@selected="selected"]')
+            if default:
+                default = default[0]
+                name, number = self.SR_NAME_RE.search(option.text).groups()
+
+                self._smart_riders[number]['default'] = True
 
         return self._smart_riders
 
