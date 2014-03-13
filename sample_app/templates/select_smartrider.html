@@ -1,0 +1,21 @@
+<form method="GET" id="sm_form" class="compact_form">
+    <label>
+        <select name="sr_code" onchange="javascript:sm_form.submit()">
+            {% for sr_num, sr_meta in smart_riders.items() %}
+                <option
+                        value="{{sr_meta['code']}}"
+                        {% if sr_meta['default'] %}
+                            selected="selected"
+                        {% end %}
+                        >
+
+                    {% if sr_meta['name'] is not None %}
+                        {{sr_meta['name']}} ({{ smartrider_format(sr_num) }})
+                    {% else %}
+                        {{smartrider_format(sr_num)}}
+                    {% end %}
+                </option>
+            {% end %}
+        </select>
+    </label>
+</form>
