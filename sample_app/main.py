@@ -39,6 +39,9 @@ tornado.log.enable_pretty_logging()
 
 class RoutesRequestHandler(BaseRequestHandler):
     def get(self):
+        if self.get_argument('from', None) and self.get_argument('to', None):
+            return self.handle_route_request()
+
         self.render('enter_route.html')
 
     def resolve_location(self):
@@ -49,7 +52,7 @@ class RoutesRequestHandler(BaseRequestHandler):
 
         return locations['from'][0], locations['to'][0]
 
-    def post(self):
+    def handle_route_request(self):
         from_loco, to_loco = self.resolve_location()
 
         routes = determine_routes(from_loco, to_loco)
