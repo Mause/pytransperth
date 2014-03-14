@@ -82,7 +82,7 @@ class TripTracer(object):
         """
         :returns: a dictionary representing the step
         """
-        if len(self.actions) <= 2:
+        if len(self.actions) < 2:
             raise IncompleteTrip()
 
         return {
