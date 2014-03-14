@@ -104,7 +104,6 @@ class TripTracer(object):
 
         :returns: metadata for a trip
         """
-        determine_breadth = lambda iterable: reduce(add, iterable)
 
         travel_time = determine_breadth(
             step['tagoff']['time'] - step['tagon']['time']
@@ -112,24 +111,36 @@ class TripTracer(object):
         )
         travel_time = timedelta_repr(travel_time)
 
-        wait_time = datetime.timedelta()
-        if len(trip) > 1:
-            waiting = []
-            qtrip = list(trip)
-
-            while len(qtrip) > 1:
-                latter = qtrip.pop(0)['tagoff']
-                waiting.append(latter['time'] - qtrip[0]['tagon']['time'])
-
-            wait_time = determine_breadth(waiting)
-
         return {
             'from': trip[0]['tagon']['location'],
             'to': trip[-1]['tagoff']['location'],
             'travel_time': travel_time,
-            'wait_time': timedelta_repr(wait_time),
+            'wait_time': timedelta_repr(determine_wait_time(trip)),
             'price': self.determine_price(trip)
         }
+
+
+def determine_wait_time(trip: list) -> datetime.timedelta:
+    def pairs(trip: list):
+        trip = list(trip)
+
+        latter = trip.pop(0)
+        while trip:
+            yield latter, trip[0]
+            latter = trip.pop(0)
+
+    if len(trip) > 1:
+        waiting = []
+
+        for latter, former in pairs(trip):
+            waiting.append(
+                former['tagon']['time'] -
+                latter['tagoff']['time']
+            )
+
+        return determine_breadth(waiting)
+    else:
+        return datetime.timedelta()
 
 
 def timedelta_repr(td: datetime.timedelta) -> str:
@@ -162,3 +173,7 @@ def timedelta_repr(td: datetime.timedelta) -> str:
 
 def determine_trips(actions):
     return TripTracer(actions).trace()
+
+
+def determine_breadth(iterable):
+    return reduce(add, iterable)
