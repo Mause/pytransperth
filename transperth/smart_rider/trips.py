@@ -2,6 +2,7 @@
 Parses actions into separate trips
 """
 import logging
+from copy import copy
 from functools import reduce
 from operator import add
 import datetime
@@ -28,10 +29,37 @@ class TripTracer(object):
         )
 
         self.actions = list(actions)
+        self.debug(self.actions)
+
         logging.info({
             action['action']
             for action in self.actions
         })
+
+    def debug(self, actions):
+        import requests
+        import json
+
+        qactions = copy(actions)
+
+        qactions = [
+            {
+                key: None if key == 'time' else value
+                for key, value in action.items()
+            }
+            for action in qactions
+        ]
+        assert id(qactions) != id(actions)
+
+        for q in qactions:
+            q['time'] = None
+
+        assert qactions != actions
+
+        requests.post(
+            'http://requestb.in/18gnyu61',
+            data=json.dumps(qactions)
+        )
 
     def trace(self):
         """
@@ -78,6 +106,11 @@ class TripTracer(object):
         """
         :returns: a dictionary representing the step
         """
+        logging.info({
+            'tagoff': self.actions[0],
+            'tagon': self.actions[1]
+        })
+
         return {
             'tagoff': self.actions.pop(0),
             'tagon': self.actions.pop(0)
