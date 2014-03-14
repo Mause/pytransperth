@@ -56,10 +56,14 @@ class TripTracer(object):
 
         assert qactions != actions
 
-        requests.post(
-            'http://requestb.in/18gnyu61',
-            data=json.dumps(qactions)
+        r = requests.post(
+            'http://sprunge.us/',
+            data={
+                'sprunge': json.dumps(qactions)
+            }
         )
+
+        logging.info('URL: {}'.format(r.text))
 
     def trace(self):
         """
