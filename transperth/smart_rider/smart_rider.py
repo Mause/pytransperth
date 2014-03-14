@@ -132,7 +132,7 @@ class TransperthSession(object):
         }
 
         remaining_pages = sorted(
-            remaining_pages,
+            remaining_pages.items(),
             key=lambda x: int(x[0])
         )
         remaining_pages = list(remaining_pages)[1:]
