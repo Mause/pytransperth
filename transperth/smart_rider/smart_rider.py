@@ -244,7 +244,8 @@ REPLACEMENTS = [
     ('Wlnn', 'Walanna'),
     ('Lown', 'Lowan Loop '),
     ('Frmntl', 'Freemantle'),
-    ('Ccl', 'Cecil')
+    ('Ccl', 'Cecil'),
+    ('Armdle', 'Armadale')
 ]
 
 
