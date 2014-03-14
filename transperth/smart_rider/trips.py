@@ -1,6 +1,7 @@
 """
 Parses actions into separate trips
 """
+import logging
 from functools import reduce
 from operator import add
 import datetime
@@ -27,6 +28,10 @@ class TripTracer(object):
         )
 
         self.actions = list(actions)
+        logging.info({
+            action['notes']
+            for action in self.actions
+        })
 
     def trace(self):
         """
