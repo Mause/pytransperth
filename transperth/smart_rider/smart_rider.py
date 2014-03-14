@@ -130,7 +130,7 @@ class TransperthSession(object):
         }
 
         logging.info('Pages: {}'.format(
-            ', '.join(remaining_pages.keys())
+            ', '.join(sorted(remaining_pages.keys()))
         ))
 
         remaining_pages = sorted(
