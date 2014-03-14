@@ -245,7 +245,12 @@ REPLACEMENTS = [
     ('Lown', 'Lowan Loop '),
     ('Frmntl', 'Freemantle'),
     ('Ccl', 'Cecil'),
-    ('Armdle', 'Armadale')
+    ('Armdle', 'Armadale'),
+    ('Chdwck', 'Chadwick'),
+    ('Chrch', 'Church'),
+    ('Brslm', 'Burslem'),
+    ('Klvn', 'Kelvin'),
+    ('Nnth', 'Ninth')
 ]
 
 
