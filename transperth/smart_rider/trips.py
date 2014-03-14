@@ -29,7 +29,7 @@ class TripTracer(object):
 
         self.actions = list(actions)
         logging.info({
-            action['notes']
+            action['action']
             for action in self.actions
         })
 

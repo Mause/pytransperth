@@ -123,13 +123,13 @@ class TransperthSession(object):
 
         page_one = action_page()
 
-        logging.info(page_one['pages'])
-
         remaining_pages = {
             key: value
             for key, value in page_one['pages'].items()
             if key != '...'
         }
+
+        logging.info('Pages:', ', '.join(remaining_pages.keys()))
 
         remaining_pages = sorted(
             remaining_pages.items(),
