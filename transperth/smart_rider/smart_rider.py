@@ -125,8 +125,14 @@ class TransperthSession(object):
 
         logging.info(page_one['pages'])
 
+        remaining_pages = {
+            key: value
+            for key, value in page_one['pages'].items()
+            if key != '...'
+        }
+
         remaining_pages = sorted(
-            page_one['pages'].items(),
+            remaining_pages,
             key=lambda x: int(x[0])
         )
         remaining_pages = list(remaining_pages)[1:]
