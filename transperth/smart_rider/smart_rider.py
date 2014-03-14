@@ -102,7 +102,7 @@ class TransperthSession(object):
 
         return self._smart_riders
 
-    def get_actions(self, sr_code: str, date_from=None, date_to=None):
+    def get_actions(self, sr_code: str, date_from, date_to):
         """
         :returns: a generator yielding action for the provided smart rider
         """
@@ -121,10 +121,9 @@ class TransperthSession(object):
             for key, action_code in remaining_pages:
                 yield action_page(action_code)['actions']
 
-        date_from = date_from or date_parse('01/01/2010')
-        date_to = date_to or date_parse('01/01/2015')
-
         page_one = action_page()
+
+        logging.info(page_one['pages'])
 
         remaining_pages = sorted(
             page_one['pages'].items(),
