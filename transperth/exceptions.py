@@ -45,3 +45,9 @@ class BadStationError(TransperthException):
     """
     Thrown when the library encounters a bad station name
     """
+
+
+class IncompleteTrip(TransperthException):
+    """
+    Thrown when a trip is missing its conclusion
+    """

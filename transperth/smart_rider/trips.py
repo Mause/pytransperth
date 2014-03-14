@@ -2,10 +2,12 @@
 Parses actions into separate trips
 """
 import logging
-from copy import copy
 from functools import reduce
 from operator import add
 import datetime
+
+from ..exceptions import IncompleteTrip
+
 
 TAG_OFF = 'Normal TAG OFF'
 TAG_ON = 'Normal TAG ON'
@@ -29,51 +31,21 @@ class TripTracer(object):
         )
 
         self.actions = list(actions)
-        self.debug(self.actions)
-
-        logging.info({
-            action['action']
-            for action in self.actions
-        })
-
-    def debug(self, actions):
-        import requests
-        import json
-
-        qactions = copy(actions)
-
-        qactions = [
-            {
-                key: None if key == 'time' else value
-                for key, value in action.items()
-            }
-            for action in qactions
-        ]
-        assert id(qactions) != id(actions)
-
-        for q in qactions:
-            q['time'] = None
-
-        assert qactions != actions
-
-        r = requests.post(
-            'http://sprunge.us/',
-            data={
-                'sprunge': json.dumps(qactions)
-            }
-        )
-
-        logging.info('URL: {}'.format(r.text))
 
     def trace(self):
         """
         Consumes the provided actions, yielding trips consisting of stepss
         """
         while self.actions:
-            current_trip = [self.grab_step()]
+            try:
+                current_trip = [self.grab_step()]
 
-            if current_trip[-1]['tagon']['notes'] == TRANSFER:
-                current_trip.extend(self.consume_trip())
+                if current_trip[-1]['tagon']['notes'] == TRANSFER:
+                    current_trip.extend(self.consume_trip())
+
+            except IncompleteTrip:
+                logging.info('An incomplete trip was encountered')
+                break
 
             sorted_trip = sorted(
                 current_trip,
@@ -110,10 +82,8 @@ class TripTracer(object):
         """
         :returns: a dictionary representing the step
         """
-        logging.info({
-            'tagoff': self.actions[0],
-            'tagon': self.actions[1]
-        })
+        if len(self.actions) <= 2:
+            raise IncompleteTrip()
 
         return {
             'tagoff': self.actions.pop(0),
