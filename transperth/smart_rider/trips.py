@@ -90,6 +90,7 @@ class TripTracer(object):
 
         fmt = '{location} ({service})'.format_map
 
+        # slice off the first item, as it is None
         return list(map(fmt, path_steps[1:]))
 
     def generate_meta(self, trip: list) -> dict:
