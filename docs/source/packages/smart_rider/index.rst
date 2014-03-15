@@ -6,3 +6,4 @@
 
    smart_rider
    post_back
+   trips
