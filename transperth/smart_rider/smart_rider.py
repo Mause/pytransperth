@@ -117,21 +117,26 @@ class TransperthSession(object):
                 updates['updatePanel'][1]['content']
             )
 
-        def yield_pages(remaining_pages):
-            for key, action_code in remaining_pages:
-                yield action_page(action_code)['actions']
-
         # we must request the first page, so that we can get the number of
         # pages we can request later
         page_one = action_page()
 
+        # okay, so we have a list of pages we don't yet have
         remaining_pages = self._sort_pages(page_one['pages'])[1:]
 
-        pages = chain(
-            [page_one['actions']],
-            yield_pages(remaining_pages)
+        # we create a generator that requests said pages
+        pages = (
+            action_page(action_code)['actions']
+            for key, action_code in remaining_pages
         )
 
+        # combine that generator with the actions from page one
+        pages = chain(
+            [page_one['actions']],
+            pages
+        )
+
+        # return an iterator yielding individual actions
         return chain.from_iterable(pages)
 
     def _sort_pages(self, pages):
