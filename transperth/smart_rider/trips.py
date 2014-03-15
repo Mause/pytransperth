@@ -60,6 +60,9 @@ class TripTracer(object):
             }
 
     def determine_price(self, trip):
+        """
+        Determines the total price for the given trip
+        """
         # we negate the price to get a positive number, so the when summed
         # we get a positive price
 
@@ -91,6 +94,11 @@ class TripTracer(object):
         }
 
     def determine_path(self, trip: list) -> list:
+        """
+        Iterates through the steps in the trip, return a list of locations
+        that were visited, in order, during the trip, along with the service
+        used to travel there
+        """
         path_steps = [None]
 
         for step in trip:
@@ -158,7 +166,7 @@ def determine_wait_time(trip: list) -> datetime.timedelta:
 
 def timedelta_repr(td: datetime.timedelta) -> str:
     """
-    :returns: a human readable represation of the provided timedelta object
+    :returns: a human readable representation of the provided timedelta object
     """
     assert isinstance(td, datetime.timedelta), type(td)
     ZERO = {'00', '0'}
@@ -184,9 +192,18 @@ def timedelta_repr(td: datetime.timedelta) -> str:
     )
 
 
-def determine_trips(actions):
+def determine_trips(actions: list) -> list:
+    """
+    Analysis's the given actions, and groups them into trips with
+    appropriate metadata
+
+    :returns: a list of trips
+    """
     return TripTracer(actions).trace()
 
 
 def determine_breadth(iterable):
+    """
+    Determines the breadth of the addable contents of the iterable
+    """
     return reduce(add, iterable)
