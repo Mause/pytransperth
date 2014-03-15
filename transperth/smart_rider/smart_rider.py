@@ -117,15 +117,27 @@ class TransperthSession(object):
                 updates['updatePanel'][1]['content']
             )
 
-        def pages(remaining_pages):
+        def yield_pages(remaining_pages):
             for key, action_code in remaining_pages:
                 yield action_page(action_code)['actions']
 
+        # we must request the first page, so that we can get the number of
+        # pages we can request later
         page_one = action_page()
 
+        remaining_pages = self._sort_pages(page_one['pages'])[1:]
+
+        pages = chain(
+            [page_one['actions']],
+            yield_pages(remaining_pages)
+        )
+
+        return chain.from_iterable(pages)
+
+    def _sort_pages(self, pages):
         remaining_pages = {
             key: value
-            for key, value in page_one['pages'].items()
+            for key, value in pages.items()
             if key != '...'
         }
 
@@ -133,15 +145,10 @@ class TransperthSession(object):
             ', '.join(sorted(remaining_pages.keys()))
         ))
 
-        remaining_pages = sorted(
+        return list(sorted(
             remaining_pages.items(),
             key=lambda x: int(x[0])
-        )
-        remaining_pages = list(remaining_pages)[1:]
-
-        for page in chain([page_one['actions']], pages(remaining_pages)):
-            for activity in page:
-                yield activity
+        ))
 
     def _send_smart_rider_activites_request(
             self, code: str, date_from: datetime,
