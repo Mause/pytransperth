@@ -19,14 +19,14 @@ from .post_back import PageRequestManager
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+SR_NAME_RE = re.compile(r'(?:([A-Za-z\W]+)\W+)?(\d+)?')
+
 
 class TransperthSession(object):
     """
     Provides an interface to the sections on the transperth website
     that require authentication.
     """
-    SR_NAME_RE = re.compile(r'(?:([A-Za-z\W]+)\W+)?(\d+)?')
-
     def __init__(self, session: requests.Session):
         self.session = session
         self._smart_riders = None
@@ -85,7 +85,7 @@ class TransperthSession(object):
 
             self._smart_riders = {}
             for option in select:
-                name, number = self.SR_NAME_RE.search(option.text).groups()
+                name, number = SR_NAME_RE.search(option.text).groups()
 
                 self._smart_riders[number] = {
                     'code': option.get('value'),
@@ -96,7 +96,7 @@ class TransperthSession(object):
             default = select.xpath('//option[@selected="selected"]')
             if default:
                 default = default[0]
-                name, number = self.SR_NAME_RE.search(option.text).groups()
+                name, number = SR_NAME_RE.search(option.text).groups()
 
                 self._smart_riders[number]['default'] = True
 
