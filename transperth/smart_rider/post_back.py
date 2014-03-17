@@ -4,7 +4,6 @@ The code in this file was ported from javascript from the transperth website.
 As I progress, I will attempt to whittle it down to purely what is absolutely
 required.
 """
-
 from collections import defaultdict
 
 from .. import BASE_HTTPS
@@ -316,6 +315,7 @@ class PageRequestManagerOriginal(object):
             ))
 
         return updates
+
 
 
 class PageRequestManagerAugmentations(object):

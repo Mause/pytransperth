@@ -85,6 +85,7 @@ class TripTracer(object):
         """
         :returns: a dictionary representing the step
         """
+
         if len(self.actions) < 2:
             # if there ain't enough actions left to represent a full step,
             # raise IncompleteTrip
@@ -101,6 +102,7 @@ class TripTracer(object):
         that were visited, in order, during the trip, along with the service
         used to travel there
         """
+
         path_steps = [None]
 
         for step in trip:
@@ -126,6 +128,7 @@ class TripTracer(object):
          * total price for the trip
 
         :returns: metadata for a trip
+
         """
 
         travel_time = determine_breadth(
@@ -200,6 +203,7 @@ def determine_trips(actions: list) -> list:
     appropriate metadata
 
     :returns: a list of trips
+
     """
     return TripTracer(actions).trace()
 
