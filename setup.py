@@ -32,8 +32,11 @@ config = {
     'author_email': 'me@mause.me',
     # description='Automated REST APIs for existing database-driven systems',
     'long_description': long_description,
-    'packages': ['transperth'],
-    # include_package_data=True,
+    'packages': ['transperth', 'transperth.jp', 'transperth.smart_rider'],
+    'include_package_data': True,
+    'package_data': {
+        'transperth': ['assets/*']
+    },
     'platforms': 'any',
     'test_suite': 'tests.suite',
     'classifiers': [
@@ -49,6 +52,5 @@ config = {
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ]
 }
-
 
 setup(**config)
