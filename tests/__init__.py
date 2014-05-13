@@ -37,7 +37,9 @@ def suite():
 
 
 def main():
-    unittest.TextTestRunner().run(suite())
+    unittest.TextTestRunner(descriptions=True, verbosity=5).run(
+        suite()
+    )
 
 if __name__ == '__main__':
     main()
