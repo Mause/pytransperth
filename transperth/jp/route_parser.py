@@ -144,9 +144,8 @@ def _parse_misc(misc) -> dict:
 
     miscs = map(itertext, miscs)
     miscs = chain.from_iterable(miscs)
-
-    miscs = [part.strip() for part in miscs]
-    miscs = zip(miscs[::2], miscs[1::2])
+    miscs = map(str.strip, miscs)
+    miscs = zip(miscs, miscs)
 
     misc_data = {}
     for k, v in miscs:
