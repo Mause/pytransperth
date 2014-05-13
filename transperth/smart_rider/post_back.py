@@ -392,7 +392,9 @@ class PageRequestManagerAugmentations(object):
 
             assert name, (href.attrib, href)
 
-            nhrefs[name] = args_from_href(href.attrib['href'])
+            nhrefs[name] = list(
+                filter(bool, args_from_href(href.attrib['href']))
+            )
 
         return nhrefs
 
