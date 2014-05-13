@@ -28,14 +28,14 @@ class TestSmartRider(unittest.TestCase):
         )
 
     def test_smart_rider_number_re(self):
-        from transperth.smart_rider.smart_rider import SR_NAME_RE
+        from transperth.smart_rider.smart_rider import SR_NUM_RE
 
         self.assertEqual(
-            SR_NAME_RE.search('046038725').groups(),
+            SR_NUM_RE.search('046038725').groups(),
             ('0460', '3872', '5')
         )
 
         self.assertEqual(
-            SR_NAME_RE.search('043432897').groups(),
+            SR_NUM_RE.search('043432897').groups(),
             ('0434', '3289', '7')
         )
