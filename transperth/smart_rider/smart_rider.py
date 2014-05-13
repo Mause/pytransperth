@@ -142,7 +142,8 @@ class TransperthSession(object):
         remaining_pages = {
             key: value
             for key, value in pages.items()
-            if key != '...'
+            if key != '...'  # for when someone has a ridiculous number of
+                             # actions on a card
         }
 
         logging.info('Pages: {}'.format(
