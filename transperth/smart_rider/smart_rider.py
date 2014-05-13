@@ -18,7 +18,13 @@ from .post_back import PageRequestManager
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-SR_NAME_RE = re.compile(r'(?:([A-Za-z\W]+)\W+)?(\d+)?')
+SR_NAME_RE = re.compile(
+    r'''
+    (?:([A-Za-z\W]+)\W+)?   # card name, optional
+    (\d+)?                  # card number, optional
+    ''',
+    re.VERBOSE
+)
 
 
 class TransperthSession(object):
@@ -234,7 +240,14 @@ def _login(session: requests.Session, email: str, password: str):
         }
     )
 
-STOP_RE = re.compile(r'(?<=\W)St (\d+)(?=\W)?')
+STOP_RE = re.compile(
+    r'''
+    (?<=\W)     # preceded by a space
+    St\s(\d+)
+    (?=\W)?     # and followed by a space
+    ''',
+    re.VERBOSE
+)
 
 REPLACEMENTS = [
     # generics
