@@ -1,10 +1,11 @@
 from itertools import chain
-from lxml import html, etree
+from lxml import html
 import datetime
 import re
 import time
 
 from ..exceptions import InvalidStep
+from .utils import itertext
 
 DURATION_RE = re.compile(r'(\d+):(\d+) hrs')
 FUNCTIONCALL_RE = re.compile(r'(\w+)\(([^\)]*)\)')
@@ -141,7 +142,7 @@ _normalise_key = lambda key: key.replace(' ', '_').lower()
 def _parse_misc(misc) -> dict:
     miscs = misc.findall('td')[1:-1]
 
-    miscs = map(etree._Element.itertext, miscs)
+    miscs = map(itertext, miscs)
     miscs = chain.from_iterable(miscs)
 
     miscs = [part.strip() for part in miscs]
@@ -183,7 +184,7 @@ def _parse_step(step: '<table/>') -> dict:
 
     step_type = parts.pop(0).xpath('img/@alt')[0].lower()
 
-    texts = map(etree._Element.itertext, parts)
+    texts = map(itertext, parts)
     texts = chain.from_iterable(texts)
     texts = map(str.strip, texts)
     texts = filter(bool, texts)

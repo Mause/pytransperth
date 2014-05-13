@@ -1,4 +1,5 @@
 import datetime
+from lxml import etree
 
 __all__ = ['format_date', 'clean']
 
@@ -21,3 +22,6 @@ def clean(iterator) -> list:
     """
     iterator = map(str.strip, iterator)
     return list(filter(bool, iterator))
+
+
+itertext = etree._Element.itertext

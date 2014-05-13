@@ -7,7 +7,7 @@ from lxml import etree
 import requests
 
 from .. import BASE_HTTP
-from .utils import clean
+from .utils import clean, itertext
 from .routes import determine_routes
 from .location import Location, ResolvedLocation
 from ..exceptions import NoFareData
@@ -92,14 +92,13 @@ def parse_fares(fares):
 
     fares = dict.fromkeys(keys, {})
 
-    root = map(etree._Element.itertext, root)
+    root = map(itertext, root)
     root = map(clean, root)
 
     for fare_type in root:
         fare_name, *fare_values = fare_type
 
         for ticket_type, fare in zip(keys, fare_values):
-
             fares[ticket_type][fare_name] = parse_money(
                 fare
             )
