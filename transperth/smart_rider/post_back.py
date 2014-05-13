@@ -318,7 +318,7 @@ class PageRequestManagerOriginal(object):
 
 
 
-class PageRequestManagerAugmentations(object):
+class PageRequestManager(PageRequestManagerOriginal):
     def initalise_from_document(self):
         return
         self._form = self.document.forms[0]
@@ -402,7 +402,3 @@ class PageRequestManagerAugmentations(object):
         return nhrefs
 
 
-class PageRequestManager(
-        PageRequestManagerAugmentations,
-        PageRequestManagerOriginal):
-    pass
