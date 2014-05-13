@@ -392,6 +392,9 @@ class PageRequestManagerAugmentations(object):
 
             assert name, (href.attrib, href)
 
+            if name.endswith('_cmdHelp'):
+                continue
+
             nhrefs[name] = list(
                 filter(bool, args_from_href(href.attrib['href']))
             )
