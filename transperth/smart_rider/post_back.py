@@ -372,11 +372,9 @@ class PageRequestManagerAugmentations(object):
 
     def possible_actions(self):
         def args_from_href(href):
-            href = href.split('javascript:__doPostBack(')[1][:-1]
-            return href.replace("'", '').split(',')
+            return href[24:-1].replace("'", '').split(',')
 
         hrefs = self.document.xpath('//*[@href]')
-
         hrefs = (
             href
             for href in hrefs
