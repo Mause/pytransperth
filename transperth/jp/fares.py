@@ -63,8 +63,8 @@ def _get_fare(journeyCount, journeyDate, *values):
 
     params = dict(zip(keys, values))
 
-    # requests with encode the slashes, so we have to conform to silly
-    # ASP.net standards and manually append the damn thing
+    # ASP.net wants the date with normal slashes, but requests will encode
+    # the slashes, so we have to manually append the damn thing
     url = FARE_URL + '?JDate={}'.format(journeyDate)
 
     return parse_fares(
