@@ -64,7 +64,7 @@ class TransperthSession(object):
 
     def smart_rider_request_manager(self):
         return self.get_rqm(
-            'TravelEasy/MySmartRider.aspx'
+            'my-account/manage-smartrider-cards'
         )
 
     def fire_event(self, event_code: str, extra_params: dict=None) -> dict:
@@ -84,8 +84,9 @@ class TransperthSession(object):
     def smart_riders(self) -> dict:
         if not self._smart_riders:
             doc = self.smart_rider_request_manager().document
+
             select = doc.get_element_by_id(
-                'dnn_ctr2061_SmartRiderTransactions_ddlSmartCardNumber'
+                'dnn_ctr1124_ManageMySmartRiderCard_ddlMySmartRiderCards'
             )
 
             self._smart_riders = {}
