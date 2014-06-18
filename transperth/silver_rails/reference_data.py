@@ -7,8 +7,7 @@ from operator import itemgetter
 import requests
 
 from .utils import prepare_url
-
-BASE = 'http://journeyplanner.silverrailtech.com/JourneyPlannerService/V2'
+from . import BASE
 
 
 class InvalidReferenceData(Exception):
