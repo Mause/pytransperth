@@ -2,6 +2,7 @@ import gzip
 import json
 from hashlib import md5
 from concurrent import futures
+from operator import itemgetter
 
 import requests
 
@@ -59,6 +60,20 @@ def load_reference_data(api_key, dataset='PerthRestricted'):
         reference_data.update(json_data)
 
     return reference_data
+
+
+def get_stop_numbers(api_key):
+    """
+    Returns a rather large generator; be careful now :P
+    """
+
+    ref = load_reference_data(api_key)
+
+    stopdata = ref['TransitStopReferenceData']
+    codes = map(itemgetter('Code'), stopdata)
+    codes = filter(bool, codes)
+
+    return codes
 
 
 if __name__ == '__main__':
