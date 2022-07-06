@@ -1,4 +1,4 @@
 requests==2.0.0
 responses==0.2.0
 python-dateutil==2.2
-lxml==3.3.3
+lxml==4.9.1
