@@ -41,11 +41,7 @@ dependencies = [
 urls.repository = "https://github.com/Mause/pytransperth"
 
 [dependency-groups]
-#packages=['transperth', 'transperth.jp', 'transperth.smart_rider']
-#include_package_data = true
-
-#[project.package_data]
-#transperth = ['assets/*']   
 dev = [
+  "pytest>=8.3.3",
   "responses>=0.25.3",
 ]
