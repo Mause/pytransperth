@@ -40,3 +40,6 @@ nosetests.xml
 *htmlcov*
 *sublime-workspace*
 *auth.json*
+
+.pytest_cache
+.venv
