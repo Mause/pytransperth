@@ -8,7 +8,7 @@ requires = [
 
 [project]
 name = "pytransperth"
-version = "0.1.2"
+version = "0.1.3"
 description = "A Python wrapper for the Transperth API"
 readme = "README.md"
 license = { text = "MIT" }
