@@ -11,9 +11,9 @@ from ..jp.utils import clean
 from ..jp.route_parser import _parse_function_call, FUNCTIONCALL_RE
 
 
-def create_post_back_settings(async: str, panel_ID: str, source_element: str):
+def create_post_back_settings(async_: str, panel_ID: str, source_element: str):
     return {
-        'async': async,
+        'async': async_,
         'panelID': panel_ID,
         'sourceElement': source_element
     }
