@@ -1,0 +1,11 @@
+{
+  "packages": {
+    ".": {
+      "package-name": "transperth",
+      "release-type": "python",
+      "draft": true,
+      "prerelease": false,
+      "versioning": "default"
+    }
+  }
+}

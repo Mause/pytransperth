@@ -1,0 +1,16 @@
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+name: release-please
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - run: npx release-please debug-config --repo-url https://github.com/Mause/pytransperth
+      - uses: google-github-actions/release-please-action@v4
+        with:
+          release-type: python
+          token: ${{ secrets.ACCESS_TOKEN }}
