@@ -4,6 +4,7 @@ from os.path import join, dirname
 
 import requests
 from lxml import etree
+from importlib import resources
 
 from .exceptions import BadStationError
 
@@ -12,9 +13,9 @@ URL = (
     '/GetSercoTimesForStation'
 )
 
-ASSETS = join(dirname(__file__), 'assets')
-with open(join(ASSETS, 'train_stations.json')) as fh:
-    TRAIN_STATIONS = json.load(fh)
+ASSETS = resources.files(anchor='transperth.assets').joinpath('train_stations.json')
+with ASSETS.open() as f:
+    TRAIN_STATIONS = json.load(f)
 
 TRAIN_STATIONS_SET = (list(station.values())[0] for station in TRAIN_STATIONS)
 TRAIN_STATIONS_SET = set(chain.from_iterable(TRAIN_STATIONS_SET))
