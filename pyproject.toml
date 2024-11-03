@@ -45,6 +45,7 @@ urls.repository = "https://github.com/Mause/pytransperth"
 
 [dependency-groups]
 dev = [
+  "pdbpp>=0.10.3",
   "pytest>=8.3.3",
   "responses>=0.25.3",
 ]
