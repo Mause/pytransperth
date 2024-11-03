@@ -15,7 +15,7 @@ license = { text = "MIT" }
 authors = [
   { name = "Elliana May", email = "me@mause.me" },
 ]
-requires-python = ">=3.12"
+requires-python = ">=3.9"
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
   # 'Environment :: Web Environment',
@@ -25,6 +25,9 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
