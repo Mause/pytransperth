@@ -1,15 +1,9 @@
-import os
-import sys
 import unittest
 from unittest.mock import patch
 
 import responses
 
-from constants.location import LOCATION_XML
-
-MODULE_DIR = os.path.join(os.path.dirname(__file__), '..')
-MODULE_DIR = os.path.abspath(MODULE_DIR)
-sys.path.insert(0, MODULE_DIR)
+from ..constants.location import LOCATION_XML
 
 
 class TestLocationUtils(unittest.TestCase):

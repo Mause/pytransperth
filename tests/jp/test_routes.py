@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from constants.routes import ROUTES
+from ..constants.routes import ROUTES
 
 
 class TestRoutes(unittest.TestCase):

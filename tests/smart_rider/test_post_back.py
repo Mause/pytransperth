@@ -1,8 +1,4 @@
-import sys
 import unittest
-
-from . import MODULE_DIR
-sys.path.insert(0, MODULE_DIR)
 
 
 class TestPostBack(unittest.TestCase):

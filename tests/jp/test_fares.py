@@ -1,21 +1,14 @@
-import os
-import sys
 import unittest
 from unittest.mock import patch
 
 import responses
 
-from constants.fares import (
+from ..constants.fares import (
     FARE_BASIC_XML,
     FARE_OUTPUT,
     FARE_BASIC_ROUTES,
     NO_FARE_DATA
 )
-
-
-MODULE_DIR = os.path.join(os.path.dirname(__file__), '..')
-MODULE_DIR = os.path.abspath(MODULE_DIR)
-sys.path.insert(0, MODULE_DIR)
 
 
 class TestFares(unittest.TestCase):
