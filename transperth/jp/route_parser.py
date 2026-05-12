@@ -44,16 +44,12 @@ def parse_routes(text: str) -> list:
         header = _parse_header(header)
         steps = _parse_steps(steps)
 
-        routes.append({
-            'meta': header,
-            'steps': steps
-        })
+        routes.append({'meta': header, 'steps': steps})
 
         if header['misc']['number_of_legs'] != len(steps):
             raise Exception(
                 'Steps parsed incorrectly: {} != {}'.format(
-                    header['misc']['number_of_legs'],
-                    len(steps)
+                    header['misc']['number_of_legs'], len(steps)
                 )
             )
 
@@ -74,7 +70,7 @@ def _parse_header(header) -> dict:
     return {
         'duration': _parse_duration(duration),
         'links': _parse_links(links),
-        'misc': _parse_misc(misc)
+        'misc': _parse_misc(misc),
     }
 
 
@@ -91,9 +87,7 @@ def _parse_links(links) -> dict:
     links = links.find('div')
     links = links.xpath('.//img')
 
-    return dict(
-        map(_parse_img, links)
-    )
+    return dict(map(_parse_img, links))
 
 
 def _parse_img(img: '<img/>') -> tuple:
@@ -157,9 +151,7 @@ def _parse_misc(misc) -> dict:
         'arrival_time': _parse_time(misc_data['arrival_time']),
         'depart_time': _parse_time(misc_data['depart_time']),
         'number_of_legs': int(misc_data['number_of_legs']),
-        'total_walking_distance': int(
-            misc_data['total_walking_distance'][:2]
-        )
+        'total_walking_distance': int(misc_data['total_walking_distance'][:2]),
     }
 
 
@@ -196,10 +188,7 @@ def _parse_step(step: '<table/>') -> dict:
         route = texts.pop(-1)[8:]
         texts = list(zip(texts[::2], texts[1::2]))
 
-        step = {
-            'bus': _parse_bus_step,
-            'train': _parse_train_step
-        }[step_type](texts)
+        step = {'bus': _parse_bus_step, 'train': _parse_train_step}[step_type](texts)
 
         step['route'] = _parse_route_text(route)
 
@@ -244,11 +233,7 @@ def _parse_bus_step(texts: str) -> dict:
     dep['stop_num'] = _parse_stop(dep['stop_num'])
     arr['stop_num'] = _parse_stop(arr['stop_num'])
 
-    return {
-        'step_type': 'bus',
-        'departure': dep,
-        'arrival': arr
-    }
+    return {'step_type': 'bus', 'departure': dep, 'arrival': arr}
 
 
 def _parse_train_step(texts: str) -> dict:
@@ -259,23 +244,16 @@ def _parse_train_step(texts: str) -> dict:
     dep['time'], arr['time'] = map(_parse_time, texts.pop(0))
     dep['stop_name'], arr['stop_name'] = texts.pop(0)
 
-    return {
-        'step_type': 'train',
-        'departure': dep,
-        'arrival': arr
-    }
+    return {'step_type': 'train', 'departure': dep, 'arrival': arr}
 
 
 def _parse_walk_step(texts: str) -> dict:
-    departure = (
-        _parse_time(texts[1]) if len(texts) > 1
-        else None
-    )
+    departure = _parse_time(texts[1]) if len(texts) > 1 else None
 
     return {
         'step_type': 'walk',
         'departure': {'time': departure},
-        'walking_distance': int(texts[0].split(' ')[0])
+        'walking_distance': int(texts[0].split(' ')[0]),
     }
 
 
@@ -287,10 +265,7 @@ def _parse_time(string: str) -> datetime.time:
 
     t = time.strptime(string, '%I:%M %p')
 
-    return datetime.time(
-        hour=t.tm_hour,
-        minute=t.tm_min
-    )
+    return datetime.time(hour=t.tm_hour, minute=t.tm_min)
 
 
 def _parse_stop(string: str) -> int:

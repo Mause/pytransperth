@@ -1,12 +1,7 @@
 import requests
 
 from .. import BASE_HTTP
-from .location import (
-    determine_location,
-    are_locations,
-    Location,
-    ResolvedLocation
-)
+from .location import determine_location, are_locations, Location, ResolvedLocation
 from .route_parser import parse_routes
 from .utils import format_date
 
@@ -15,8 +10,8 @@ __all__ = ['determine_routes']
 
 
 def determine_routes(
-        from_loco: Location or ResolvedLocation,
-        to_loco: Location or ResolvedLocation) -> list:
+    from_loco: Location or ResolvedLocation, to_loco: Location or ResolvedLocation
+) -> list:
     """
     Determine possible routes between the two provided locations
     """
@@ -53,12 +48,11 @@ def _routes(from_code, to_code):
         'jpnMaxJourneys': '5',
         'find+journey.x': '',
         'ToLoc': to_code,
-        'EndMode': 'Walk'
+        'EndMode': 'Walk',
     }
 
     return parse_routes(
         requests.get(
-            BASE_HTTP + 'JourneyPlanner/tabid/233/Default.aspx',
-            params=params
+            BASE_HTTP + 'JourneyPlanner/tabid/233/Default.aspx', params=params
         ).text
     )

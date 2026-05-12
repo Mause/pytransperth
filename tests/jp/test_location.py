@@ -11,17 +11,18 @@ class TestLocationUtils(unittest.TestCase):
     @patch('transperth.jp.location.parse_locations')
     def test_determine_location(self, parse_locations):
         from transperth import BASE_HTTP
+
         responses.add(
             responses.GET,
             BASE_HTTP + 'DesktopModules/JourneyPlanner/JP.aspx',
-            body='TEXT'.encode()
+            body='TEXT'.encode(),
         )
 
         from transperth.jp.location import determine_location, Location
 
         determine_location(
             Location.from_location('Curtin University, Perth'),
-            Location.from_location('Arena Joondalup')
+            Location.from_location('Arena Joondalup'),
         )
 
         parse_locations.assert_called_with('TEXT')
@@ -31,10 +32,7 @@ class TestLocationUtils(unittest.TestCase):
 
         ret = parse_locations(LOCATION_XML)
 
-        self.assertEqual(
-            ret,
-            {'from': [ResolvedLocation('Name', 'Code')]}
-        )
+        self.assertEqual(ret, {'from': [ResolvedLocation('Name', 'Code')]})
 
 
 class TestLocationClass(unittest.TestCase):
@@ -49,8 +47,8 @@ class TestLocationClass(unittest.TestCase):
                 'street': '',
                 'suburb': '',
                 'location': '',
-                'stop': ''
-            }
+                'stop': '',
+            },
         )
 
     def test_from_address(self):
@@ -62,10 +60,9 @@ class TestLocationClass(unittest.TestCase):
                 'street': 'STREET',
                 'suburb': 'SUBURB',
                 '': 'Point',
-
                 'location': '',
                 'stop': '',
-            }
+            },
         )
 
     def test_from_stop(self):
@@ -73,14 +70,7 @@ class TestLocationClass(unittest.TestCase):
 
         self.assertEqual(
             Location.from_stop('11111')._data,
-            {
-                'stop': '11111',
-                '': 'Node',
-
-                'location': '',
-                'street': '',
-                'suburb': ''
-            }
+            {'stop': '11111', '': 'Node', 'location': '', 'street': '', 'suburb': ''},
         )
 
     def test_from_stop_invalid_exception_string(self):
@@ -105,11 +95,10 @@ class TestLocationClass(unittest.TestCase):
             {
                 '': 'Location',
                 'location': 'LOCATION',
-
                 'stop': '',
                 'street': '',
-                'suburb': ''
-            }
+                'suburb': '',
+            },
         )
 
     def test_as_(self):
@@ -122,8 +111,8 @@ class TestLocationClass(unittest.TestCase):
                 'toLocation': 'LOCATION',
                 'toStop': '',
                 'toStreet': '',
-                'toSuburb': ''
-            }
+                'toSuburb': '',
+            },
         )
 
     def test_as_exception(self):
@@ -145,14 +134,9 @@ class TestLocationClass(unittest.TestCase):
     def test__eq__(self):
         from transperth.jp.location import Location
 
-        data = {
-            'hello': 'world'
-        }
+        data = {'hello': 'world'}
 
-        self.assertEqual(
-            Location(data),
-            Location(data)
-        )
+        self.assertEqual(Location(data), Location(data))
 
 
 if __name__ == '__main__':

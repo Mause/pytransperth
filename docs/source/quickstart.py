@@ -1,17 +1,11 @@
 import os
 import sys
-sys.path.insert(
-    0,
-    os.path.join(os.path.dirname(__file__), '..', '..')
-)
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 
 # create the Location object you wish to resolve;
-from transperth.jp.location import (
-    Location,
-    ResolvedLocation,
-    determine_location
-)
+from transperth.jp.location import Location, ResolvedLocation, determine_location
 
 from_location = Location.from_location('Curtin University, Perth')
 to_location = Location.from_location('Arena Joondalup')
@@ -43,4 +37,5 @@ route = routes[0]
 
 # and use 'em how you like
 from transperth.smart_rider.trips import timedelta_repr
+
 print(timedelta_repr(route['meta']['duration']))

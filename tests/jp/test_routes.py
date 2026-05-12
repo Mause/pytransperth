@@ -14,20 +14,17 @@ class TestRoutes(unittest.TestCase):
         from transperth.jp.routes import determine_routes
 
         determine_routes(
-            Location.from_location('LOCATION1'),
-            Location.from_location('LOCATION2')
+            Location.from_location('LOCATION1'), Location.from_location('LOCATION2')
         )
 
-        _routes.assert_called_with(
-            ROUTES['from'][0].code,
-            ROUTES['to'][0].code
-        )
+        _routes.assert_called_with(ROUTES['from'][0].code, ROUTES['to'][0].code)
 
     # kinda pointless testing _routes, considering it only builds a request
     # and sends it
     # @responses.activate
     # def test__routes(self):
     #     pass
+
 
 if __name__ == '__main__':
     unittest.main()

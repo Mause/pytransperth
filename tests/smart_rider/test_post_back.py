@@ -7,11 +7,4 @@ class TestPostBack(unittest.TestCase):
 
         delta = parse_delta('7|type|id|content')
 
-        self.assertDictEqual(
-            delta,
-            {
-                'type': [
-                    {'id': 'id', 'content': 'content'}
-                ]
-            }
-        )
+        self.assertDictEqual(delta, {'type': [{'id': 'id', 'content': 'content'}]})

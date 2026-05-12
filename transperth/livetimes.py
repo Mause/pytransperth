@@ -8,10 +8,7 @@ from importlib import resources
 
 from .exceptions import BadStationError
 
-URL = (
-    'http://livetimes.transperth.wa.gov.au/LiveTimes.asmx'
-    '/GetSercoTimesForStation'
-)
+URL = 'http://livetimes.transperth.wa.gov.au/LiveTimes.asmx/GetSercoTimesForStation'
 
 ASSETS = resources.files(anchor='transperth.assets').joinpath('train_stations.json')
 with ASSETS.open() as f:
@@ -29,12 +26,7 @@ def times_for_station(station_name):
     if station_name not in TRAIN_STATIONS_SET:
         raise BadStationError()
 
-    r = requests.get(
-        URL,
-        params={
-            'stationname': station_name
-        }
-    )
+    r = requests.get(URL, params={'stationname': station_name})
 
     return _parse_trips(r.content)
 
@@ -45,26 +37,23 @@ def _parse_trips(trips):
     root = root.find('{http://services.pta.wa.gov.au/}Trips')
     trips = root.findall('{http://services.pta.wa.gov.au/}SercoTrip')
 
-    trips = [
-        {
-            etree.QName(el).localname: el.text
-            for el in trip
-        }
-        for trip in trips
-    ]
+    trips = [{etree.QName(el).localname: el.text for el in trip} for trip in trips]
 
     for trip in trips:
-        trip.update({
-            'PatternFullDisplay': trip['PatternFullDisplay'].split(', '),
-            'Pattern': trip['Pattern'].split(','),
-            'Cancelled': trip['Cancelled'] == 'True'
-        })
+        trip.update(
+            {
+                'PatternFullDisplay': trip['PatternFullDisplay'].split(', '),
+                'Pattern': trip['Pattern'].split(','),
+                'Cancelled': trip['Cancelled'] == 'True',
+            }
+        )
 
     return trips
 
 
 def _main():
     from pprint import pprint
+
     pprint(times_for_station('Perth Underground Stn'))
 
 

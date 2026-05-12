@@ -4,6 +4,7 @@ The code in this file was ported from javascript from the transperth website.
 As I progress, I will attempt to whittle it down to purely what is absolutely
 required.
 """
+
 from collections import defaultdict
 
 from .. import BASE_HTTPS
@@ -12,18 +13,15 @@ from ..jp.route_parser import _parse_function_call, FUNCTIONCALL_RE
 
 
 def create_post_back_settings(async_: str, panel_ID: str, source_element: str):
-    return {
-        'async': async_,
-        'panelID': panel_ID,
-        'sourceElement': source_element
-    }
+    return {'async': async_, 'panelID': panel_ID, 'sourceElement': source_element}
+
 
 unique_ID_to_client_ID = lambda a: a.replace('$', '_')
 
 
 def matches_parent_ID_in_list(c, b):
     for a in b:
-        if (c.startswith(a + "_")):
+        if c.startswith(a + "_"):
             return True
     return False
 
@@ -39,9 +37,11 @@ def params_from_form(form) -> dict:
 
         if tag == "INPUT":
             el_type = el.type.lower()
-            if (el_type in {"text", "password", "hidden"} or
-                    el_type in {"checkbox", "radio"} and el.checked):
-
+            if (
+                el_type in {"text", "password", "hidden"}
+                or el_type in {"checkbox", "radio"}
+                and el.checked
+            ):
                 params[el_name] = '' if el.value is None else el.value
 
         elif tag == "SELECT":
@@ -50,7 +50,7 @@ def params_from_form(form) -> dict:
                     params[el_name] = option.value
             raise Exception()
 
-        elif (tag == "TEXTAREA"):
+        elif tag == "TEXTAREA":
             params[el_name] = el.value
         else:
             raise Exception(tag)
@@ -71,10 +71,11 @@ def parse_delta(raw_delta: str) -> str:
     There can be none, one, or many. This function loops until there
     are no more to consume.
     """
+
     def grab_section(raw_delta, length=None):
         return (
-            raw_delta[(length or raw_delta.index('|')) + 1:],
-            raw_delta[:(length or raw_delta.index('|'))]
+            raw_delta[(length or raw_delta.index('|')) + 1 :],
+            raw_delta[: (length or raw_delta.index('|'))],
         )
 
     updates = defaultdict(list)
@@ -88,10 +89,7 @@ def parse_delta(raw_delta: str) -> str:
 
         raw_delta, content = grab_section(raw_delta, int(length))
 
-        updates[frag_type].append({
-            'id': frag_id,
-            'content': content
-        })
+        updates[frag_type].append({'id': frag_id, 'content': content})
 
     return updates
 
@@ -109,7 +107,7 @@ class PageRequestManagerOriginal(object):
             "dnn$ctr2061$SmartRiderTransactions$rgTransactionsPanel",
             "dnn$ctr2061$SmartRiderTransactions$rdFromDatePanel",
             "dnn$ctr2061$SmartRiderTransactions$rdToDatePanel",
-            "RadAjaxManager1SU"
+            "RadAjaxManager1SU",
         ]
         self._update_panel_client_IDs = [
             "dnn_ctr2061_SmartRiderTransactions_pnlModuleMessagePanel",
@@ -117,22 +115,27 @@ class PageRequestManagerOriginal(object):
             "dnn_ctr2061_SmartRiderTransactions_rgTransactionsPanel",
             "dnn_ctr2061_SmartRiderTransactions_rdFromDatePanel",
             "dnn_ctr2061_SmartRiderTransactions_rdToDatePanel",
-            "RadAjaxManager1SU"
+            "RadAjaxManager1SU",
         ]
         self._update_panel_has_children_as_triggers = [
-            True, True, True, True, True, True
+            True,
+            True,
+            True,
+            True,
+            True,
+            True,
         ]
         self._async_post_back_control_IDs = [
             "dnn$ctr2061$SmartRiderTransactions$ddlSmartCardNumber",
             "dnn$ctr2061$SmartRiderTransactions$rgTransactions",
             "dnn$ctr2061$SmartRiderTransactions$rdToDate",
-            "dnn$ctr2061$SmartRiderTransactions$rdFromDate"
+            "dnn$ctr2061$SmartRiderTransactions$rdFromDate",
         ]
         self._async_post_back_control_client_IDs = [
             "dnn_ctr2061_SmartRiderTransactions_ddlSmartCardNumber",
             "dnn_ctr2061_SmartRiderTransactions_rgTransactions",
             "dnn_ctr2061_SmartRiderTransactions_rdToDate",
-            "dnn_ctr2061_SmartRiderTransactions_rdFromDate"
+            "dnn_ctr2061_SmartRiderTransactions_rdFromDate",
         ]
         self._post_back_control_IDs = []
         self._post_back_control_client_IDs = []
@@ -156,10 +159,7 @@ class PageRequestManagerOriginal(object):
         self._scroll_position = None
         self._processing_request = False
         self._script_disposes = {}
-        self._transient_fields = [
-            "__VIEWSTATEENCRYPTED",
-            "__VIEWSTATEFIELDCOUNT"
-        ]
+        self._transient_fields = ["__VIEWSTATEENCRYPTED", "__VIEWSTATEFIELDCOUNT"]
 
     @property
     def _form(self):
@@ -185,9 +185,7 @@ class PageRequestManagerOriginal(object):
                 return None
 
             # remove the latter most section
-            target_id = '$'.join(
-                target_id.split('$')[:-1]
-            )
+            target_id = '$'.join(target_id.split('$')[:-1])
 
         return None
 
@@ -196,15 +194,11 @@ class PageRequestManagerOriginal(object):
         b = None
         while a is not None:
             if a.attrib.get('id'):
-                if (not b and
-                        a.attrib['id'] in self._async_post_back_control_client_IDs):
+                if not b and a.attrib['id'] in self._async_post_back_control_client_IDs:
                     b = create_post_back_settings(
-                        True,
-                        self._script_manager_ID + '|' + c,
-                        d
+                        True, self._script_manager_ID + '|' + c, d
                     )
-                elif (not b and
-                        a.attrib['id'] in self._post_back_control_client_IDs):
+                elif not b and a.attrib['id'] in self._post_back_control_client_IDs:
                     return create_post_back_settings(False, None, None)
                 else:
                     if a.attrib['id'] in self._update_panel_client_IDs:
@@ -213,36 +207,30 @@ class PageRequestManagerOriginal(object):
                         e = -1
 
                     if e != -1:
-                        if (self._update_panel_has_children_as_triggers[e]):
+                        if self._update_panel_has_children_as_triggers[e]:
                             return create_post_back_settings(
-                                True,
-                                self._update_panel_IDs[e] + "|" + c,
-                                d
+                                True, self._update_panel_IDs[e] + "|" + c, d
                             )
                         else:
                             return create_post_back_settings(
-                                True,
-                                self._script_manager_ID + '|' + c,
-                                d
+                                True, self._script_manager_ID + '|' + c, d
                             )
 
                 if not b:
                     if matches_parent_ID_in_list(
-                            a.attrib['id'],
-                            self._async_post_back_control_client_IDs):
+                        a.attrib['id'], self._async_post_back_control_client_IDs
+                    ):
                         b = create_post_back_settings(
-                            True,
-                            self._script_manager_ID + '|' + c,
-                            d
+                            True, self._script_manager_ID + '|' + c, d
                         )
                     elif matches_parent_ID_in_list(
-                            a.attrib['id'],
-                            self._post_back_control_client_IDs):
+                        a.attrib['id'], self._post_back_control_client_IDs
+                    ):
                         return create_post_back_settings(False, None, None)
 
             a = a.getparent()
 
-        if (not b):
+        if not b:
             return create_post_back_settings(False, None, None)
         else:
             return b
@@ -260,22 +248,16 @@ class PageRequestManagerOriginal(object):
             if d is None:
                 if a in self._async_post_back_control_IDs:
                     _postBackSettings = create_post_back_settings(
-                        True,
-                        self._scriptManagerID + "|" + a,
-                        None
+                        True, self._scriptManagerID + "|" + a, None
                     )
                 elif a in self._post_back_control_IDs:
-                    _postBackSettings = create_post_back_settings(
-                        False, None, None
-                    )
+                    _postBackSettings = create_post_back_settings(False, None, None)
                 else:
                     c = self.find_nearest_element(a)
                     if c is not None:
                         _postBackSettings = self.get_post_back_settings(c, a)
                     else:
-                        _postBackSettings = create_post_back_settings(
-                            False, None, None
-                        )
+                        _postBackSettings = create_post_back_settings(False, None, None)
             else:
                 _postBackSettings = self.get_post_back_settings(d, a)
 
@@ -302,20 +284,21 @@ class PageRequestManagerOriginal(object):
                     "Mozilla/5.0 (Windows NT 6.1; WOW64) "
                     "AppleWebKit/537.36 (KHTML, like Gecko) "
                     "Chrome/32.0.1700.107 Safari/537.36)"
-                )
-            }
+                ),
+            },
         )
 
         updates = parse_delta(r.text)
 
-        if (updates['pageRedirect'] or
-                '/TravelEasy/tabid/69/Default.aspx?returnurl=' in r.url):
-            raise Exception('Not logged in: {}'.format(
-                updates['pageRedirect'][0]['content']
-            ))
+        if (
+            updates['pageRedirect']
+            or '/TravelEasy/tabid/69/Default.aspx?returnurl=' in r.url
+        ):
+            raise Exception(
+                'Not logged in: {}'.format(updates['pageRedirect'][0]['content'])
+            )
 
         return updates
-
 
 
 class PageRequestManager(PageRequestManagerOriginal):
@@ -336,11 +319,10 @@ class PageRequestManager(PageRequestManagerOriginal):
                     lines = clean(script.text.splitlines())
                     lines = filter(FUNCTIONCALL_RE.search, lines)
 
-                    calls = dict(
-                        map(_parse_function_call, lines)
-                    )
+                    calls = dict(map(_parse_function_call, lines))
 
                     from pprint import pprint
+
                     pprint(calls)
 
         # Sys.WebForms.PageRequestManager._initialize(
@@ -375,11 +357,7 @@ class PageRequestManager(PageRequestManagerOriginal):
             return href[24:-1].replace("'", '').split(',')
 
         hrefs = self.document.xpath('//*[@href]')
-        hrefs = (
-            href
-            for href in hrefs
-            if '__doPostBack' in href.attrib['href']
-        )
+        hrefs = (href for href in hrefs if '__doPostBack' in href.attrib['href'])
 
         nhrefs = {}
         for href in hrefs:
@@ -395,10 +373,6 @@ class PageRequestManager(PageRequestManagerOriginal):
             if name.endswith('_cmdHelp'):
                 continue
 
-            nhrefs[name] = list(
-                filter(bool, args_from_href(href.attrib['href']))
-            )
+            nhrefs[name] = list(filter(bool, args_from_href(href.attrib['href'])))
 
         return nhrefs
-
-

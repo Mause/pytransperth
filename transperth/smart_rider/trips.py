@@ -1,6 +1,7 @@
 """
 Parses actions into separate trips
 """
+
 import logging
 from functools import reduce
 from operator import add
@@ -27,7 +28,7 @@ class TripTracer(object):
     def __init__(self, actions):
         actions = filter(
             lambda action: action['action'] in VALID_TRIP_ACTIONS,
-            actions
+            actions,
         )
 
         self.actions = list(actions)
@@ -47,16 +48,13 @@ class TripTracer(object):
                 logging.info('An incomplete trip was encountered')
                 break
 
-            sorted_trip = sorted(
-                current_trip,
-                key=lambda step: step['tagon']['time']
-            )
+            sorted_trip = sorted(current_trip, key=lambda step: step['tagon']['time'])
             sorted_trip = list(sorted_trip)
 
             yield {
                 'steps': sorted_trip,
                 'meta': self.generate_meta(sorted_trip),
-                'path': self.determine_path(sorted_trip)
+                'path': self.determine_path(sorted_trip),
             }
 
     def determine_price(self, trip):
@@ -66,10 +64,7 @@ class TripTracer(object):
         # we negate the price to get a positive number, so the when summed
         # we get a positive price
 
-        return sum(map(
-            lambda step: -step['tagoff']['amount'],
-            trip
-        ))
+        return sum(map(lambda step: -step['tagoff']['amount'], trip))
 
     def consume_trip(self) -> list:
         """
@@ -91,10 +86,7 @@ class TripTracer(object):
             # raise IncompleteTrip
             raise IncompleteTrip()
 
-        return {
-            'tagoff': self.actions.pop(0),
-            'tagon': self.actions.pop(0)
-        }
+        return {'tagoff': self.actions.pop(0), 'tagon': self.actions.pop(0)}
 
     def determine_path(self, trip: list) -> list:
         """
@@ -132,8 +124,7 @@ class TripTracer(object):
         """
 
         travel_time = determine_breadth(
-            step['tagoff']['time'] - step['tagon']['time']
-            for step in trip
+            step['tagoff']['time'] - step['tagon']['time'] for step in trip
         )
         travel_time = timedelta_repr(travel_time)
 
@@ -142,7 +133,7 @@ class TripTracer(object):
             'to': trip[-1]['tagoff']['location'],
             'travel_time': travel_time,
             'wait_time': timedelta_repr(determine_wait_time(trip)),
-            'price': self.determine_price(trip)
+            'price': self.determine_price(trip),
         }
 
 
@@ -159,10 +150,7 @@ def determine_wait_time(trip: list) -> datetime.timedelta:
         waiting = []
 
         for latter, former in pairs(trip):
-            waiting.append(
-                former['tagon']['time'] -
-                latter['tagoff']['time']
-            )
+            waiting.append(former['tagon']['time'] - latter['tagoff']['time'])
 
         return determine_breadth(waiting)
     else:
@@ -191,10 +179,7 @@ def timedelta_repr(td: datetime.timedelta) -> str:
     if len(end) > 1:
         end.append('and ' + end.pop(-1))
 
-    return ', '.join(
-        val.lstrip('0')
-        for val in end
-    )
+    return ', '.join(val.lstrip('0') for val in end)
 
 
 def determine_trips(actions: list) -> list:
