@@ -4,6 +4,7 @@ circumstances
 """
 
 from lxml import etree
+from typing import Union
 import requests
 
 from .. import BASE_HTTP
@@ -19,7 +20,8 @@ __all__ = ['determine_fare']
 
 
 def determine_fare(
-    from_loco: Location or ResolvedLocation, to_loco: Location or ResolvedLocation
+    from_loco: Union[Location, ResolvedLocation],
+    to_loco: Union[Location, ResolvedLocation],
 ) -> dict:
     """
     Returns the fare for the recommended route from `from_loco` to

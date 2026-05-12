@@ -22,12 +22,7 @@ def are_locations(*args):
     return all(map(is_location, args))
 
 
-# Allows the use of Location in function signatures
-class Location:
-    pass
-
-
-def determine_location(from_loco: Location, to_loco: Location) -> dict:
+def determine_location(from_loco: 'Location', to_loco: 'Location') -> dict:
     """
     Takes two location objects, and returns a dict of lists of ResolvedLocation
     mapping possible corresponding real world locations and their codes.
@@ -109,11 +104,11 @@ class Location(object):
         self._data.update(data)
 
     @classmethod
-    def from_address(self, street: str, suburb: str) -> Location:
+    def from_address(self, street: str, suburb: str) -> 'Location':
         return Location({'street': street, 'suburb': suburb, '': 'Point'})
 
     @classmethod
-    def from_stop(self, stop_number: 'str or int') -> Location:
+    def from_stop(self, stop_number: str | int) -> 'Location':
         """
         Creates a Location from a transperth stop number.
 
@@ -130,7 +125,7 @@ class Location(object):
         return Location({'stop': stop_number, '': 'Node'})
 
     @classmethod
-    def from_location(self, location: str) -> Location:
+    def from_location(self, location: str) -> 'Location':
         """
         Creates a Location from an arbibrary location, such as;
 
