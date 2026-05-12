@@ -1,3 +1,4 @@
+from typing import Union
 import requests
 
 from .. import BASE_HTTP
@@ -10,7 +11,8 @@ __all__ = ['determine_routes']
 
 
 def determine_routes(
-    from_loco: Location or ResolvedLocation, to_loco: Location or ResolvedLocation
+    from_loco: Union[Location, ResolvedLocation],
+    to_loco: Union[Location, ResolvedLocation],
 ) -> list:
     """
     Determine possible routes between the two provided locations
