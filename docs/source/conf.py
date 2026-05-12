@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Transperth'
-copyright = '2014, Dominic May'
+copyright = '2026, Elliana May'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -210,7 +210,7 @@ latex_documents = [
         'index',
         'Transperth.tex',
         'Transperth Documentation',
-        'Dominic May',
+        'Elliana May',
         'manual'
     ),
 ]
@@ -242,7 +242,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'transperth', 'Transperth Documentation',
-     ['Dominic May'], 1)
+     ['Elliana May'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -259,7 +259,7 @@ texinfo_documents = [
         'index',
         'Transperth',
         'Transperth Documentation',
-        'Dominic May',
+        'Elliana May',
         'Transperth',
         'One line description of project.',
         'Miscellaneous'
