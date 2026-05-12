@@ -30,6 +30,7 @@ dependencies = [
   "lxml>=6.0.0",
   "python-dateutil",
   "requests",
+  "zeep>=4.3.2",
 ]
 
 [project.urls]
@@ -40,6 +41,7 @@ dev = [
   "pdbpp>=0.10.3",
   "pytest>=8.3.3",
   "responses>=0.25.3",
+  "types-lxml>=2026.2.16",
 ]
 
 [build-system]
@@ -48,6 +50,12 @@ requires = [
   "setuptools-scm>=8",
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["UP"]
 
 [tool.ruff.format]
 quote-style = "preserve"
