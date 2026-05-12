@@ -13,14 +13,17 @@ on:
   release:
     types: [published]
 
-permissions:
-  contents: read
-
 jobs:
   deploy:
 
     runs-on: ubuntu-latest
-    environment: pypi
+    environment:
+      name: pypi
+      url: https://pypi.org/p/transperth
+
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
     - uses: actions/checkout@v4
@@ -37,5 +40,4 @@ jobs:
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc
       with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+        attestation: true
