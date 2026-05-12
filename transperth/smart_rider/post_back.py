@@ -16,7 +16,8 @@ def create_post_back_settings(async_: str, panel_ID: str, source_element: str):
     return {'async': async_, 'panelID': panel_ID, 'sourceElement': source_element}
 
 
-unique_ID_to_client_ID = lambda a: a.replace('$', '_')
+def unique_ID_to_client_ID(a):
+    return a.replace('$', '_')
 
 
 def matches_parent_ID_in_list(c, b):

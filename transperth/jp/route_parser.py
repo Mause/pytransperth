@@ -130,7 +130,8 @@ def _parse_duration(duration) -> datetime.timedelta:
     return datetime.timedelta(hours=hours, minutes=minutes)
 
 
-_normalise_key = lambda key: key.replace(' ', '_').lower()
+def _normalise_key(key):
+    return key.replace(' ', '_').lower()
 
 
 def _parse_misc(misc) -> dict:

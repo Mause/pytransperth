@@ -14,8 +14,12 @@ STOPNUM_RE = re.compile(r'\d{5}')
 __all__ = ['determine_location', 'Location', 'parse_locations', 'ResolvedLocation']
 
 
-is_location = lambda arg: isinstance(arg, Location)
-are_locations = lambda *args: all(map(is_location, args))
+def is_location(arg):
+    return isinstance(arg, Location)
+
+
+def are_locations(*args):
+    return all(map(is_location, args))
 
 
 # Allows the use of Location in function signatures

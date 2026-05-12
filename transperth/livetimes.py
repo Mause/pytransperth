@@ -1,6 +1,5 @@
 import json
 from itertools import chain
-from os.path import join, dirname
 
 import requests
 from lxml import etree
