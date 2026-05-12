@@ -488,7 +488,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "lxml", specifier = ">=5.9.0" },
+    { name = "lxml", specifier = ">=6.0.0" },
     { name = "python-dateutil" },
     { name = "requests" },
 ]
