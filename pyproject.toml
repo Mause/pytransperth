@@ -27,12 +27,14 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Application Frameworks",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-urls.repository = "https://github.com/Mause/pytransperth"
 dependencies = [
   "lxml",
   "python-dateutil",
   "requests",
 ]
+
+[project.urls]
+Repository = "https://github.com/Mause/pytransperth"
 
 [dependency-groups]
 dev = [
