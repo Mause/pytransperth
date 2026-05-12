@@ -28,7 +28,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-  "lxml",
+  "lxml>=5.9.0",
   "python-dateutil",
   "requests",
 ]
