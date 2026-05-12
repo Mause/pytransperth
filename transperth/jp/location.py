@@ -11,20 +11,19 @@ from ..exceptions import InvalidStopNumber, InvalidDirection
 STOPNUM_RE = re.compile(r'\d{5}')
 
 
-__all__ = [
-    'determine_location',
-    'Location',
-    'parse_locations',
-    'ResolvedLocation'
-]
+__all__ = ['determine_location', 'Location', 'parse_locations', 'ResolvedLocation']
 
 
-is_location = lambda arg: isinstance(arg, Location)
-are_locations = lambda *args: all(map(is_location, args))
+def is_location(arg):
+    return isinstance(arg, Location)
+
+
+def are_locations(*args):
+    return all(map(is_location, args))
 
 
 # Allows the use of Location in function signatures
-class Location():
+class Location:
     pass
 
 
@@ -51,15 +50,13 @@ def determine_location(from_loco: Location, to_loco: Location) -> dict:
         'jpnMaxJourneys': '5',
         'jpMaxChanges': '-1',
         'jpWalkChange': 'NORMAL',
-        'jpWheelchairOnly': '0'
+        'jpWheelchairOnly': '0',
     }
 
     params.update(from_loco.as_('from'))
     params.update(to_loco.as_('to'))
 
-    return parse_locations(
-        requests.get(URL, params=params).text
-    )
+    return parse_locations(requests.get(URL, params=params).text)
 
 
 def parse_locations(locations: str) -> dict:
@@ -78,10 +75,7 @@ def parse_locations(locations: str) -> dict:
 
     return {
         element.tag.lower(): [
-            ResolvedLocation(
-                *clean(sub_element.itertext())
-            )
-            for sub_element in element
+            ResolvedLocation(*clean(sub_element.itertext())) for sub_element in element
         ]
         for element in root
     }
@@ -109,18 +103,14 @@ class Location(object):
             'street': '',
             'suburb': '',
             'location': '',
-            'stop': ''
+            'stop': '',
         }
 
         self._data.update(data)
 
     @classmethod
     def from_address(self, street: str, suburb: str) -> Location:
-        return Location({
-            'street': street,
-            'suburb': suburb,
-            '': 'Point'
-        })
+        return Location({'street': street, 'suburb': suburb, '': 'Point'})
 
     @classmethod
     def from_stop(self, stop_number: 'str or int') -> Location:
@@ -137,10 +127,7 @@ class Location(object):
         if not STOPNUM_RE.match(stop_number):
             raise InvalidStopNumber('Invalid stop number')
 
-        return Location({
-            'stop': stop_number,
-            '': 'Node'
-        })
+        return Location({'stop': stop_number, '': 'Node'})
 
     @classmethod
     def from_location(self, location: str) -> Location:
@@ -152,10 +139,7 @@ class Location(object):
 
         :param location: arbibrary location
         """
-        return Location({
-            'location': location,
-            '': 'Location'
-        })
+        return Location({'location': location, '': 'Location'})
 
     def as_(self, direction: str) -> dict:
         """
@@ -178,16 +162,10 @@ class Location(object):
 
         self._data[''] = self._data[''].title()
 
-        return {
-            direction + k.title(): v
-            for k, v in self._data.items()
-        }
+        return {direction + k.title(): v for k, v in self._data.items()}
 
     def __hash__(self):
-        items = sorted(
-            self._data.items(),
-            key=lambda i: i[0]
-        )
+        items = sorted(self._data.items(), key=lambda i: i[0])
 
         return hash(','.join(map(':'.join, items)))
 

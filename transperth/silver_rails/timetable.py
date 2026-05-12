@@ -24,9 +24,8 @@ class RateLimitExceeded(Exception):
 
 
 def timetable_for_stop(
-        stop_num: int, time: datetime.datetime,
-        apikey: str,
-        dataset='PerthRestricted'):
+    stop_num: int, time: datetime.datetime, apikey: str, dataset='PerthRestricted'
+):
     """
     Produces a list of 2 long tuples; (<bus_num>, <time>)
     """
@@ -40,8 +39,8 @@ def timetable_for_stop(
             "stop": stop_num,
             "time": time.strftime('%Y-%m-%dT%H:%M'),
             "ApiKey": apikey,
-            "timeband": "1440"
-        }
+            "timeband": "1440",
+        },
     )
 
     xml = req.text
@@ -51,15 +50,11 @@ def timetable_for_stop(
     status = xml.xpath('Status')[0]
     severity = status.xpath("Severity/text()")[0]
     if severity != "Success":
-
         code = status.xpath("Details/StatusDetail/Code/text()")[0]
         if code == "APIKeyDailyLimitExceeded":
             raise RateLimitExceeded()
 
-        raise Exception("{} fetching {}".format(
-            severity,
-            stop_num
-        ))
+        raise Exception("{} fetching {}".format(severity, stop_num))
 
     return _parse_timetable_response(xml)
 
@@ -68,7 +63,7 @@ def _parse_timetable_response(xml):
     return [
         (
             b.xpath("Summary/RouteCode/text()")[0],
-            dateutil.parser.parse(b.xpath("DepartTime/text()")[0])
+            dateutil.parser.parse(b.xpath("DepartTime/text()")[0]),
         )
         for b in xml.xpath('Trips/StopTimetableTrip')
     ]

@@ -17,7 +17,7 @@ from ..constants.route_parser import (
     IMG,
     LINKS,
     DURATION,
-    ROUTES
+    ROUTES,
 )
 
 
@@ -41,20 +41,11 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         _parse_header(HEADER)
 
-        self.assertEqual(
-            _parse_misc.call_args[0][0].text,
-            'MISC'
-        )
+        self.assertEqual(_parse_misc.call_args[0][0].text, 'MISC')
 
-        self.assertEqual(
-            _parse_links.call_args[0][0].text,
-            'LINKS'
-        )
+        self.assertEqual(_parse_links.call_args[0][0].text, 'LINKS')
 
-        self.assertEqual(
-            _parse_duration.call_args[0][0].text,
-            'DURATION'
-        )
+        self.assertEqual(_parse_duration.call_args[0][0].text, 'DURATION')
 
     @patch('transperth.jp.route_parser._parse_img')
     def test_parse_links(self, _parse_img):
@@ -64,42 +55,24 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         ret = _parse_links(LINKS)
 
-        self.assertEqualMock(
-            ret,
-            {
-                'key': 'value'
-            }
-        )
+        self.assertEqualMock(ret, {'key': 'value'})
 
-        self.assertEqualXML(
-            _parse_img.call_args_list[0][0][0],
-            E.IMG('ONE')
-        )
+        self.assertEqualXML(_parse_img.call_args_list[0][0][0], E.IMG('ONE'))
 
-        self.assertEqualXML(
-            _parse_img.call_args_list[1][0][0],
-            E.IMG('TWO')
-        )
+        self.assertEqualXML(_parse_img.call_args_list[1][0][0], E.IMG('TWO'))
 
     def test_parse_img(self):
         from transperth.jp.route_parser import _parse_img
 
         ret = _parse_img(IMG)
 
-        self.assertEqual(
-            ret,
-            (
-                'getFares',
-                ['11/11/1111', 1111]
-            )
-        )
+        self.assertEqual(ret, ('getFares', ['11/11/1111', 1111]))
 
     def test_parse_duration(self):
         from transperth.jp.route_parser import _parse_duration
 
         self.assertEqual(
-            _parse_duration(DURATION),
-            datetime.timedelta(hours=11, minutes=11)
+            _parse_duration(DURATION), datetime.timedelta(hours=11, minutes=11)
         )
 
     def test_parse_misc(self):
@@ -113,8 +86,8 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
                 'arrival_time': datetime.time(11, 0),
                 'depart_time': datetime.time(10, 30),
                 'number_of_legs': 1,
-                'total_walking_distance': 0
-            }
+                'total_walking_distance': 0,
+            },
         )
 
     @patch('transperth.jp.route_parser._parse_step')
@@ -123,15 +96,9 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         _parse_steps(['IGNORED', STEPS])
 
-        self.assertEqualXML(
-            _parse_step.call_args_list[0][0][0],
-            E.TABLE('STEP1')
-        )
+        self.assertEqualXML(_parse_step.call_args_list[0][0][0], E.TABLE('STEP1'))
 
-        self.assertEqualXML(
-            _parse_step.call_args_list[1][0][0],
-            E.TABLE('STEP2')
-        )
+        self.assertEqualXML(_parse_step.call_args_list[1][0][0], E.TABLE('STEP2'))
 
     @patch('transperth.jp.route_parser._parse_bus_step')
     def test_parse_step_bus(self, _parse_bus_step):
@@ -139,9 +106,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         _parse_step(STEP_BUS)
 
-        _parse_bus_step.assert_called_with([
-            ('ONE', 'TWO')
-        ])
+        _parse_bus_step.assert_called_with([('ONE', 'TWO')])
 
     @patch('transperth.jp.route_parser._parse_train_step')
     def test_parse_step_train(self, _parse_train_step):
@@ -149,9 +114,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         _parse_step(STEP_TRAIN)
 
-        _parse_train_step.assert_called_with([
-            ('ONE', 'TWO')
-        ])
+        _parse_train_step.assert_called_with([('ONE', 'TWO')])
 
     @patch('transperth.jp.route_parser._parse_walk_step')
     def test_parse_step_walk(self, _parse_walk_step):
@@ -159,11 +122,7 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         _parse_step(STEP_WALK)
 
-        _parse_walk_step.assert_called_with([
-            'ONE',
-            'TWO',
-            'THREE'
-        ])
+        _parse_walk_step.assert_called_with(['ONE', 'TWO', 'THREE'])
 
     def test_parse_step_invalid(self):
         from transperth.jp.route_parser import _parse_step
@@ -177,38 +136,27 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
     def test_parse_bus_step(self, _parse_stop, _parse_time):
         from transperth.jp.route_parser import _parse_bus_step
 
-        ret = _parse_bus_step([
-            ('TIME1', 'TIME2'),
-            ('DEP_STOP_NAME', 'DEP_STOP_NUM'),
-            ('ARR_STOP_NAME', 'ARR_STOP_NUM'),
-            '12345678ROUTE'
-        ])
+        ret = _parse_bus_step(
+            [
+                ('TIME1', 'TIME2'),
+                ('DEP_STOP_NAME', 'DEP_STOP_NUM'),
+                ('ARR_STOP_NAME', 'ARR_STOP_NUM'),
+                '12345678ROUTE',
+            ]
+        )
 
         assertion = {
             'step_type': 'bus',
-            'departure': {
-                'stop_name': 'DEP_STOP_NAME',
-                'time': ANY,
-                'stop_num': ANY
-
-            },
-            'arrival': {
-                'stop_name': 'ARR_STOP_NAME',
-                'time': ANY,
-                'stop_num': ANY
-            }
+            'departure': {'stop_name': 'DEP_STOP_NAME', 'time': ANY, 'stop_num': ANY},
+            'arrival': {'stop_name': 'ARR_STOP_NAME', 'time': ANY, 'stop_num': ANY},
         }
 
         self.assertEqualMock(ret, assertion)
 
-        self.assertEqual(
-            _parse_time.call_args_list,
-            [call('TIME1'), call('TIME2')]
-        )
+        self.assertEqual(_parse_time.call_args_list, [call('TIME1'), call('TIME2')])
 
         self.assertEqual(
-            _parse_stop.call_args_list,
-            [call('DEP_STOP_NUM'), call('ARR_STOP_NUM')]
+            _parse_stop.call_args_list, [call('DEP_STOP_NUM'), call('ARR_STOP_NUM')]
         )
 
     @patch('transperth.jp.route_parser._parse_time')
@@ -216,48 +164,28 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
     def test_parse_train_step(self, _parse_stop, _parse_time):
         from transperth.jp.route_parser import _parse_train_step
 
-        ret = _parse_train_step([
-            ('TIME1', 'TIME2'),
-            ('DEP_STOP_NAME', 'ARR_STOP_NAME'),
-            '12345678ROUTE'
-        ])
+        ret = _parse_train_step(
+            [('TIME1', 'TIME2'), ('DEP_STOP_NAME', 'ARR_STOP_NAME'), '12345678ROUTE']
+        )
 
         assertion = {
             'step_type': 'train',
-            'departure': {
-                'stop_name': 'DEP_STOP_NAME',
-                'time': ANY
-
-            },
-            'arrival': {
-                'stop_name': 'ARR_STOP_NAME',
-                'time': ANY
-            }
+            'departure': {'stop_name': 'DEP_STOP_NAME', 'time': ANY},
+            'arrival': {'stop_name': 'ARR_STOP_NAME', 'time': ANY},
         }
 
         self.assertEqualMock(ret, assertion)
 
-        self.assertEqual(
-            _parse_time.call_args_list,
-            [call('TIME1'), call('TIME2')]
-        )
+        self.assertEqual(_parse_time.call_args_list, [call('TIME1'), call('TIME2')])
 
     @patch('transperth.jp.route_parser._parse_time')
     def test_parse_walk_step(self, _parse_time):
         from transperth.jp.route_parser import _parse_walk_step
 
-        ret = _parse_walk_step([
-            '111 m',
-            'DEPARTURE'
-        ])
+        ret = _parse_walk_step(['111 m', 'DEPARTURE'])
 
         self.assertEqualMock(
-            ret,
-            {
-                'step_type': 'walk',
-                'walking_distance': 111,
-                'departure': ANY
-            }
+            ret, {'step_type': 'walk', 'walking_distance': 111, 'departure': ANY}
         )
 
         _parse_time.assert_called_with('DEPARTURE')
@@ -265,21 +193,14 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
     def test_parse_time(self):
         from transperth.jp.route_parser import _parse_time
 
-        ret = _parse_time(
-            '\t          10:10 PM \t\t'
-        )
+        ret = _parse_time('\t          10:10 PM \t\t')
 
-        self.assertEqual(
-            ret,
-            datetime.time(hour=22, minute=10)
-        )
+        self.assertEqual(ret, datetime.time(hour=22, minute=10))
 
     def test_parse_stop(self):
         from transperth.jp.route_parser import _parse_stop
 
-        ret = _parse_stop(
-            '(Stop number: 111111)'
-        )
+        ret = _parse_stop('(Stop number: 111111)')
 
         self.assertEqual(ret, 111111)
 
@@ -288,15 +209,14 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
 
         self.assertDictEqual(
             _parse_route_text(
-                '100 (As) Curtin University Bus Stn - '
-                'Canning Bridge Stn'
+                '100 (As) Curtin University Bus Stn - Canning Bridge Stn'
             ),
             {
                 'flags': ['As'],
                 'route_moniker': '100',
                 'from': 'Curtin University Bus Stn',
-                'to': 'Canning Bridge Stn'
-            }
+                'to': 'Canning Bridge Stn',
+            },
         )
 
         self.assertDictEqual(
@@ -308,10 +228,8 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
                 'flags': ['As'],
                 'route_moniker': 'Mandurah Line',
                 'from': 'Mandurah Stn',
-                'to': (
-                    'Perth Underground Stn All Stops Mandurah to Esplanade Stn'
-                )
-            }
+                'to': ('Perth Underground Stn All Stops Mandurah to Esplanade Stn'),
+            },
         )
 
         self.assertDictEqual(
@@ -326,10 +244,9 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
                 'from': 'Perth Stn',
                 'to': 'Thornlie Stn T Pattern to Thornlie.',
                 'departs': (
-                    'Platform 4 At Perth, '
-                    'Platform 2 At Mciver And Claisebrook.'
-                )
-            }
+                    'Platform 4 At Perth, Platform 2 At Mciver And Claisebrook.'
+                ),
+            },
         )
 
         self.assertDictEqual(
@@ -340,8 +257,8 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
                 'flags': ['Ls', 'As'],
                 'from': 'Fremantle Stn',
                 'to': 'Fremantle Stn',
-                'route_moniker': '98'
-            }
+                'route_moniker': '98',
+            },
         )
 
 

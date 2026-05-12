@@ -7,7 +7,7 @@ from ..constants.fares import (
     FARE_BASIC_XML,
     FARE_OUTPUT,
     FARE_BASIC_ROUTES,
-    NO_FARE_DATA
+    NO_FARE_DATA,
 )
 
 
@@ -20,7 +20,7 @@ class TestFares(unittest.TestCase):
 
         locos = [
             Location.from_location('Esplanade'),
-            Location.from_location('Curtin University, Perth')
+            Location.from_location('Curtin University, Perth'),
         ]
 
         # test the function
@@ -37,7 +37,7 @@ class TestFares(unittest.TestCase):
 
         locos = [
             Location.from_location('Esplanade'),
-            Location.from_location('Curtin University, Perth')
+            Location.from_location('Curtin University, Perth'),
         ]
 
         # test the function
@@ -48,10 +48,11 @@ class TestFares(unittest.TestCase):
     @responses.activate
     def test__get_fare(self, parse_fares):
         from transperth import BASE_HTTP
+
         responses.add(
             responses.GET,
             BASE_HTTP + 'DesktopModules/JourneyPlannerResults/GetFares.aspx',
-            body=FARE_BASIC_XML.encode()
+            body=FARE_BASIC_XML.encode(),
         )
 
         from transperth.jp.fares import _get_fare

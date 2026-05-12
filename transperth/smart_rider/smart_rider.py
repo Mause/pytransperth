@@ -23,7 +23,7 @@ SR_NAME_RE = re.compile(
     (?:([A-Za-z\W]+)\W+)?   # card name, optional
     (\d+)?                  # card number, optional
     ''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 
@@ -32,6 +32,7 @@ class TransperthSession(object):
     Provides an interface to the sections on the transperth website
     that require authentication.
     """
+
     def __init__(self, session: requests.Session):
         self.session = session
         self._smart_riders = None
@@ -47,27 +48,20 @@ class TransperthSession(object):
         that url
         """
         if url not in self.request_managers:
-
-            r = self.session.get(
-                BASE_HTTPS + url
-            )
+            r = self.session.get(BASE_HTTPS + url)
 
             if '?returnurl=' in r.url:
                 raise NotLoggedIn('Not logged in')
 
             self.request_managers[url] = PageRequestManager(url)
-            self.request_managers[url].load_document(
-                html.document_fromstring(r.text)
-            )
+            self.request_managers[url].load_document(html.document_fromstring(r.text))
 
         return self.request_managers[url]
 
     def smart_rider_request_manager(self):
-        return self.get_rqm(
-            'my-account/manage-smartrider-cards'
-        )
+        return self.get_rqm('my-account/manage-smartrider-cards')
 
-    def fire_event(self, event_code: str, extra_params: dict=None) -> dict:
+    def fire_event(self, event_code: str, extra_params: dict = None) -> dict:
         """
         Fires an event at the ASP.net backend.
         """
@@ -76,9 +70,7 @@ class TransperthSession(object):
         )
 
         return self.smart_rider_request_manager().post_back(
-            self.session,
-            event_code,
-            extra_params
+            self.session, event_code, extra_params
         )
 
     def smart_riders(self) -> dict:
@@ -96,7 +88,7 @@ class TransperthSession(object):
                 self._smart_riders[number] = {
                     'code': option.get('value'),
                     'name': name,
-                    'default': False
+                    'default': False,
                 }
 
             default = select.xpath('//option[@selected="selected"]')
@@ -112,16 +104,12 @@ class TransperthSession(object):
         """
         :returns: a generator yielding action for the provided smart rider
         """
+
         def action_page(action_code=None):
             updates = self._send_smart_rider_activites_request(
-                sr_code,
-                date_from,
-                date_to,
-                action_code=action_code
+                sr_code, date_from, date_to, action_code=action_code
             )
-            return _get_smart_rider_actions(
-                updates['updatePanel'][1]['content']
-            )
+            return _get_smart_rider_actions(updates['updatePanel'][1]['content'])
 
         # we must request the first page, so that we can get the number of
         # pages we can request later
@@ -132,15 +120,11 @@ class TransperthSession(object):
 
         # we create a generator that requests said pages
         pages = (
-            action_page(action_code)['actions']
-            for key, action_code in remaining_pages
+            action_page(action_code)['actions'] for key, action_code in remaining_pages
         )
 
         # combine that generator with the actions from page one
-        pages = chain(
-            [page_one['actions']],
-            pages
-        )
+        pages = chain([page_one['actions']], pages)
 
         # return an iterator yielding individual actions
         return chain.from_iterable(pages)
@@ -150,21 +134,16 @@ class TransperthSession(object):
             key: value
             for key, value in pages.items()
             if key != '...'  # for when someone has a ridiculous number of
-                             # actions on a card
+            # actions on a card
         }
 
-        logging.info('Pages: {}'.format(
-            ', '.join(sorted(remaining_pages.keys()))
-        ))
+        logging.info('Pages: {}'.format(', '.join(sorted(remaining_pages.keys()))))
 
-        return list(sorted(
-            remaining_pages.items(),
-            key=lambda x: int(x[0])
-        ))
+        return list(sorted(remaining_pages.items(), key=lambda x: int(x[0])))
 
     def _send_smart_rider_activites_request(
-            self, code: str, date_from: datetime,
-            date_to: datetime, action_code: str=None) -> dict:
+        self, code: str, date_from: datetime, date_to: datetime, action_code: str = None
+    ) -> dict:
         # add in date range
         extra_params = {
             'dnn$ctr2061$SmartRiderTransactions$rdFromDate': (
@@ -189,19 +168,12 @@ class TransperthSession(object):
 
         # add in smart rider card selection, for those special few with
         # more than one
-        extra_params.update({
-            'dnn$ctr2061$SmartRiderTransactions$ddlSmartCardNumber': code
-        })
+        extra_params.update(
+            {'dnn$ctr2061$SmartRiderTransactions$ddlSmartCardNumber': code}
+        )
 
         action_code = action_code or (
-            "dnn$"
-            "ctr2061$"
-            "SmartRiderTransactions$"
-            "rgTransactions$"
-            "ctl00$"
-            "ctl02$"
-            "ctl00$"
-            "ctl00"
+            "dnn$ctr2061$SmartRiderTransactions$rgTransactions$ctl00$ctl02$ctl00$ctl00"
         )
 
         return self.fire_event(action_code, extra_params)
@@ -238,8 +210,9 @@ def _login(session: requests.Session, email: str, password: str):
             "txtUsername_2099": email,
             "txtPassword_2099": password,
             "__EVENTTARGET": "UserLogin",
-        }
+        },
     )
+
 
 STOP_RE = re.compile(
     r'''
@@ -247,7 +220,7 @@ STOP_RE = re.compile(
     St\s(\d+)
     (?=\W)?     # and followed by a space
     ''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 REPLACEMENTS = [
@@ -255,11 +228,9 @@ REPLACEMENTS = [
     (" A ", " after "),
     (" B ", " before "),
     ('nnn', 'annin'),
-
     # abbreviations
     ('Brdge', 'Bridge'),
     ('Stn', 'Station'),
-
     # laziness
     ('Bsprt', 'Esplanade Busport'),
     ('Alxndr', 'Alexander'),
@@ -276,7 +247,7 @@ REPLACEMENTS = [
     ('Chrch', 'Church'),
     ('Brslm', 'Burslem'),
     ('Klvn', 'Kelvin'),
-    ('Nnth', 'Ninth')
+    ('Nnth', 'Ninth'),
 ]
 
 
@@ -292,18 +263,15 @@ def mend_location(string: str) -> str:
     for old, new in REPLACEMENTS:
         string = string.replace(old, new)
 
-    return STOP_RE.sub(
-        lambda match: 'Stop {}'.format(match.groups()[0]),
-        string
-    )
+    return STOP_RE.sub(lambda match: 'Stop {}'.format(match.groups()[0]), string)
 
 
 def _get_items(doc):
     items = doc.xpath(
         "//table[@class='rgMasterTable']/"  # pull out the table
-        "tbody/"                            # grab the body of the table
-        "tr/td/"                            # grab the rows
-        "text()"                            # grab the text of the rows
+        "tbody/"  # grab the body of the table
+        "tr/td/"  # grab the rows
+        "text()"  # grab the text of the rows
     )
     items = list(map(str.strip, items))
 
@@ -320,10 +288,7 @@ def _total_actions(doc):
 def _pages(doc):
     "pulls out the pages and their action codes"
     div = doc.xpath("//div[@class='rgWrap rgNumPart']")[0]
-    return {
-        anchor[0].text: anchor.attrib['href'].split("'")[1]
-        for anchor in div
-    }
+    return {anchor[0].text: anchor.attrib['href'].split("'")[1] for anchor in div}
 
 
 def _get_smart_rider_actions(root: str) -> dict:
@@ -331,22 +296,25 @@ def _get_smart_rider_actions(root: str) -> dict:
 
     actions = []
     for action in _get_items(root):
-        actions.append({
-            'time': datetime.strptime(action[0].strip(), '%d/%m/%Y %H:%M:%S'),
-            'action': action[1],
-            'location': mend_location(action[2]),
-            'service': action[3],
-            'zone': action[4],
-            'amount': float(action[5]) if action[5] else 0,
-            'balance': float(action[6]),
-            'notes': action[7]
-        })
+        actions.append(
+            {
+                'time': datetime.strptime(action[0].strip(), '%d/%m/%Y %H:%M:%S'),
+                'action': action[1],
+                'location': mend_location(action[2]),
+                'service': action[3],
+                'zone': action[4],
+                'amount': float(action[5]) if action[5] else 0,
+                'balance': float(action[6]),
+                'notes': action[7],
+            }
+        )
 
     return {
         'actions': actions,
         'actions_total': _total_actions(root),
-        'pages': _pages(root)
+        'pages': _pages(root),
     }
+
 
 SR_NUM_RE = re.compile(r'(\d{4})(\d{4})(\d)')
 
@@ -362,6 +330,4 @@ def smartrider_format(string):
     whereby the X's represent the corresponding numbers from the smart rider
     number
     """
-    return 'SR {} {} {}'.format(
-        *SR_NUM_RE.match(string).groups()
-    )
+    return 'SR {} {} {}'.format(*SR_NUM_RE.match(string).groups())

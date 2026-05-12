@@ -32,13 +32,11 @@ FARE_BASIC_XML = '''\
 </table>
 '''
 
-FARE_BASIC_ROUTES = [{'meta': {'links': {
-    'getFares': ['fare', 'request', 'args']
-}}}]
+FARE_BASIC_ROUTES = [{'meta': {'links': {'getFares': ['fare', 'request', 'args']}}}]
 
 FARE_OUTPUT = {
     'adult': {'1 Zone Cash Fare': 1.1, '1 Zone SmartRider': 0.83},
-    'concession': {'1 Zone Cash Fare': 1.1, '1 Zone SmartRider': 0.83}
+    'concession': {'1 Zone Cash Fare': 1.1, '1 Zone SmartRider': 0.83},
 }
 
 NO_FARE_DATA = [{'meta': {'links': {}}}]

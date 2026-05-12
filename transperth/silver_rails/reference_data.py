@@ -20,35 +20,21 @@ def _load_single_file(url):
 
     checksum = md5(data).hexdigest()
     if checksum != url['checksum']:
-        raise InvalidReferenceData('{} != {}'.format(
-            checksum,
-            url['checksum']
-        ))
+        raise InvalidReferenceData('{} != {}'.format(checksum, url['checksum']))
 
     return json.loads(data.decode())
 
 
 def load_reference_data(api_key, dataset='PerthRestricted'):
-    params = {
-        'dataset': dataset
-    }
+    params = {'dataset': dataset}
 
     url = BASE + '/rest/Datasets/:dataset/AvailableReferenceData'
     url = prepare_url(url, params)
 
-    files = requests.get(
-        url,
-        params={
-            'ApiKey': api_key,
-            'format': 'json'
-        }
-    )
+    files = requests.get(url, params={'ApiKey': api_key, 'format': 'json'})
 
     urls = (
-        {
-            'checksum': ref_data['JsonChecksum'],
-            'url': ref_data['JsonZippedUrl']
-        }
+        {'checksum': ref_data['JsonChecksum'], 'url': ref_data['JsonZippedUrl']}
         for ref_data in files.json()['AvailableReferenceDataList']
     )
 
@@ -77,6 +63,7 @@ def get_stop_numbers(api_key):
 
 if __name__ == '__main__':
     from os.path import dirname, join
+
     filename = join(dirname(__file__), '..', '..', 'auth.json')
 
     with open(filename) as fh:
@@ -85,4 +72,5 @@ if __name__ == '__main__':
     output = load_reference_data(api_key)
 
     import IPython
+
     IPython.embed()
