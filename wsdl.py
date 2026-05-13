@@ -118,7 +118,7 @@ def main():
     port.binding = create_binding(client.wsdl, client.transport)
     port.binding_options = {'address': base}
     service.add_port(port)
-    client.service.GetOSVersion(a='1001', b='1001')
+    client.service.GetOSVersion(LocationName='1001', ZoneNumber='1001')
     # ServiceProxy(
     #     client,
     #     Binding(
