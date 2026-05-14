@@ -41,6 +41,7 @@ dev = [
   "pdbpp>=0.10.3",
   "pytest>=8.3.3",
   "responses>=0.25.3",
+  "rich>=15.0.0",
   "types-lxml>=2026.2.16",
 ]
 

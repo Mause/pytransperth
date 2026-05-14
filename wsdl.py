@@ -1,6 +1,25 @@
+<<<<<<< Updated upstream
 from datetime import timedelta
 from typing import cast
 from urllib.parse import urljoin, urlparse
+||||||| Stash base
+from zeep.wsdl.bindings.soap import SoapBinding
+from zeep.xsd import QName
+from zeep.wsdl.definitions import Port, Binding, Operation
+from zeep.proxy import ServiceProxy
+from zeep.cache import SqliteCache
+from urllib.parse import urlparse, urljoin
+from zeep import CachingClient, Transport, Client
+=======
+from zeep.wsdl.bindings.http import HttpOperation
+from zeep.wsdl.bindings.soap import SoapBinding
+from zeep.xsd import QName
+from zeep.wsdl.definitions import Port, Binding, Operation
+from zeep.proxy import ServiceProxy
+from zeep.cache import SqliteCache
+from urllib.parse import urlparse, urljoin
+from zeep import CachingClient, Transport, Client
+>>>>>>> Stashed changes
 
 from zeep import CachingClient, Client, Transport
 from zeep.cache import SqliteCache
@@ -65,6 +84,7 @@ def create_binding(wsdl, transport: Transport):
         transport=transport,
         default_style='document',
     )
+<<<<<<< Updated upstream
     for port_type in wsdl.port_types.values():
         for abstract_op in port_type.operations.values():
             abstract_op = cast(AbstractOperation, abstract_op)
@@ -82,6 +102,15 @@ def create_binding(wsdl, transport: Transport):
                 abstract_op.output_message, wsdl, operation
             )
             binding._operation_add(operation)
+||||||| Stash base
+    for s in wsdl.port_types.values():
+        for m in s.operations.values():
+            binding._operation_add(Operation(m.name, binding))
+=======
+    for s in wsdl.port_types.values():
+        for m in s.operations.values():
+            binding._operation_add(HttpOperation(m.name, binding, m.name))
+>>>>>>> Stashed changes
     binding.resolve(list(wsdl._definitions.values())[0])
     return binding
 

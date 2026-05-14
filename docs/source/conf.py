@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # Transperth documentation build configuration file, created by
 # sphinx-quickstart on Wed Feb 19 17:54:57 2014.
@@ -313,7 +312,7 @@ def setup(app):
 import sys
 
 
-class Mock(object):
+class Mock:
     __all__ = []
 
     def __init__(self, *args, **kwargs):

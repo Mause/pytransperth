@@ -27,7 +27,7 @@ SR_NAME_RE = re.compile(
 )
 
 
-class TransperthSession(object):
+class TransperthSession:
     """
     Provides an interface to the sections on the transperth website
     that require authentication.
@@ -195,7 +195,7 @@ def login(username: str, password: str) -> TransperthSession:
         raise LoginFailed(message.text)
 
     elif not r.url.endswith('Home.aspx'):
-        raise LoginFailed('Login failed: {}'.format(r.url))
+        raise LoginFailed(f'Login failed: {r.url}')
 
     return TransperthSession(s)
 
@@ -263,7 +263,7 @@ def mend_location(string: str) -> str:
     for old, new in REPLACEMENTS:
         string = string.replace(old, new)
 
-    return STOP_RE.sub(lambda match: 'Stop {}'.format(match.groups()[0]), string)
+    return STOP_RE.sub(lambda match: f'Stop {match.groups()[0]}', string)
 
 
 def _get_items(doc):

@@ -7,6 +7,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 # create the Location object you wish to resolve;
 from transperth.jp.location import Location, ResolvedLocation, determine_location
 
+breakpoint()
+
 from_location = Location.from_location('Curtin University, Perth')
 to_location = Location.from_location('Arena Joondalup')
 

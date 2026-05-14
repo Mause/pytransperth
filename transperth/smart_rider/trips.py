@@ -24,7 +24,7 @@ VALID_TRIP_ACTIONS = [TAG_OFF, TAG_ON, SYNTHETIC_TAG_ON, SYNTHETIC_TAG_OFF]
 TRANSFER = 'Transfer'
 
 
-class TripTracer(object):
+class TripTracer:
     def __init__(self, actions):
         actions = filter(
             lambda action: action['action'] in VALID_TRIP_ACTIONS,
@@ -168,13 +168,13 @@ def timedelta_repr(td: datetime.timedelta) -> str:
 
     end = []
     if td[0] not in ZERO:
-        end.append('{} hours'.format(td[0]))
+        end.append(f'{td[0]} hours')
 
     if td[1] not in ZERO:
-        end.append('{} minutes'.format(td[1]))
+        end.append(f'{td[1]} minutes')
 
     if td[2] not in ZERO:
-        end.append('{} seconds'.format(td[2]))
+        end.append(f'{td[2]} seconds')
 
     if len(end) > 1:
         end.append('and ' + end.pop(-1))

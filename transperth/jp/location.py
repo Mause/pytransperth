@@ -27,11 +27,12 @@ def determine_location(from_loco: 'Location', to_loco: 'Location') -> dict:
     Takes two location objects, and returns a dict of lists of ResolvedLocation
     mapping possible corresponding real world locations and their codes.
 
-    See :func:`parse_locations` for precise output format.
+    See :func:'parse_locations' for precise output format.
     """
     assert are_locations(from_loco, to_loco)
 
-    URL = BASE_HTTP + 'DesktopModules/JourneyPlanner/JP.aspx'
+    URL = BASE_HTTP + '/Journey-Planner/Results'
+    # ?from=Little%20Laika%20KARRINYUP&fromtype=points_of_interest&fromposition=-31.87637,115.776823&fromlocality=KARRINYUP&frompostcode=6018&to=300%20MURRAY%20ST,%20PERTH&totype=psma_addresses&toposition=-31.952297,115.856956&tolocality=PERTH&date=2026-05-12&time=17:25
 
     params = {
         'jpDate': format_date(),
@@ -46,6 +47,21 @@ def determine_location(from_loco: 'Location', to_loco: 'Location') -> dict:
         'jpMaxChanges': '-1',
         'jpWalkChange': 'NORMAL',
         'jpWheelchairOnly': '0',
+    }
+    {
+        'trackLinks': 'false',
+        '__scdoff': '1',
+        'sf_siteRoot': '/',
+        'sf_tabId': '140',
+        'evoq_TabId': '140',
+        'evoq_PageLanguage': 'en-AU',
+        'evoq_ContentItemId': '-1',
+        'evoq_UrlReferrer': '',
+        'evoq_UrlPath': 'https%3a%2f%2fwww.transperth.wa.gov.au%2fJourney-Planner%2fResults%3fjpDate%3dTuesday%252C%2b12%2bMay%2b2026%26jpDirection%3dB%26fSet%3dFalse%26fGadget%3dFalse%26mode%3dt1%252Cb1%252Cf1%252Cs1%26jpnMaxJourneys%3d5%26jpMaxChanges%3d-1%26jpWalkChange%3dNORMAL%26jpWheelchairOnly%3d0%26from%3dLocation%26fromStreet%3d%26fromSuburb%3d%26fromLocation%3dCurtin%2bUniversity%252C%2bPerth%26fromStop%3d%26to%3dLocation%26toStreet%3d%26toSuburb%3d%26toLocation%3dArena%2bJoondalup%26toStop%3d',
+        'evoq_UrlQuery': '%3fTabId%3d140%26jpDate%3dTuesday%252c%2b12%2bMay%2b2026%26jpDirection%3dB%26fSet%3dFalse%26fGadget%3dFalse%26mode%3dt1%252cb1%252cf1%252cs1%26jpnMaxJourneys%3d5%26jpMaxChanges%3d-1%26jpWalkChange%3dNORMAL%26jpWheelchairOnly%3d0%26from%3dLocation%26fromStreet%3d%26fromSuburb%3d%26fromLocation%3dCurtin%2bUniversity%252c%2bPerth%26fromStop%3d%26to%3dLocation%26toStreet%3d%26toSuburb%3d%26toLocation%3dArena%2bJoondalup%26toStop%3d%26language%3den-AU',
+        'evoq_ContentItemReferrer': '-1',
+        'evoq_PersonalizedUrlReferrer': '-1',
+        'evoq_DisableAnalytics': 'False',
     }
 
     params.update(from_loco.as_('from'))
@@ -82,7 +98,7 @@ class ResolvedLocation(namedtuple('ResolvedLocation', 'name,code')):
     """
 
 
-class Location(object):
+class Location:
     """
     Represents a location that has not been resolved into a (ResolvedLocation)
     location code

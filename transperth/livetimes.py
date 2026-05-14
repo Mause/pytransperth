@@ -23,7 +23,7 @@ def times_for_station(station_name):
     incoming train timings
     """
     if station_name not in TRAIN_STATIONS_SET:
-        raise BadStationError()
+        raise BadStationError(station_name)
 
     r = requests.get(URL, params={'stationname': station_name})
 
@@ -51,9 +51,9 @@ def _parse_trips(trips):
 
 
 def _main():
-    from pprint import pprint
+    from rich import print
 
-    pprint(times_for_station('Perth Underground Stn'))
+    print(times_for_station('Ranford Rd Stn'))
 
 
 if __name__ == '__main__':

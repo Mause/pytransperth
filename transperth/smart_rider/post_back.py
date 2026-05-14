@@ -95,7 +95,7 @@ def parse_delta(raw_delta: str) -> str:
     return updates
 
 
-class PageRequestManagerOriginal(object):
+class PageRequestManagerOriginal:
     def __init__(self, url: str):
         self.url = url
         self.document = None

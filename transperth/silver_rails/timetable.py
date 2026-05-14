@@ -54,7 +54,7 @@ def timetable_for_stop(
         if code == "APIKeyDailyLimitExceeded":
             raise RateLimitExceeded()
 
-        raise Exception("{} fetching {}".format(severity, stop_num))
+        raise Exception(f"{severity} fetching {stop_num}")
 
     return _parse_timetable_response(xml)
 

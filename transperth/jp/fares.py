@@ -3,15 +3,16 @@ Provides faculties for determining the price of a route under different
 circumstances
 """
 
-from lxml import etree
 from typing import Union
+
 import requests
+from lxml import etree
 
 from .. import BASE_HTTP
-from .utils import clean, itertext
-from .routes import determine_routes
-from .location import Location, ResolvedLocation
 from ..exceptions import NoFareData
+from .location import Location, ResolvedLocation
+from .routes import determine_routes
+from .utils import clean, itertext
 
 FARE_URL = BASE_HTTP + 'DesktopModules/JourneyPlannerResults/GetFares.aspx'
 
@@ -81,7 +82,7 @@ def _get_fare(journeyCount, journeyDate, *values):
 
     # ASP.net wants the date with normal slashes, but requests will encode
     # the slashes, so we have to manually append the damn thing
-    url = FARE_URL + '?JDate={}'.format(journeyDate)
+    url = FARE_URL + f'?JDate={journeyDate}'
 
     return parse_fares(requests.get(url, params=params).text)
 
