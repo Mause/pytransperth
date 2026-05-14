@@ -91,7 +91,8 @@
     ]
   },
   {
-    "Joondalup Line": [
+    "Yanchep Line": [
+      "Elizabeth Quay Stn",
       "Perth Underground Stn",
       "Leederville Stn",
       "Glendalough Stn",
@@ -102,7 +103,11 @@
       "Edgewater Stn",
       "Joondalup Stn",
       "Currambine Stn",
-      "Clarkson Stn"
+      "Clarkson Stn",
+      "Butler Stn",
+      "Alkimos Stn",
+      "Eglinton Stn",
+      "Yanchep Stn"
     ]
   },
   {
