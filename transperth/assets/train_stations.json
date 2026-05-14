@@ -1,5 +1,11 @@
 [
   {
+    "Airport Line": [
+      "Perth Underground Stn",
+      "Esplanade Stn",
+      "Claisebrook Stn",
+      "Airport Central Stn"
+    ],
     "Armadale Line": [
       "Perth Stn",
       "McIver Stn",
@@ -19,22 +25,25 @@
       "Kelmscott Stn",
       "Challis Stn",
       "Sherwood Stn",
-      "Armadale Stn"
-    ]
-  },
-  {
-    "Thornlie Line": [
+      "Armadale Stn",
+      "Byford Stn"
+    ],
+    "Cockburn-Thornlie Line": [
       "Perth Stn",
       "McIver Stn",
       "Claisebrook Stn",
+      "Perth Stadium Stn",
       "Burswood Stn",
       "Victoria Park Stn",
       "Carlisle Stn",
       "Oats Street Stn",
-      "Welshpool Stn",
       "Queens Park Stn",
       "Cannington Stn",
-      "Thornlie Stn"
+      "Beckenham Stn",
+      "Thornlie Stn",
+      "Nicholson Rd Stn",
+      "Ranford Rd Stn",
+      "Cockburn Central Stn"
     ]
   },
   {
@@ -77,7 +86,8 @@
     ]
   },
   {
-    "Joondalup Line": [
+    "Yanchep Line": [
+      "Elizabeth Quay Stn",
       "Perth Underground Stn",
       "Leederville Stn",
       "Glendalough Stn",
@@ -88,7 +98,11 @@
       "Edgewater Stn",
       "Joondalup Stn",
       "Currambine Stn",
-      "Clarkson Stn"
+      "Clarkson Stn",
+      "Butler Stn",
+      "Alkimos Stn",
+      "Eglinton Stn",
+      "Yanchep Stn"
     ]
   },
   {
