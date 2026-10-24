@@ -3,7 +3,7 @@ name = "transperth"
 version = "0.1.5"
 description = "A Python wrapper for the Transperth API"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [
@@ -50,7 +50,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["I"]
