@@ -275,8 +275,9 @@ PATH = os.path.abspath(PATH)
 
 sys.path.insert(0, PATH)
 
-import re
 import inspect
+import re
+
 from sphinx.ext import autodoc
 from sphinx.ext.autodoc import Documenter
 

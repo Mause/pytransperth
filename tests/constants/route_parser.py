@@ -1,7 +1,7 @@
 import os
 
-from lxml.html import builder as E
 from lxml.etree import HTML
+from lxml.html import builder as E
 
 PATH = os.path.dirname(__file__)
 with open(os.path.join(PATH, 'header.html')) as fh:

@@ -2,13 +2,12 @@
 Parses actions into separate trips
 """
 
+import datetime
 import logging
 from functools import reduce
 from operator import add
-import datetime
 
 from ..exceptions import IncompleteTrip
-
 
 TAG_OFF = 'Normal TAG OFF'
 TAG_ON = 'Normal TAG ON'

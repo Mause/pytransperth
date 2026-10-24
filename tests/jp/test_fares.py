@@ -4,9 +4,9 @@ from unittest.mock import patch
 import responses
 
 from ..constants.fares import (
+    FARE_BASIC_ROUTES,
     FARE_BASIC_XML,
     FARE_OUTPUT,
-    FARE_BASIC_ROUTES,
     NO_FARE_DATA,
 )
 
@@ -15,8 +15,8 @@ class TestFares(unittest.TestCase):
     @patch('transperth.jp.fares.determine_routes', return_value=FARE_BASIC_ROUTES)
     @patch('transperth.jp.fares._get_fare')
     def test_determine_fare(self, _get_fare, determine_routes):
-        from transperth.jp.location import Location
         from transperth.jp.fares import determine_fare
+        from transperth.jp.location import Location
 
         locos = [
             Location.from_location('Esplanade'),
@@ -31,9 +31,9 @@ class TestFares(unittest.TestCase):
 
     @patch('transperth.jp.fares.determine_routes', return_value=NO_FARE_DATA)
     def test_determine_fare_no_data(self, determine_routes):
-        from transperth.jp.location import Location
-        from transperth.jp.fares import determine_fare
         from transperth.exceptions import NoFareData
+        from transperth.jp.fares import determine_fare
+        from transperth.jp.location import Location
 
         locos = [
             Location.from_location('Esplanade'),

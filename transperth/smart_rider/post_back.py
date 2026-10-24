@@ -8,8 +8,8 @@ required.
 from collections import defaultdict
 
 from .. import BASE_HTTPS
+from ..jp.route_parser import FUNCTIONCALL_RE, _parse_function_call
 from ..jp.utils import clean
-from ..jp.route_parser import _parse_function_call, FUNCTIONCALL_RE
 
 
 def create_post_back_settings(async_: str, panel_ID: str, source_element: str):

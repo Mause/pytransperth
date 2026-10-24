@@ -1,5 +1,4 @@
 import coverage
-
 from __init__ import main
 
 cov = coverage.coverage()

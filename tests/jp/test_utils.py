@@ -1,5 +1,5 @@
-import unittest
 import datetime
+import unittest
 
 
 class TestUtils(unittest.TestCase):

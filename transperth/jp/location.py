@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import re
-from lxml import etree
 from collections import namedtuple
 
 import requests
+from lxml import etree
 
 from .. import BASE_HTTP
-from .utils import format_date, clean
-from ..exceptions import InvalidStopNumber, InvalidDirection
+from ..exceptions import InvalidDirection, InvalidStopNumber
+from .utils import clean, format_date
 
 STOPNUM_RE = re.compile(r'\d{5}')
 
