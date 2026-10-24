@@ -54,7 +54,10 @@ target-version = "py310"
 show-fixes = true
 
 [tool.ruff.lint]
-select = ["I"]
+select = [
+  "I",
+  "E",
+]
 
 [tool.ruff.format]
 quote-style = "preserve"
