@@ -18,7 +18,7 @@ class TestLocationUtils(unittest.TestCase):
             body='TEXT'.encode(),
         )
 
-        from transperth.jp.location import determine_location, Location
+        from transperth.jp.location import Location, determine_location
 
         determine_location(
             Location.from_location('Curtin University, Perth'),
@@ -28,7 +28,7 @@ class TestLocationUtils(unittest.TestCase):
         parse_locations.assert_called_with('TEXT')
 
     def test_parse_locations(self):
-        from transperth.jp.location import parse_locations, ResolvedLocation
+        from transperth.jp.location import ResolvedLocation, parse_locations
 
         ret = parse_locations(LOCATION_XML)
 
@@ -74,15 +74,15 @@ class TestLocationClass(unittest.TestCase):
         )
 
     def test_from_stop_invalid_exception_string(self):
-        from transperth.jp.location import Location
         from transperth.exceptions import InvalidStopNumber
+        from transperth.jp.location import Location
 
         with self.assertRaises(InvalidStopNumber):
             Location.from_stop('1111')
 
     def test_from_stop_invalid_exception_integer(self):
-        from transperth.jp.location import Location
         from transperth.exceptions import InvalidStopNumber
+        from transperth.jp.location import Location
 
         with self.assertRaises(InvalidStopNumber):
             Location.from_stop(1111)
@@ -116,8 +116,8 @@ class TestLocationClass(unittest.TestCase):
         )
 
     def test_as_exception(self):
-        from transperth.jp.location import Location
         from transperth.exceptions import InvalidDirection
+        from transperth.jp.location import Location
 
         with self.assertRaises(InvalidDirection):
             Location.from_location('LOCATION').as_('INVALID')

@@ -1,24 +1,24 @@
-import unittest
 import datetime
-from unittest.mock import patch, ANY, call
+import unittest
+from unittest.mock import ANY, call, patch
 
 from lxml.html import builder as E
 
-from ..helpers.xml_test_case import XMLTestCase
-from ..helpers.mock_utils_test_case import MockUtilsTestCase
 from ..constants.route_parser import (
+    DURATION,
     HEADER,
-    STEP_BUS,
-    STEP_TRAIN,
-    STEP_WALK,
-    STEP_INVALID,
-    STEPS,
-    MISC,
     IMG,
     LINKS,
-    DURATION,
+    MISC,
     ROUTES,
+    STEP_BUS,
+    STEP_INVALID,
+    STEP_TRAIN,
+    STEP_WALK,
+    STEPS,
 )
+from ..helpers.mock_utils_test_case import MockUtilsTestCase
+from ..helpers.xml_test_case import XMLTestCase
 
 
 class TestRouteParserInterface(unittest.TestCase):
@@ -125,8 +125,8 @@ class TestRouteParserInternals(XMLTestCase, MockUtilsTestCase):
         _parse_walk_step.assert_called_with(['ONE', 'TWO', 'THREE'])
 
     def test_parse_step_invalid(self):
-        from transperth.jp.route_parser import _parse_step
         from transperth.exceptions import InvalidStep
+        from transperth.jp.route_parser import _parse_step
 
         with self.assertRaises(InvalidStep):
             _parse_step(STEP_INVALID)

@@ -1,8 +1,9 @@
-from itertools import chain
-from lxml import html
 import datetime
 import re
 import time
+from itertools import chain
+
+from lxml import html
 
 from ..exceptions import InvalidStep
 from .utils import itertext

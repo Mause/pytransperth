@@ -3,16 +3,16 @@
 Based off the code that blha303 (http://github/blha303) provided me with
 """
 
-from itertools import chain
-from datetime import datetime
 import logging
 import re
+from datetime import datetime
+from itertools import chain
 
-from lxml import html
 import requests
+from lxml import html
 
 from .. import BASE_HTTPS
-from ..exceptions import NotLoggedIn, LoginFailed
+from ..exceptions import LoginFailed, NotLoggedIn
 from .post_back import PageRequestManager
 
 logging.basicConfig(level=logging.DEBUG)

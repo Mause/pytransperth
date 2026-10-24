@@ -3,14 +3,16 @@ Provides faculties for determining the price of a route under different
 circumstances
 """
 
-from lxml import etree
+from typing import Union
+
 import requests
+from lxml import etree
 
 from .. import BASE_HTTP
-from .utils import clean, itertext
-from .routes import determine_routes
-from .location import Location, ResolvedLocation
 from ..exceptions import NoFareData
+from .location import Location, ResolvedLocation
+from .routes import determine_routes
+from .utils import clean, itertext
 
 FARE_URL = BASE_HTTP + 'DesktopModules/JourneyPlannerResults/GetFares.aspx'
 
@@ -19,7 +21,8 @@ __all__ = ['determine_fare']
 
 
 def determine_fare(
-    from_loco: Location or ResolvedLocation, to_loco: Location or ResolvedLocation
+    from_loco: Union[Location, ResolvedLocation],
+    to_loco: Union[Location, ResolvedLocation],
 ) -> dict:
     """
     Returns the fare for the recommended route from `from_loco` to

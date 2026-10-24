@@ -7,11 +7,12 @@ API key can be retrieved from the android app with Root Browser
 Please don't abuse this service, you'll ruin it for the rest of us.
 """
 
-from lxml.etree import fromstring
 import datetime
-import dateutil.parser
 import logging
+
+import dateutil.parser
 import requests
+from lxml.etree import fromstring
 
 from . import BASE
 from .utils import prepare_url

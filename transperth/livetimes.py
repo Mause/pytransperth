@@ -1,9 +1,9 @@
 import json
+from importlib import resources
 from itertools import chain
 
 import requests
 from lxml import etree
-from importlib import resources
 
 from .exceptions import BadStationError
 

@@ -1,12 +1,14 @@
+from __future__ import annotations
+
 import re
-from lxml import etree
 from collections import namedtuple
 
 import requests
+from lxml import etree
 
 from .. import BASE_HTTP
-from .utils import format_date, clean
-from ..exceptions import InvalidStopNumber, InvalidDirection
+from ..exceptions import InvalidDirection, InvalidStopNumber
+from .utils import clean, format_date
 
 STOPNUM_RE = re.compile(r'\d{5}')
 
@@ -20,11 +22,6 @@ def is_location(arg):
 
 def are_locations(*args):
     return all(map(is_location, args))
-
-
-# Allows the use of Location in function signatures
-class Location:
-    pass
 
 
 def determine_location(from_loco: Location, to_loco: Location) -> dict:
@@ -113,7 +110,7 @@ class Location(object):
         return Location({'street': street, 'suburb': suburb, '': 'Point'})
 
     @classmethod
-    def from_stop(self, stop_number: 'str or int') -> Location:
+    def from_stop(self, stop_number: str | int) -> Location:
         """
         Creates a Location from a transperth stop number.
 

@@ -1,13 +1,13 @@
 import gzip
 import json
-from hashlib import md5
 from concurrent import futures
+from hashlib import md5
 from operator import itemgetter
 
 import requests
 
-from .utils import prepare_url
 from . import BASE
+from .utils import prepare_url
 
 
 class InvalidReferenceData(Exception):
