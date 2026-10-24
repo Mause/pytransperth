@@ -1,10 +1,10 @@
 {
   "packages": {
     ".": {
-      "package-name": "transperth",
-      "release-type": "python",
       "draft": true,
+      "package-name": "transperth",
       "prerelease": false,
+      "release-type": "python",
       "versioning": "default"
     }
   }
