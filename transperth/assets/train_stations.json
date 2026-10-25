@@ -22,7 +22,6 @@
       "Victoria Park Stn",
       "Carlisle Stn",
       "Oats Street Stn",
-      "Welshpool Stn",
       "Queens Park Stn",
       "Cannington Stn",
       "Beckenham Stn",
@@ -51,8 +50,8 @@
       "Cannington Stn",
       "Beckenham Stn",
       "Thornlie Stn",
-      "Nicholson Rd Stn",
-      "Ranford Rd Stn",
+      "Nicholson Road Stn",
+      "Ranford Road Stn",
       "Cockburn Central Stn"
     ]
   },
@@ -135,15 +134,17 @@
   {
     "Mandurah Line": [
       "Perth Underground Stn",
-      "Esplanade Stn",
+      "Elizabeth Quay Stn",
       "Canning Bridge Stn",
       "Bull Creek Stn",
       "Murdoch Stn",
       "Cockburn Central Stn",
+      "Aubin Grove Stn",
       "Kwinana Stn",
       "Wellard Stn",
       "Rockingham Stn",
       "Warnbro Stn",
+      "Lakelands Stn",
       "Mandurah Stn"
     ]
   }
