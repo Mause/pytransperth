@@ -26,9 +26,9 @@ jobs:
       id-token: write
 
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@v7.0.1
     - name: Set up Python
-      uses: actions/setup-python@v7
+      uses: actions/setup-python@v7.1.0
       with:
         python-version: '3.x'
     - name: Install dependencies
@@ -38,4 +38,4 @@ jobs:
     - name: Build package
       run: python -m build
     - name: Publish package
-      uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086
+      uses: pypa/gh-action-pypi-publish@v1.14.3
