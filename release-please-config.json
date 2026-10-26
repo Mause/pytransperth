@@ -7,6 +7,7 @@
       "type": "toml"
     }
   ],
+  "include-component-in-tag": false,
   "packages": {},
   "release-type": "python"
 }
