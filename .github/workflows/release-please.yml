@@ -9,7 +9,6 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - run: npx release-please debug-config --repo-url https://github.com/Mause/pytransperth
       - uses: googleapis/release-please-action@v5
         with:
           release-type: python

@@ -31,3 +31,9 @@ jobs:
     - name: Test with pytest
       run: |
         uv run pytest
+
+  check-release-please-config:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: npx release-please debug-config --repo-url https://github.com/Mause/pytransperth
