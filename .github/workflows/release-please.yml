@@ -4,9 +4,10 @@ on:
       - master
   workflow_dispatch:
 
-name: release-please
+name: release please
 jobs:
   release-please:
+    name: release please
     runs-on: ubuntu-latest
 
     permissions:
