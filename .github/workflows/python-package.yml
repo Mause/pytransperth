@@ -39,6 +39,7 @@ jobs:
       - uses: actions/checkout@v7.0.1
       - run: >
           npx release-please debug-config
+          --token $GITHUB_TOKEN
           --local
           --local-path .
           --repo-url https://github.com/Mause/pytransperth
@@ -47,9 +48,9 @@ jobs:
         run: >
           npx release-please release-pr
           --dry-run
-          --local
           --debug
           --trace
           --token $GITHUB_TOKEN
+          --local
           --local-path .
           --repo-url https://github.com/Mause/pytransperth
