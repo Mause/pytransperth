@@ -2,7 +2,6 @@
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "packages": {
     ".": {
-      "draft": true,
       "extra-files": [
         {
           "jsonpath": "$.package[?(@.name.value=='transperth')].version",
@@ -10,10 +9,7 @@
           "type": "toml"
         }
       ],
-      "package-name": "transperth",
-      "prerelease": false,
-      "release-type": "python",
-      "versioning": "default"
+      "release-type": "python"
     }
   }
 }
