@@ -4,12 +4,18 @@ on:
       - master
   workflow_dispatch:
 
-name: release-please
+name: release please
 jobs:
   release-please:
+    name: release please
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
     steps:
-      - uses: googleapis/release-please-action@v5
+      - uses: googleapis/release-please-action@v5.0.0
         with:
-          release-type: python
           token: ${{ secrets.ACCESS_TOKEN }}
