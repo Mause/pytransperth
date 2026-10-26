@@ -48,6 +48,7 @@ jobs:
           npx release-please release-pr
           --dry-run
           --local
+          --debug
           --token $GITHUB_TOKEN
           --local-path .
           --repo-url https://github.com/Mause/pytransperth
