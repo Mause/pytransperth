@@ -49,6 +49,7 @@ jobs:
           --dry-run
           --local
           --debug
+          --trace
           --token $GITHUB_TOKEN
           --local-path .
           --repo-url https://github.com/Mause/pytransperth
