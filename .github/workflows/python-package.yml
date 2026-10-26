@@ -42,9 +42,12 @@ jobs:
           --local
           --local-path .
           --repo-url https://github.com/Mause/pytransperth
-      - run: >
+      - env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: >
           npx release-please release-pr
           --dry-run
           --local
+          --token $GITHUB_TOKEN
           --local-path .
           --repo-url https://github.com/Mause/pytransperth
