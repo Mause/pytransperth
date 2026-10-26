@@ -36,4 +36,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: npx release-please debug-config --repo-url https://github.com/Mause/pytransperth
+      - run: >
+          npx release-please debug-config
+          --local
+          --local-path .
+          --repo-url https://github.com/Mause/pytransperth
