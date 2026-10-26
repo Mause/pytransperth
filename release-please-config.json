@@ -1,17 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
-  "packages": {
-    ".": {
-      "component": "transperth",
-      "extra-files": [
-        {
-          "jsonpath": "$.package[?(@.name.value=='transperth')].version",
-          "path": "uv.lock",
-          "type": "toml"
-        }
-      ],
-      "include-component-in-tag": false,
-      "release-type": "python"
+  "extra-files": [
+    {
+      "jsonpath": "$.package[?(@.name.value=='transperth')].version",
+      "path": "uv.lock",
+      "type": "toml"
     }
-  }
+  ],
+  "include-component-in-tag": false,
+  "packages": {},
+  "release-type": "python"
 }
