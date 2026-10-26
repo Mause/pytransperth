@@ -17,5 +17,4 @@ jobs:
     steps:
       - uses: googleapis/release-please-action@v5.0.0
         with:
-          release-type: python
           token: ${{ secrets.ACCESS_TOKEN }}
