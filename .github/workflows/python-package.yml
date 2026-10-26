@@ -42,3 +42,9 @@ jobs:
           --local
           --local-path .
           --repo-url https://github.com/Mause/pytransperth
+      - run: >
+          npx release-please release-pr
+          --dry-run
+          --local
+          --local-path .
+          --repo-url https://github.com/Mause/pytransperth
