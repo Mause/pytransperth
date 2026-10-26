@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
     - uses: actions/checkout@v7
@@ -31,3 +31,14 @@ jobs:
     - name: Test with pytest
       run: |
         uv run pytest
+
+  check-release-please-config:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+      - run: >
+          npx release-please debug-config
+          --local
+          --local-path .
+          --repo-url https://github.com/Mause/pytransperth
