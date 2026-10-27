@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # Transperth documentation build configuration file, created by
 # sphinx-quickstart on Wed Feb 19 17:54:57 2014.
@@ -13,8 +12,13 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+import inspect
 import os
+import re
 import sys
+
+from sphinx.ext import autodoc
+from sphinx.ext.autodoc import Documenter
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -275,11 +279,6 @@ PATH = os.path.abspath(PATH)
 
 sys.path.insert(0, PATH)
 
-import inspect
-import re
-
-from sphinx.ext import autodoc
-from sphinx.ext.autodoc import Documenter
 
 FUNC_CALL_RE = re.compile(r'\((.*)\)(?: -> (.*))?')
 
@@ -306,18 +305,17 @@ class MethodDocumenter(BetterSigMixin, autodoc.MethodDocumenter):
     priority = 15
 
 
-def setup(app):
+def setup(app) -> None:
     autodoc.add_documenter(FunctionDocumenter)
     autodoc.add_documenter(MethodDocumenter)
 
 
-import sys
 
 
-class Mock(object):
+class Mock:
     __all__ = []
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         pass
 
     def __call__(self, *args, **kwargs):

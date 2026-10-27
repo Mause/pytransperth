@@ -27,13 +27,13 @@ SR_NAME_RE = re.compile(
 )
 
 
-class TransperthSession(object):
+class TransperthSession:
     """
     Provides an interface to the sections on the transperth website
     that require authentication.
     """
 
-    def __init__(self, session: requests.Session):
+    def __init__(self, session: requests.Session) -> None:
         self.session = session
         self._smart_riders = None
         self._smart_rider_document = None
@@ -61,7 +61,7 @@ class TransperthSession(object):
     def smart_rider_request_manager(self):
         return self.get_rqm('my-account/manage-smartrider-cards')
 
-    def fire_event(self, event_code: str, extra_params: dict = None) -> dict:
+    def fire_event(self, event_code: str, extra_params: dict | None = None) -> dict:
         """
         Fires an event at the ASP.net backend.
         """
@@ -139,10 +139,10 @@ class TransperthSession(object):
 
         logging.info('Pages: {}'.format(', '.join(sorted(remaining_pages.keys()))))
 
-        return list(sorted(remaining_pages.items(), key=lambda x: int(x[0])))
+        return sorted(remaining_pages.items(), key=lambda x: int(x[0]))
 
     def _send_smart_rider_activites_request(
-        self, code: str, date_from: datetime, date_to: datetime, action_code: str = None
+        self, code: str, date_from: datetime, date_to: datetime, action_code: str | None = None
     ) -> dict:
         # add in date range
         extra_params = {
@@ -195,7 +195,7 @@ def login(username: str, password: str) -> TransperthSession:
         raise LoginFailed(message.text)
 
     elif not r.url.endswith('Home.aspx'):
-        raise LoginFailed('Login failed: {}'.format(r.url))
+        raise LoginFailed(f'Login failed: {r.url}')
 
     return TransperthSession(s)
 
@@ -263,7 +263,7 @@ def mend_location(string: str) -> str:
     for old, new in REPLACEMENTS:
         string = string.replace(old, new)
 
-    return STOP_RE.sub(lambda match: 'Stop {}'.format(match.groups()[0]), string)
+    return STOP_RE.sub(lambda match: f'Stop {match.groups()[0]}', string)
 
 
 def _get_items(doc):

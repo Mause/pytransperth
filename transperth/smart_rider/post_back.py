@@ -20,7 +20,7 @@ def unique_ID_to_client_ID(a):
     return a.replace('$', '_')
 
 
-def matches_parent_ID_in_list(c, b):
+def matches_parent_ID_in_list(c, b) -> bool:
     for a in b:
         if c.startswith(a + "_"):
             return True
@@ -40,8 +40,8 @@ def params_from_form(form) -> dict:
             el_type = el.type.lower()
             if (
                 el_type in {"text", "password", "hidden"}
-                or el_type in {"checkbox", "radio"}
-                and el.checked
+                or (el_type in {"checkbox", "radio"}
+                and el.checked)
             ):
                 params[el_name] = '' if el.value is None else el.value
 
@@ -95,8 +95,8 @@ def parse_delta(raw_delta: str) -> str:
     return updates
 
 
-class PageRequestManagerOriginal(object):
-    def __init__(self, url: str):
+class PageRequestManagerOriginal:
+    def __init__(self, url: str) -> None:
         self.url = url
         self.document = None
 
@@ -166,7 +166,7 @@ class PageRequestManagerOriginal(object):
     def _form(self):
         return self.document.forms[0]
 
-    def load_document(self, document):
+    def load_document(self, document) -> None:
         self.document = document
         self.initalise_from_document()
 
@@ -303,7 +303,7 @@ class PageRequestManagerOriginal(object):
 
 
 class PageRequestManager(PageRequestManagerOriginal):
-    def initalise_from_document(self):
+    def initalise_from_document(self) -> None:
         return
         self._form = self.document.forms[0]
         scripts = self.document.xpath(".//script")

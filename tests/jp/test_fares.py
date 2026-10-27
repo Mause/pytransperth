@@ -14,7 +14,7 @@ from ..constants.fares import (
 class TestFares(unittest.TestCase):
     @patch('transperth.jp.fares.determine_routes', return_value=FARE_BASIC_ROUTES)
     @patch('transperth.jp.fares._get_fare')
-    def test_determine_fare(self, _get_fare, determine_routes):
+    def test_determine_fare(self, _get_fare, determine_routes) -> None:
         from transperth.jp.fares import determine_fare
         from transperth.jp.location import Location
 
@@ -30,7 +30,7 @@ class TestFares(unittest.TestCase):
         _get_fare.assert_called_with('fare', 'request', 'args')
 
     @patch('transperth.jp.fares.determine_routes', return_value=NO_FARE_DATA)
-    def test_determine_fare_no_data(self, determine_routes):
+    def test_determine_fare_no_data(self, determine_routes) -> None:
         from transperth.exceptions import NoFareData
         from transperth.jp.fares import determine_fare
         from transperth.jp.location import Location
@@ -46,7 +46,7 @@ class TestFares(unittest.TestCase):
 
     @patch('transperth.jp.fares.parse_fares')
     @responses.activate
-    def test__get_fare(self, parse_fares):
+    def test__get_fare(self, parse_fares) -> None:
         from transperth import BASE_HTTP
 
         responses.add(
@@ -61,7 +61,7 @@ class TestFares(unittest.TestCase):
 
         parse_fares.assert_called_with(FARE_BASIC_XML)
 
-    def test_parse_fares(self):
+    def test_parse_fares(self) -> None:
         from transperth.jp.fares import parse_fares
 
         # test the function
@@ -69,7 +69,7 @@ class TestFares(unittest.TestCase):
 
         self.assertEqual(ret, FARE_OUTPUT)
 
-    def test_parse_money(self):
+    def test_parse_money(self) -> None:
         from transperth.jp.fares import parse_money
 
         # test the function

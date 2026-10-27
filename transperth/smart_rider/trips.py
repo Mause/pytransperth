@@ -4,8 +4,10 @@ Parses actions into separate trips
 
 import datetime
 import logging
+from collections.abc import Generator, Iterable
 from functools import reduce
 from operator import add
+from typing import Literal, TypedDict, TypeVar
 
 from ..exceptions import IncompleteTrip
 
@@ -23,8 +25,39 @@ VALID_TRIP_ACTIONS = [TAG_OFF, TAG_ON, SYNTHETIC_TAG_ON, SYNTHETIC_TAG_OFF]
 TRANSFER = 'Transfer'
 
 
-class TripTracer(object):
-    def __init__(self, actions):
+class TripAction(TypedDict):
+    action: Literal[
+        'Normal Tag OFF',
+        'Normal Tag ON',
+        'Synthetic TAG ON',
+        'Synthetic TAG OFF',
+    ]
+    notes: str
+    time: str
+    amount: float
+
+
+class TripStep(TypedDict):
+    tagon: TripAction
+    tagoff: TripAction
+
+
+class TripMeta(TypedDict):
+    from_: str
+    to: str
+    travel_time: str
+    price: float
+    wait_time: str
+
+
+class Trip(TypedDict):
+    steps: list[TripStep]
+    path: list[str]
+    meta: TripMeta
+
+
+class TripTracer:
+    def __init__(self, actions) -> None:
         actions = filter(
             lambda action: action['action'] in VALID_TRIP_ACTIONS,
             actions,
@@ -63,7 +96,7 @@ class TripTracer(object):
         # we negate the price to get a positive number, so the when summed
         # we get a positive price
 
-        return sum(map(lambda step: -step['tagoff']['amount'], trip))
+        return sum(-step['tagoff']['amount'] for step in trip)
 
     def consume_trip(self) -> list:
         """
@@ -128,7 +161,7 @@ class TripTracer(object):
         travel_time = timedelta_repr(travel_time)
 
         return {
-            'from': trip[0]['tagon']['location'],
+            'from_': trip[0]['tagon']['location'],
             'to': trip[-1]['tagoff']['location'],
             'travel_time': travel_time,
             'wait_time': timedelta_repr(determine_wait_time(trip)),
@@ -167,13 +200,13 @@ def timedelta_repr(td: datetime.timedelta) -> str:
 
     end = []
     if td[0] not in ZERO:
-        end.append('{} hours'.format(td[0]))
+        end.append(f'{td[0]} hours')
 
     if td[1] not in ZERO:
-        end.append('{} minutes'.format(td[1]))
+        end.append(f'{td[1]} minutes')
 
     if td[2] not in ZERO:
-        end.append('{} seconds'.format(td[2]))
+        end.append(f'{td[2]} seconds')
 
     if len(end) > 1:
         end.append('and ' + end.pop(-1))

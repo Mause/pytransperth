@@ -13,7 +13,7 @@ ASSETS = resources.files(anchor='transperth.assets').joinpath('train_stations.js
 with ASSETS.open() as f:
     TRAIN_STATIONS = json.load(f)
 
-TRAIN_STATIONS_SET = (list(station.values())[0] for station in TRAIN_STATIONS)
+TRAIN_STATIONS_SET = (next(iter(station.values())) for station in TRAIN_STATIONS)
 TRAIN_STATIONS_SET = set(chain.from_iterable(TRAIN_STATIONS_SET))
 
 
@@ -50,7 +50,7 @@ def _parse_trips(trips):
     return trips
 
 
-def _main():
+def _main() -> None:
     from pprint import pprint
 
     pprint(times_for_station('Perth Underground Stn'))

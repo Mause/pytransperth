@@ -3,7 +3,6 @@ Provides faculties for determining the price of a route under different
 circumstances
 """
 
-from typing import Union
 
 import requests
 from lxml import etree
@@ -21,8 +20,8 @@ __all__ = ['determine_fare']
 
 
 def determine_fare(
-    from_loco: Union[Location, ResolvedLocation],
-    to_loco: Union[Location, ResolvedLocation],
+    from_loco: Location | ResolvedLocation,
+    to_loco: Location | ResolvedLocation,
 ) -> dict:
     """
     Returns the fare for the recommended route from `from_loco` to
@@ -82,7 +81,7 @@ def _get_fare(journeyCount, journeyDate, *values):
 
     # ASP.net wants the date with normal slashes, but requests will encode
     # the slashes, so we have to manually append the damn thing
-    url = FARE_URL + '?JDate={}'.format(journeyDate)
+    url = FARE_URL + f'?JDate={journeyDate}'
 
     return parse_fares(requests.get(url, params=params).text)
 
@@ -103,7 +102,7 @@ def parse_fares(fares):
     # remove the 'comments' and 'fare type' column labels
     keys = keys[1:-1]
 
-    fares = dict.fromkeys(keys, {})
+    fares = {key: {} for key in keys}
 
     root = map(itertext, root)
     root = map(clean, root)

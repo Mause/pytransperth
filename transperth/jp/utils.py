@@ -2,7 +2,7 @@ import datetime
 
 from lxml import etree
 
-__all__ = ['format_date', 'clean']
+__all__ = ['clean', 'format_date']
 
 
 def format_date(date=None) -> str:

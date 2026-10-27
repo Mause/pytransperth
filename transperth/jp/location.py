@@ -13,7 +13,7 @@ from .utils import clean, format_date
 STOPNUM_RE = re.compile(r'\d{5}')
 
 
-__all__ = ['determine_location', 'Location', 'parse_locations', 'ResolvedLocation']
+__all__ = ['Location', 'ResolvedLocation', 'determine_location', 'parse_locations']
 
 
 def is_location(arg):
@@ -84,13 +84,13 @@ class ResolvedLocation(namedtuple('ResolvedLocation', 'name,code')):
     """
 
 
-class Location(object):
+class Location:
     """
     Represents a location that has not been resolved into a (ResolvedLocation)
     location code
     """
 
-    def __init__(self, data: dict):
+    def __init__(self, data: dict) -> None:
         """
         It is recommend you use one of the specialised methods;
         from_address, from_stop, or from_location
