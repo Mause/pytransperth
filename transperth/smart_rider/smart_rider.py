@@ -61,7 +61,7 @@ class TransperthSession:
     def smart_rider_request_manager(self):
         return self.get_rqm('my-account/manage-smartrider-cards')
 
-    def fire_event(self, event_code: str, extra_params: dict = None) -> dict:
+    def fire_event(self, event_code: str, extra_params: dict | None = None) -> dict:
         """
         Fires an event at the ASP.net backend.
         """
@@ -142,7 +142,7 @@ class TransperthSession:
         return list(sorted(remaining_pages.items(), key=lambda x: int(x[0])))
 
     def _send_smart_rider_activites_request(
-        self, code: str, date_from: datetime, date_to: datetime, action_code: str = None
+        self, code: str, date_from: datetime, date_to: datetime, action_code: str | None = None
     ) -> dict:
         # add in date range
         extra_params = {

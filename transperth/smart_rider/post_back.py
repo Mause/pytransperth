@@ -40,8 +40,8 @@ def params_from_form(form) -> dict:
             el_type = el.type.lower()
             if (
                 el_type in {"text", "password", "hidden"}
-                or el_type in {"checkbox", "radio"}
-                and el.checked
+                or (el_type in {"checkbox", "radio"}
+                and el.checked)
             ):
                 params[el_name] = '' if el.value is None else el.value
 

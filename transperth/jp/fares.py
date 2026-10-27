@@ -102,7 +102,7 @@ def parse_fares(fares):
     # remove the 'comments' and 'fare type' column labels
     keys = keys[1:-1]
 
-    fares = dict.fromkeys(keys, {})
+    fares = {key: {} for key in keys}
 
     root = map(itertext, root)
     root = map(clean, root)

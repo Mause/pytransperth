@@ -13,7 +13,7 @@ from .utils import clean, format_date
 STOPNUM_RE = re.compile(r'\d{5}')
 
 
-__all__ = ['determine_location', 'Location', 'parse_locations', 'ResolvedLocation']
+__all__ = ['Location', 'ResolvedLocation', 'determine_location', 'parse_locations']
 
 
 def is_location(arg):
