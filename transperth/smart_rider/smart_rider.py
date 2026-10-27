@@ -33,7 +33,7 @@ class TransperthSession:
     that require authentication.
     """
 
-    def __init__(self, session: requests.Session):
+    def __init__(self, session: requests.Session) -> None:
         self.session = session
         self._smart_riders = None
         self._smart_rider_document = None

@@ -90,7 +90,7 @@ class Location:
     location code
     """
 
-    def __init__(self, data: dict):
+    def __init__(self, data: dict) -> None:
         """
         It is recommend you use one of the specialised methods;
         from_address, from_stop, or from_location

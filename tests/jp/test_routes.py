@@ -9,7 +9,7 @@ class TestRoutes(unittest.TestCase):
     @patch('transperth.jp.routes.determine_location', return_value=ROUTES)
     # instead of transperth.jp.location.determine_location
     @patch('transperth.jp.routes._routes')
-    def test_determine_routes(self, _routes, determine_location):
+    def test_determine_routes(self, _routes, determine_location) -> None:
         from transperth.jp.location import Location
         from transperth.jp.routes import determine_routes
 

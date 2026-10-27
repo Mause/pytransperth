@@ -50,7 +50,7 @@ def _parse_trips(trips):
     return trips
 
 
-def _main():
+def _main() -> None:
     from pprint import pprint
 
     pprint(times_for_station('Perth Underground Stn'))

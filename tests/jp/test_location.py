@@ -9,7 +9,7 @@ from ..constants.location import LOCATION_XML
 class TestLocationUtils(unittest.TestCase):
     @responses.activate
     @patch('transperth.jp.location.parse_locations')
-    def test_determine_location(self, parse_locations):
+    def test_determine_location(self, parse_locations) -> None:
         from transperth import BASE_HTTP
 
         responses.add(
@@ -27,7 +27,7 @@ class TestLocationUtils(unittest.TestCase):
 
         parse_locations.assert_called_with('TEXT')
 
-    def test_parse_locations(self):
+    def test_parse_locations(self) -> None:
         from transperth.jp.location import ResolvedLocation, parse_locations
 
         ret = parse_locations(LOCATION_XML)
@@ -36,7 +36,7 @@ class TestLocationUtils(unittest.TestCase):
 
 
 class TestLocationClass(unittest.TestCase):
-    def test_initialisation(self):
+    def test_initialisation(self) -> None:
         from transperth.jp.location import Location
 
         self.assertEqual(
@@ -51,7 +51,7 @@ class TestLocationClass(unittest.TestCase):
             },
         )
 
-    def test_from_address(self):
+    def test_from_address(self) -> None:
         from transperth.jp.location import Location
 
         self.assertEqual(
@@ -65,7 +65,7 @@ class TestLocationClass(unittest.TestCase):
             },
         )
 
-    def test_from_stop(self):
+    def test_from_stop(self) -> None:
         from transperth.jp.location import Location
 
         self.assertEqual(
@@ -73,21 +73,21 @@ class TestLocationClass(unittest.TestCase):
             {'stop': '11111', '': 'Node', 'location': '', 'street': '', 'suburb': ''},
         )
 
-    def test_from_stop_invalid_exception_string(self):
+    def test_from_stop_invalid_exception_string(self) -> None:
         from transperth.exceptions import InvalidStopNumber
         from transperth.jp.location import Location
 
         with self.assertRaises(InvalidStopNumber):
             Location.from_stop('1111')
 
-    def test_from_stop_invalid_exception_integer(self):
+    def test_from_stop_invalid_exception_integer(self) -> None:
         from transperth.exceptions import InvalidStopNumber
         from transperth.jp.location import Location
 
         with self.assertRaises(InvalidStopNumber):
             Location.from_stop(1111)
 
-    def test_from_location(self):
+    def test_from_location(self) -> None:
         from transperth.jp.location import Location
 
         self.assertEqual(
@@ -101,7 +101,7 @@ class TestLocationClass(unittest.TestCase):
             },
         )
 
-    def test_as_(self):
+    def test_as_(self) -> None:
         from transperth.jp.location import Location
 
         self.assertEqual(
@@ -115,14 +115,14 @@ class TestLocationClass(unittest.TestCase):
             },
         )
 
-    def test_as_exception(self):
+    def test_as_exception(self) -> None:
         from transperth.exceptions import InvalidDirection
         from transperth.jp.location import Location
 
         with self.assertRaises(InvalidDirection):
             Location.from_location('LOCATION').as_('INVALID')
 
-    def test__hash__(self):
+    def test__hash__(self) -> None:
         from transperth.jp.location import Location
 
         # really we are just ensuring that no exceptions are thrown
@@ -131,7 +131,7 @@ class TestLocationClass(unittest.TestCase):
 
         Location({}).__hash__()
 
-    def test__eq__(self):
+    def test__eq__(self) -> None:
         from transperth.jp.location import Location
 
         data = {'hello': 'world'}

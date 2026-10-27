@@ -24,7 +24,7 @@ TRANSFER = 'Transfer'
 
 
 class TripTracer:
-    def __init__(self, actions):
+    def __init__(self, actions) -> None:
         actions = filter(
             lambda action: action['action'] in VALID_TRIP_ACTIONS,
             actions,

@@ -305,7 +305,7 @@ class MethodDocumenter(BetterSigMixin, autodoc.MethodDocumenter):
     priority = 15
 
 
-def setup(app):
+def setup(app) -> None:
     autodoc.add_documenter(FunctionDocumenter)
     autodoc.add_documenter(MethodDocumenter)
 
@@ -315,7 +315,7 @@ def setup(app):
 class Mock:
     __all__ = []
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         pass
 
     def __call__(self, *args, **kwargs):
