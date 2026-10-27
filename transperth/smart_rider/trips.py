@@ -4,8 +4,10 @@ Parses actions into separate trips
 
 import datetime
 import logging
+from collections.abc import Generator, Iterable
 from functools import reduce
 from operator import add
+from typing import TypedDict, TypeVar
 
 from ..exceptions import IncompleteTrip
 
@@ -21,6 +23,26 @@ SYNTHETIC_TAG_OFF = 'Synthetic TAG OFF'  # this is only presumed to exist
 VALID_TRIP_ACTIONS = [TAG_OFF, TAG_ON, SYNTHETIC_TAG_ON, SYNTHETIC_TAG_OFF]
 
 TRANSFER = 'Transfer'
+
+
+class TripAction(TypedDict):
+    notes: str
+    time: str
+
+
+class TripStep(TypedDict):
+    tagon: TripAction
+    tagoff: TripAction
+
+
+class TripMeta(TypedDict):
+    pass
+
+
+class Trip(TypedDict):
+    steps: list[TripStep]
+    path: list[str]
+    meta: TripMeta
 
 
 class TripTracer:
