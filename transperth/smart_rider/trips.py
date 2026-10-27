@@ -63,7 +63,7 @@ class TripTracer:
         # we negate the price to get a positive number, so the when summed
         # we get a positive price
 
-        return sum(map(lambda step: -step['tagoff']['amount'], trip))
+        return sum(-step['tagoff']['amount'] for step in trip)
 
     def consume_trip(self) -> list:
         """

@@ -139,7 +139,7 @@ class TransperthSession:
 
         logging.info('Pages: {}'.format(', '.join(sorted(remaining_pages.keys()))))
 
-        return list(sorted(remaining_pages.items(), key=lambda x: int(x[0])))
+        return sorted(remaining_pages.items(), key=lambda x: int(x[0]))
 
     def _send_smart_rider_activites_request(
         self, code: str, date_from: datetime, date_to: datetime, action_code: str | None = None

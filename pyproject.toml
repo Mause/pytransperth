@@ -60,6 +60,7 @@ select = [
   "F",
   "UP",
   "RUF",
+  "C",
 ]
 
 [tool.ruff.format]
