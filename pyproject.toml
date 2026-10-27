@@ -57,6 +57,7 @@ show-fixes = true
 select = [
   "I",
   "E",
+  "F",
 ]
 
 [tool.ruff.format]
