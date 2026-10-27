@@ -7,7 +7,7 @@ import logging
 from collections.abc import Generator, Iterable
 from functools import reduce
 from operator import add
-from typing import TypedDict, TypeVar
+from typing import Literal, TypedDict, TypeVar
 
 from ..exceptions import IncompleteTrip
 
@@ -26,8 +26,15 @@ TRANSFER = 'Transfer'
 
 
 class TripAction(TypedDict):
+    action: Literal[
+        'Normal Tag OFF',
+        'Normal Tag ON',
+        'Synthetic TAG ON',
+        'Synthetic TAG OFF',
+    ]
     notes: str
     time: str
+    amount: float
 
 
 class TripStep(TypedDict):
@@ -36,7 +43,11 @@ class TripStep(TypedDict):
 
 
 class TripMeta(TypedDict):
-    pass
+    from_: str
+    to: str
+    travel_time: str
+    price: float
+    wait_time: str
 
 
 class Trip(TypedDict):
@@ -150,7 +161,7 @@ class TripTracer:
         travel_time = timedelta_repr(travel_time)
 
         return {
-            'from': trip[0]['tagon']['location'],
+            'from_': trip[0]['tagon']['location'],
             'to': trip[-1]['tagoff']['location'],
             'travel_time': travel_time,
             'wait_time': timedelta_repr(determine_wait_time(trip)),
