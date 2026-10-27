@@ -84,7 +84,7 @@ class ResolvedLocation(namedtuple('ResolvedLocation', 'name,code')):
     """
 
 
-class Location(object):
+class Location:
     """
     Represents a location that has not been resolved into a (ResolvedLocation)
     location code

@@ -1,4 +1,3 @@
-from typing import Union
 
 import requests
 
@@ -11,8 +10,8 @@ __all__ = ['determine_routes']
 
 
 def determine_routes(
-    from_loco: Union[Location, ResolvedLocation],
-    to_loco: Union[Location, ResolvedLocation],
+    from_loco: Location | ResolvedLocation,
+    to_loco: Location | ResolvedLocation,
 ) -> list:
     """
     Determine possible routes between the two provided locations

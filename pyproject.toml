@@ -58,6 +58,7 @@ select = [
   "I",
   "E",
   "F",
+  "UP",
 ]
 
 [tool.ruff.format]
